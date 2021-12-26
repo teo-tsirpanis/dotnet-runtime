@@ -1,17 +1,16 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using Microsoft.Win32.SafeHandles;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Internal;
-using System.Globalization;
 using System.Numerics;
-using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Threading;
 using Gdip = System.Drawing.SafeNativeMethods.Gdip;
 
 namespace System.Drawing
@@ -56,12 +55,9 @@ namespace System.Drawing
         /// <summary>
         /// Constructor to initialize this object from a native GDI+ Graphics pointer.
         /// </summary>
-        private Graphics(IntPtr gdipNativeGraphics)
+        private Graphics(SafeGraphicsHandle gdipNativeGraphics)
         {
-            if (gdipNativeGraphics == IntPtr.Zero)
-                throw new ArgumentNullException(nameof(gdipNativeGraphics));
-
-            NativeGraphics = gdipNativeGraphics;
+            _nativeGraphics = gdipNativeGraphics;
         }
 
         /// <summary>
@@ -79,7 +75,7 @@ namespace System.Drawing
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHdcInternal(IntPtr hdc)
         {
-            Gdip.CheckStatus(Gdip.GdipCreateFromHDC(hdc, out IntPtr nativeGraphics));
+            Gdip.CheckStatus(Gdip.GdipCreateFromHDC(hdc, out SafeGraphicsHandle nativeGraphics));
             return new Graphics(nativeGraphics);
         }
 
@@ -89,7 +85,7 @@ namespace System.Drawing
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHdc(IntPtr hdc, IntPtr hdevice)
         {
-            Gdip.CheckStatus(Gdip.GdipCreateFromHDC2(hdc, hdevice, out IntPtr nativeGraphics));
+            Gdip.CheckStatus(Gdip.GdipCreateFromHDC2(hdc, hdevice, out SafeGraphicsHandle nativeGraphics));
             return new Graphics(nativeGraphics);
         }
 
@@ -102,7 +98,7 @@ namespace System.Drawing
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHwndInternal(IntPtr hwnd)
         {
-            Gdip.CheckStatus(Gdip.GdipCreateFromHWND(hwnd, out IntPtr nativeGraphics));
+            Gdip.CheckStatus(Gdip.GdipCreateFromHWND(hwnd, out SafeGraphicsHandle nativeGraphics));
             return new Graphics(nativeGraphics);
         }
 
@@ -118,7 +114,7 @@ namespace System.Drawing
 
             Gdip.CheckStatus(Gdip.GdipGetImageGraphicsContext(
                 new HandleRef(image, image.nativeImage),
-                out IntPtr nativeGraphics));
+                out SafeGraphicsHandle nativeGraphics));
 
             return new Graphics(nativeGraphics) { _backingImage = image };
         }
@@ -127,7 +123,7 @@ namespace System.Drawing
         public void ReleaseHdcInternal(IntPtr hdc)
         {
             Gdip.CheckStatus(!Gdip.Initialized ? Gdip.Ok :
-                Gdip.GdipReleaseDC(new HandleRef(this, NativeGraphics), hdc));
+                Gdip.GdipReleaseDC(SafeGraphicsHandle, hdc));
             _nativeHdc = IntPtr.Zero;
         }
 
@@ -142,6 +138,8 @@ namespace System.Drawing
 
         private void Dispose(bool disposing)
         {
+            if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+
 #if DEBUG && FINALIZATION_WATCH
             if (!disposing && _nativeGraphics != IntPtr.Zero)
             {
@@ -157,37 +155,23 @@ namespace System.Drawing
                 _previousContext = context;
             }
 
-            if (NativeGraphics != IntPtr.Zero)
+            try
             {
-                try
+                if (_nativeHdc != IntPtr.Zero) // avoid a handle leak.
                 {
-                    if (_nativeHdc != IntPtr.Zero) // avoid a handle leak.
-                    {
-                        ReleaseHdc();
-                    }
-
-                    if (PrintingHelper is DeviceContext printerDC)
-                    {
-                        printerDC.Dispose();
-                        _printingHelper = null;
-                    }
-
-#if DEBUG
-                    int status = !Gdip.Initialized ? Gdip.Ok :
-#endif
-                    Gdip.GdipDeleteGraphics(new HandleRef(this, NativeGraphics));
-
-#if DEBUG
-                    Debug.Assert(status == Gdip.Ok, $"GDI+ returned an error status: {status.ToString(CultureInfo.InvariantCulture)}");
-#endif
+                    ReleaseHdc();
                 }
-                catch (Exception ex) when (!ClientUtils.IsSecurityOrCriticalException(ex))
+
+                if (PrintingHelper is DeviceContext printerDC)
                 {
+                    printerDC.Dispose();
+                    _printingHelper = null;
                 }
-                finally
-                {
-                    NativeGraphics = IntPtr.Zero;
-                }
+
+                _nativeGraphics.Dispose();
+            }
+            catch (Exception ex) when (!ClientUtils.IsSecurityOrCriticalException(ex))
+            {
             }
         }
 
@@ -276,7 +260,7 @@ namespace System.Drawing
         public Color GetNearestColor(Color color)
         {
             int nearest = color.ToArgb();
-            Gdip.CheckStatus(Gdip.GdipGetNearestColor(new HandleRef(this, NativeGraphics), ref nearest));
+            Gdip.CheckStatus(Gdip.GdipGetNearestColor(SafeGraphicsHandle, ref nearest));
             return Color.FromArgb(nearest);
         }
 
@@ -288,7 +272,7 @@ namespace System.Drawing
             if (pen == null)
                 throw new ArgumentNullException(nameof(pen));
 
-            CheckErrorStatus(Gdip.GdipDrawLine(new HandleRef(this, NativeGraphics), pen.SafePenHandle, x1, y1, x2, y2));
+            CheckErrorStatus(Gdip.GdipDrawLine(SafeGraphicsHandle, pen.SafePenHandle, x1, y1, x2, y2));
         }
 
         /// <summary>
@@ -304,7 +288,7 @@ namespace System.Drawing
             fixed (PointF* p = points)
             {
                 CheckErrorStatus(Gdip.GdipDrawBeziers(
-                    new HandleRef(this, NativeGraphics),
+                    SafeGraphicsHandle,
                     pen.SafePenHandle,
                     p, points.Length));
             }
@@ -323,7 +307,7 @@ namespace System.Drawing
             fixed (Point* p = points)
             {
                 CheckErrorStatus(Gdip.GdipDrawBeziersI(
-                    new HandleRef(this, NativeGraphics),
+                    SafeGraphicsHandle,
                     pen.SafePenHandle,
                     p,
                     points.Length));
@@ -341,7 +325,7 @@ namespace System.Drawing
                 throw new ArgumentNullException(nameof(path));
 
             CheckErrorStatus(Gdip.GdipFillPath(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 brush.SafeBrushHandle,
                 path.SafeGraphicsPathHandle));
         }
@@ -357,7 +341,7 @@ namespace System.Drawing
                 throw new ArgumentNullException(nameof(region));
 
             CheckErrorStatus(Gdip.GdipFillRegion(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 brush.SafeBrushHandle,
                 region.SafeRegionHandle));
         }
@@ -433,7 +417,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileDestPoint(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destPoint,
                 callback,
@@ -448,7 +432,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileDestPointI(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destPoint,
                 callback,
@@ -464,7 +448,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileDestRect(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destRect,
                 callback,
@@ -480,7 +464,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileDestRectI(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destRect,
                 callback,
@@ -503,7 +487,7 @@ namespace System.Drawing
             fixed (PointF* p = destPoints)
             {
                 Gdip.CheckStatus(Gdip.GdipEnumerateMetafileDestPoints(
-                    new HandleRef(this, NativeGraphics),
+                    SafeGraphicsHandle,
                     new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                     p, destPoints.Length,
                     callback,
@@ -527,7 +511,7 @@ namespace System.Drawing
             fixed (Point* p = destPoints)
             {
                 Gdip.CheckStatus(Gdip.GdipEnumerateMetafileDestPointsI(
-                    new HandleRef(this, NativeGraphics),
+                    SafeGraphicsHandle,
                     new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                     p, destPoints.Length,
                     callback,
@@ -546,7 +530,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileSrcRectDestPoint(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destPoint,
                 ref srcRect,
@@ -566,7 +550,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileSrcRectDestPointI(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destPoint,
                 ref srcRect,
@@ -586,7 +570,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileSrcRectDestRect(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destRect,
                 ref srcRect,
@@ -606,7 +590,7 @@ namespace System.Drawing
             ImageAttributes? imageAttr)
         {
             Gdip.CheckStatus(Gdip.GdipEnumerateMetafileSrcRectDestRectI(
-                new HandleRef(this, NativeGraphics),
+                SafeGraphicsHandle,
                 new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                 ref destRect,
                 ref srcRect,
@@ -633,7 +617,7 @@ namespace System.Drawing
             fixed (PointF* p = destPoints)
             {
                 Gdip.CheckStatus(Gdip.GdipEnumerateMetafileSrcRectDestPoints(
-                    new HandleRef(this, NativeGraphics),
+                    SafeGraphicsHandle,
                     new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                     p, destPoints.Length,
                     ref srcRect,
@@ -661,7 +645,7 @@ namespace System.Drawing
             fixed (Point* p = destPoints)
             {
                 Gdip.CheckStatus(Gdip.GdipEnumerateMetafileSrcRectDestPointsI(
-                    new HandleRef(this, NativeGraphics),
+                    SafeGraphicsHandle,
                     new HandleRef(metafile, metafile?.nativeImage ?? IntPtr.Zero),
                     p, destPoints.Length,
                     ref srcRect,
@@ -799,7 +783,7 @@ namespace System.Drawing
                 if (PrintingHelper is PrintPreviewGraphics ppGraphics)
                     return ppGraphics.VisibleClipBounds;
 
-                Gdip.CheckStatus(Gdip.GdipGetVisibleClipBounds(new HandleRef(this, NativeGraphics), out RectangleF rect));
+                Gdip.CheckStatus(Gdip.GdipGetVisibleClipBounds(SafeGraphicsHandle, out RectangleF rect));
 
                 return rect;
             }
@@ -848,7 +832,7 @@ namespace System.Drawing
         public GraphicsState Save()
         {
             GraphicsContext context = new GraphicsContext(this);
-            int status = Gdip.GdipSaveGraphics(new HandleRef(this, NativeGraphics), out int state);
+            int status = Gdip.GdipSaveGraphics(SafeGraphicsHandle, out int state);
 
             if (status != Gdip.Ok)
             {
@@ -865,7 +849,7 @@ namespace System.Drawing
 
         public void Restore(GraphicsState gstate)
         {
-            Gdip.CheckStatus(Gdip.GdipRestoreGraphics(new HandleRef(this, NativeGraphics), gstate.nativeState));
+            Gdip.CheckStatus(Gdip.GdipRestoreGraphics(SafeGraphicsHandle, gstate.nativeState));
             PopContext(gstate.nativeState);
         }
 
@@ -874,7 +858,7 @@ namespace System.Drawing
             GraphicsContext context = new GraphicsContext(this);
 
             int status = Gdip.GdipBeginContainer(
-                new HandleRef(this, NativeGraphics), ref dstrect, ref srcrect, unit, out int state);
+                SafeGraphicsHandle, ref dstrect, ref srcrect, unit, out int state);
 
             if (status != Gdip.Ok)
             {
@@ -891,7 +875,7 @@ namespace System.Drawing
         public GraphicsContainer BeginContainer()
         {
             GraphicsContext context = new GraphicsContext(this);
-            int status = Gdip.GdipBeginContainer2(new HandleRef(this, NativeGraphics), out int state);
+            int status = Gdip.GdipBeginContainer2(SafeGraphicsHandle, out int state);
 
             if (status != Gdip.Ok)
             {
@@ -910,7 +894,7 @@ namespace System.Drawing
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
 
-            Gdip.CheckStatus(Gdip.GdipEndContainer(new HandleRef(this, NativeGraphics), container.nativeGraphicsContainer));
+            Gdip.CheckStatus(Gdip.GdipEndContainer(SafeGraphicsHandle, container.nativeGraphicsContainer));
             PopContext(container.nativeGraphicsContainer);
         }
 
@@ -919,7 +903,7 @@ namespace System.Drawing
             GraphicsContext context = new GraphicsContext(this);
 
             int status = Gdip.GdipBeginContainerI(
-                new HandleRef(this, NativeGraphics), ref dstrect, ref srcrect, unit, out int state);
+                SafeGraphicsHandle, ref dstrect, ref srcrect, unit, out int state);
 
             if (status != Gdip.Ok)
             {
@@ -938,7 +922,7 @@ namespace System.Drawing
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            Gdip.CheckStatus(Gdip.GdipComment(new HandleRef(this, NativeGraphics), data.Length, data));
+            Gdip.CheckStatus(Gdip.GdipComment(SafeGraphicsHandle, data.Length, data));
         }
 
         public static IntPtr GetHalftonePalette()

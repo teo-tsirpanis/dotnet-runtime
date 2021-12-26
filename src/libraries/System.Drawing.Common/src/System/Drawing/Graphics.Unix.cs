@@ -33,29 +33,27 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Win32.SafeHandles;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Drawing.Internal;
-using System.Drawing.Text;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Text;
-using Gdip = System.Drawing.SafeNativeMethods.Gdip;
 using System.Runtime.Versioning;
+using System.Threading;
+using Gdip = System.Drawing.SafeNativeMethods.Gdip;
 
 namespace System.Drawing
 {
     public sealed partial class Graphics : MarshalByRefObject, IDisposable, IDeviceContext
     {
         internal IMacContext? maccontext;
-        private bool disposed;
         private static float defDpiX;
         private static float defDpiY;
         private Metafile.MetafileHolder? _metafileHolder;
 
-        internal Graphics(IntPtr nativeGraphics) => NativeGraphics = nativeGraphics;
+        internal Graphics(SafeGraphicsHandle nativeGraphics) => _nativeGraphics = nativeGraphics;
 
-        internal Graphics(IntPtr nativeGraphics, Image image) : this(nativeGraphics)
+        internal Graphics(SafeGraphicsHandle nativeGraphics, Image image) : this(nativeGraphics)
         {
             if (image is Metafile mf)
             {
@@ -106,7 +104,7 @@ namespace System.Drawing
         public GraphicsContainer BeginContainer()
         {
             int state;
-            int status = Gdip.GdipBeginContainer2(new HandleRef(this, NativeGraphics), out state);
+            int status = Gdip.GdipBeginContainer2(SafeGraphicsHandle, out state);
             Gdip.CheckStatus(status);
 
             return new GraphicsContainer(state);
@@ -116,7 +114,7 @@ namespace System.Drawing
         {
             int state;
 
-            int status = Gdip.GdipBeginContainerI(new HandleRef(this, NativeGraphics), ref dstrect, ref srcrect, unit, out state);
+            int status = Gdip.GdipBeginContainerI(SafeGraphicsHandle, ref dstrect, ref srcrect, unit, out state);
             Gdip.CheckStatus(status);
 
             return new GraphicsContainer(state);
@@ -126,7 +124,7 @@ namespace System.Drawing
         {
             int state;
 
-            int status = Gdip.GdipBeginContainer(new HandleRef(this, NativeGraphics), ref dstrect, ref srcrect, unit, out state);
+            int status = Gdip.GdipBeginContainer(SafeGraphicsHandle, ref dstrect, ref srcrect, unit, out state);
             Gdip.CheckStatus(status);
 
             return new GraphicsContainer(state);
@@ -218,33 +216,27 @@ namespace System.Drawing
 
         public void Dispose()
         {
-            int status;
-            if (!disposed)
+            if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+
+            if (_nativeHdc != IntPtr.Zero) // avoid a handle leak.
             {
-                if (_nativeHdc != IntPtr.Zero) // avoid a handle leak.
-                {
-                    ReleaseHdc();
-                }
+                ReleaseHdc();
+            }
 
-                if (!Gdip.UseX11Drawable)
-                {
-                    Flush();
-                    if (maccontext != null)
-                        maccontext.Release();
-                }
+            if (!Gdip.UseX11Drawable)
+            {
+                Flush();
+                if (maccontext != null)
+                    maccontext.Release();
+            }
 
-                status = Gdip.GdipDeleteGraphics(new HandleRef(this, NativeGraphics));
-                NativeGraphics = IntPtr.Zero;
-                Gdip.CheckStatus(status);
+            _nativeGraphics.Dispose();
 
-                if (_metafileHolder != null)
-                {
-                    var mh = _metafileHolder;
-                    _metafileHolder = null;
-                    mh.GraphicsDisposed();
-                }
-
-                disposed = true;
+            if (_metafileHolder != null)
+            {
+                var mh = _metafileHolder;
+                _metafileHolder = null;
+                mh.GraphicsDisposed();
             }
 
             GC.SuppressFinalize(this);
@@ -271,7 +263,7 @@ namespace System.Drawing
                 Point p4 = points[i + 3];
 
                 status = Gdip.GdipDrawBezier(
-                                        new HandleRef(this, NativeGraphics), pen.SafePenHandle,
+                                        SafeGraphicsHandle, pen.SafePenHandle,
                                         p1.X, p1.Y, p2.X, p2.Y,
                                         p3.X, p3.Y, p4.X, p4.Y);
                 Gdip.CheckStatus(status);
@@ -299,7 +291,7 @@ namespace System.Drawing
                 PointF p4 = points[i + 3];
 
                 status = Gdip.GdipDrawBezier(
-                                        new HandleRef(this, NativeGraphics), pen.SafePenHandle,
+                                        SafeGraphicsHandle, pen.SafePenHandle,
                                         p1.X, p1.Y, p2.X, p2.Y,
                                         p3.X, p3.Y, p4.X, p4.Y);
                 Gdip.CheckStatus(status);
@@ -337,7 +329,7 @@ namespace System.Drawing
             if (!float.IsNaN(x1) && !float.IsNaN(y1) &&
                 !float.IsNaN(x2) && !float.IsNaN(y2))
             {
-                int status = Gdip.GdipDrawLine(new HandleRef(this, NativeGraphics), pen.SafePenHandle, x1, y1, x2, y2);
+                int status = Gdip.GdipDrawLine(SafeGraphicsHandle, pen.SafePenHandle, x1, y1, x2, y2);
                 Gdip.CheckStatus(status);
             }
         }
@@ -346,7 +338,7 @@ namespace System.Drawing
         {
             if (container == null)
                 throw new ArgumentNullException(nameof(container));
-            int status = Gdip.GdipEndContainer(new HandleRef(this, NativeGraphics), container.nativeGraphicsContainer);
+            int status = Gdip.GdipEndContainer(SafeGraphicsHandle, container.nativeGraphicsContainer);
             Gdip.CheckStatus(status);
         }
 
@@ -417,7 +409,7 @@ namespace System.Drawing
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            int status = Gdip.GdipFillPath(NativeGraphics, brush.SafeBrushHandle, path.SafeGraphicsPathHandle);
+            int status = Gdip.GdipFillPath(SafeGraphicsHandle, brush.SafeBrushHandle, path.SafeGraphicsPathHandle);
             Gdip.CheckStatus(status);
         }
 
@@ -428,7 +420,7 @@ namespace System.Drawing
             if (region == null)
                 throw new ArgumentNullException(nameof(region));
 
-            int status = Gdip.GdipFillRegion(new HandleRef(this, NativeGraphics), brush.SafeBrushHandle, region.SafeRegionHandle);
+            int status = Gdip.GdipFillRegion(SafeGraphicsHandle, brush.SafeBrushHandle, region.SafeRegionHandle);
             Gdip.CheckStatus(status);
         }
 
@@ -437,7 +429,7 @@ namespace System.Drawing
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHdc(IntPtr hdc)
         {
-            IntPtr graphics;
+            SafeGraphicsHandle graphics;
             int status = Gdip.GdipCreateFromHDC(hdc, out graphics);
             Gdip.CheckStatus(status);
             return new Graphics(graphics);
@@ -459,7 +451,7 @@ namespace System.Drawing
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static Graphics FromHwnd(IntPtr hwnd)
         {
-            IntPtr graphics;
+            SafeGraphicsHandle graphics;
 
             if (!Gdip.UseX11Drawable)
             {
@@ -496,7 +488,7 @@ namespace System.Drawing
 
         public static Graphics FromImage(Image image)
         {
-            IntPtr graphics;
+            SafeGraphicsHandle graphics;
 
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -509,14 +501,14 @@ namespace System.Drawing
             Graphics result = new Graphics(graphics, image);
 
             Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
-            Gdip.GdipSetVisibleClip_linux(result.NativeGraphics, ref rect);
+            Gdip.GdipSetVisibleClip_linux(result.SafeGraphicsHandle, ref rect);
 
             return result;
         }
 
         internal static Graphics FromXDrawable(IntPtr drawable, IntPtr display)
         {
-            IntPtr graphics;
+            SafeGraphicsHandle graphics;
 
             int s = Gdip.GdipCreateFromXDrawable_linux(drawable, display, out graphics);
             Gdip.CheckStatus(s);
@@ -532,7 +524,7 @@ namespace System.Drawing
         {
             int argb;
 
-            int status = Gdip.GdipGetNearestColor(NativeGraphics, out argb);
+            int status = Gdip.GdipGetNearestColor(SafeGraphicsHandle, out argb);
             Gdip.CheckStatus(status);
 
             return Color.FromArgb(argb);
@@ -544,7 +536,7 @@ namespace System.Drawing
             int status = Gdip.InvalidParameter;
             if (hdc == _nativeHdc)
             {
-                status = Gdip.GdipReleaseDC(new HandleRef(this, NativeGraphics), new HandleRef(this, _nativeHdc));
+                status = Gdip.GdipReleaseDC(SafeGraphicsHandle, new HandleRef(this, _nativeHdc));
                 _nativeHdc = IntPtr.Zero;
             }
             Gdip.CheckStatus(status);
@@ -553,13 +545,13 @@ namespace System.Drawing
         public void Restore(GraphicsState gstate)
         {
             // the possible NRE thrown by gstate.nativeState match MS behaviour
-            int status = Gdip.GdipRestoreGraphics(NativeGraphics, (uint)gstate.nativeState);
+            int status = Gdip.GdipRestoreGraphics(SafeGraphicsHandle, (uint)gstate.nativeState);
             Gdip.CheckStatus(status);
         }
 
         public GraphicsState Save()
         {
-            int status = Gdip.GdipSaveGraphics(new HandleRef(this, NativeGraphics), out int state);
+            int status = Gdip.GdipSaveGraphics(SafeGraphicsHandle, out int state);
             Gdip.CheckStatus(status);
 
             return new GraphicsState((int)state);
@@ -569,7 +561,7 @@ namespace System.Drawing
         {
             get
             {
-                int status = Gdip.GdipGetVisibleClipBounds(new HandleRef(this, NativeGraphics), out RectangleF rect);
+                int status = Gdip.GdipGetVisibleClipBounds(SafeGraphicsHandle, out RectangleF rect);
                 Gdip.CheckStatus(status);
 
                 return rect;

@@ -108,7 +108,7 @@ namespace System.Drawing
             using (Graphics g = Graphics.FromImage(ThumbNail))
             {
                 int status = Gdip.GdipDrawImageRectRectI(
-                    new HandleRef(this, g.NativeGraphics),
+                    g.SafeGraphicsHandle,
                     new HandleRef(this, nativeImage),
                     0, 0, thumbWidth, thumbHeight,
                     0, 0, this.Width, this.Height,

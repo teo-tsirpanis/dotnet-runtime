@@ -220,7 +220,7 @@ namespace System.Drawing
             internal static extern int GdipSaveAddImage(HandleRef image, HandleRef newImage, HandleRef encoderParams);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetImageGraphicsContext(HandleRef image, out IntPtr graphics);
+            internal static extern int GdipGetImageGraphicsContext(HandleRef image, out SafeGraphicsHandle graphics);
 
             [DllImport(LibraryName)]
             internal static extern int GdipGetImageBounds(HandleRef image, out RectangleF gprectf, out GraphicsUnit unit);
@@ -241,70 +241,70 @@ namespace System.Drawing
             internal static partial int GdipImageForceValidation(IntPtr image);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipCreateFromHDC2(IntPtr hdc, IntPtr hdevice, out IntPtr graphics);
+            internal static partial int GdipCreateFromHDC2(IntPtr hdc, IntPtr hdevice, out SafeGraphicsHandle graphics);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipCreateFromHWND(IntPtr hwnd, out IntPtr graphics);
+            internal static partial int GdipCreateFromHWND(IntPtr hwnd, out SafeGraphicsHandle graphics);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipDeleteGraphics(HandleRef graphics);
+            internal static extern int GdipDeleteGraphics(IntPtr graphics);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipReleaseDC(HandleRef graphics, IntPtr hdc);
+            internal static extern int GdipReleaseDC(SafeGraphicsHandle graphics, IntPtr hdc);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetNearestColor(HandleRef graphics, ref int color);
+            internal static extern int GdipGetNearestColor(SafeGraphicsHandle graphics, ref int color);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial IntPtr GdipCreateHalftonePalette();
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawBeziers(HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static extern int GdipDrawBeziers(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawBeziersI(HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static extern int GdipDrawBeziersI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillPath(HandleRef graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
+            internal static extern int GdipFillPath(SafeGraphicsHandle graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileDestPoint(HandleRef graphics, HandleRef metafile, ref PointF destPoint, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileDestPoint(SafeGraphicsHandle graphics, HandleRef metafile, ref PointF destPoint, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileDestPointI(HandleRef graphics, HandleRef metafile, ref Point destPoint, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileDestPointI(SafeGraphicsHandle graphics, HandleRef metafile, ref Point destPoint, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileDestRect(HandleRef graphics, HandleRef metafile, ref RectangleF destRect, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileDestRect(SafeGraphicsHandle graphics, HandleRef metafile, ref RectangleF destRect, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileDestRectI(HandleRef graphics, HandleRef metafile, ref Rectangle destRect, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileDestRectI(SafeGraphicsHandle graphics, HandleRef metafile, ref Rectangle destRect, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileDestPoints(HandleRef graphics, HandleRef metafile, PointF* destPoints, int count, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileDestPoints(SafeGraphicsHandle graphics, HandleRef metafile, PointF* destPoints, int count, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileDestPointsI(HandleRef graphics, HandleRef metafile, Point* destPoints, int count, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileDestPointsI(SafeGraphicsHandle graphics, HandleRef metafile, Point* destPoints, int count, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileSrcRectDestPoint(HandleRef graphics, HandleRef metafile, ref PointF destPoint, ref RectangleF srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileSrcRectDestPoint(SafeGraphicsHandle graphics, HandleRef metafile, ref PointF destPoint, ref RectangleF srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileSrcRectDestPointI(HandleRef graphics, HandleRef metafile, ref Point destPoint, ref Rectangle srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileSrcRectDestPointI(SafeGraphicsHandle graphics, HandleRef metafile, ref Point destPoint, ref Rectangle srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileSrcRectDestRect(HandleRef graphics, HandleRef metafile, ref RectangleF destRect, ref RectangleF srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileSrcRectDestRect(SafeGraphicsHandle graphics, HandleRef metafile, ref RectangleF destRect, ref RectangleF srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileSrcRectDestRectI(HandleRef graphics, HandleRef metafile, ref Rectangle destRect, ref Rectangle srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileSrcRectDestRectI(SafeGraphicsHandle graphics, HandleRef metafile, ref Rectangle destRect, ref Rectangle srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileSrcRectDestPoints(HandleRef graphics, HandleRef metafile, PointF* destPoints, int count, ref RectangleF srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileSrcRectDestPoints(SafeGraphicsHandle graphics, HandleRef metafile, PointF* destPoints, int count, ref RectangleF srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEnumerateMetafileSrcRectDestPointsI(HandleRef graphics, HandleRef metafile, Point* destPoints, int count, ref Rectangle srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
+            internal static extern int GdipEnumerateMetafileSrcRectDestPointsI(SafeGraphicsHandle graphics, HandleRef metafile, Point* destPoints, int count, ref Rectangle srcRect, GraphicsUnit pageUnit, Graphics.EnumerateMetafileProc callback, IntPtr callbackdata, HandleRef imageattributes);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipRestoreGraphics(HandleRef graphics, int state);
+            internal static extern int GdipRestoreGraphics(SafeGraphicsHandle graphics, int state);
 
 #pragma warning disable DLLIMPORTGENANALYZER015 // Use 'GeneratedDllImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
             // TODO: [DllImportGenerator] Switch to use GeneratedDllImport once we support non-blittable structs.
@@ -340,7 +340,7 @@ namespace System.Drawing
             internal static partial int GdipRecordMetafileStreamI(IntPtr stream, IntPtr referenceHdc, EmfType emfType, Rectangle* frameRect, MetafileFrameUnit frameUnit, string? description, IntPtr* metafile);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipComment(HandleRef graphics, int sizeData, byte[] data);
+            internal static extern int GdipComment(SafeGraphicsHandle graphics, int sizeData, byte[] data);
 
             [GeneratedDllImport(LibraryName, CharSet = CharSet.Unicode, ExactSpelling = true)]
             internal static partial int GdipCreateFontFromLogfontW(IntPtr hdc, ref Interop.User32.LOGFONT lf, out IntPtr font);

@@ -238,7 +238,7 @@ namespace System.Drawing
             if (g == null)
                 throw new ArgumentNullException(nameof(g));
 
-            Gdip.CheckStatus(Gdip.GdipGetRegionBounds(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out RectangleF bounds));
+            Gdip.CheckStatus(Gdip.GdipGetRegionBounds(SafeRegionHandle, g.SafeGraphicsHandle, out RectangleF bounds));
             return bounds;
         }
 
@@ -247,7 +247,7 @@ namespace System.Drawing
             if (g == null)
                 throw new ArgumentNullException(nameof(g));
 
-            Gdip.CheckStatus(Gdip.GdipGetRegionHRgn(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out IntPtr hrgn));
+            Gdip.CheckStatus(Gdip.GdipGetRegionHRgn(SafeRegionHandle, g.SafeGraphicsHandle, out IntPtr hrgn));
             return hrgn;
         }
 
@@ -256,7 +256,7 @@ namespace System.Drawing
             if (g == null)
                 throw new ArgumentNullException(nameof(g));
 
-            Gdip.CheckStatus(Gdip.GdipIsEmptyRegion(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out int isEmpty));
+            Gdip.CheckStatus(Gdip.GdipIsEmptyRegion(SafeRegionHandle, g.SafeGraphicsHandle, out int isEmpty));
             return isEmpty != 0;
         }
 
@@ -265,7 +265,7 @@ namespace System.Drawing
             if (g == null)
                 throw new ArgumentNullException(nameof(g));
 
-            Gdip.CheckStatus(Gdip.GdipIsInfiniteRegion(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out int isInfinite));
+            Gdip.CheckStatus(Gdip.GdipIsInfiniteRegion(SafeRegionHandle, g.SafeGraphicsHandle, out int isInfinite));
             return isInfinite != 0;
         }
 
@@ -276,7 +276,7 @@ namespace System.Drawing
             if (region == null)
                 throw new ArgumentNullException(nameof(region));
 
-            Gdip.CheckStatus(Gdip.GdipIsEqualRegion(SafeRegionHandle, region.SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out int isEqual));
+            Gdip.CheckStatus(Gdip.GdipIsEqualRegion(SafeRegionHandle, region.SafeRegionHandle, g.SafeGraphicsHandle, out int isEqual));
             return isEqual != 0;
         }
 

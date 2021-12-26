@@ -89,7 +89,7 @@ namespace System.Drawing
             }
 
             IntPtr bitmap = IntPtr.Zero;
-            int status = Gdip.GdipCreateBitmapFromGraphics(width, height, new HandleRef(g, g.NativeGraphics), out bitmap);
+            int status = Gdip.GdipCreateBitmapFromGraphics(width, height, g.SafeGraphicsHandle, out bitmap);
             Gdip.CheckStatus(status);
 
             SetNativeImage(bitmap);

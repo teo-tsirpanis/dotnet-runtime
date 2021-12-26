@@ -80,19 +80,19 @@ namespace System.Drawing
             internal static partial void GdipFree(IntPtr ptr);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipDeleteGraphics(HandleRef graphics);
+            internal static extern int GdipDeleteGraphics(IntPtr graphics);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipRestoreGraphics(IntPtr graphics, uint graphicsState);
+            internal static partial int GdipRestoreGraphics(SafeGraphicsHandle graphics, uint graphicsState);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipReleaseDC(HandleRef graphics, HandleRef hdc);
+            internal static extern int GdipReleaseDC(SafeGraphicsHandle graphics, HandleRef hdc);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipFillPath(IntPtr graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
+            internal static partial int GdipFillPath(SafeGraphicsHandle graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipGetNearestColor(IntPtr graphics, out int argb);
+            internal static partial int GdipGetNearestColor(SafeGraphicsHandle graphics, out int argb);
 
 #pragma warning disable DLLIMPORTGENANALYZER015 // Use 'GeneratedDllImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
             // TODO: [DllImportGenerator] Switch to use GeneratedDllImport once we support blittable structs defined in other assemblies.
@@ -104,7 +104,7 @@ namespace System.Drawing
 #pragma warning restore DLLIMPORTGENANALYZER015 // Use 'GeneratedDllImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipCreateFromHWND(IntPtr hwnd, out IntPtr graphics);
+            internal static partial int GdipCreateFromHWND(IntPtr hwnd, out SafeGraphicsHandle graphics);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial int GdipCloneImage(IntPtr image, out IntPtr imageclone);
@@ -140,7 +140,7 @@ namespace System.Drawing
             internal static partial int GdipSaveAddImage(IntPtr image, IntPtr imagenew, IntPtr encoderParameters);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipGetImageGraphicsContext(IntPtr image, out IntPtr graphics);
+            internal static partial int GdipGetImageGraphicsContext(IntPtr image, out SafeGraphicsHandle graphics);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial int GdipCreatePath(FillMode brushMode, out SafeGraphicsPathHandle path);
@@ -362,16 +362,16 @@ namespace System.Drawing
             internal static partial int GdipSetMetafileDownLevelRasterizationLimit(IntPtr metafile, uint metafileRasterizationLimitDpi);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipCreateFromContext_macosx(IntPtr cgref, int width, int height, out IntPtr graphics);
+            internal static partial int GdipCreateFromContext_macosx(IntPtr cgref, int width, int height, out SafeGraphicsHandle graphics);
 
 #pragma warning disable DLLIMPORTGENANALYZER015 // Use 'GeneratedDllImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
             // TODO: [DllImportGenerator] Switch to use GeneratedDllImport once we support blittable structs defined in other assemblies.
             [DllImport(LibraryName)]
-            internal static extern int GdipSetVisibleClip_linux(IntPtr graphics, ref Rectangle rect);
+            internal static extern int GdipSetVisibleClip_linux(SafeGraphicsHandle graphics, ref Rectangle rect);
 #pragma warning restore DLLIMPORTGENANALYZER015 // Use 'GeneratedDllImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipCreateFromXDrawable_linux(IntPtr drawable, IntPtr display, out IntPtr graphics);
+            internal static partial int GdipCreateFromXDrawable_linux(IntPtr drawable, IntPtr display, out SafeGraphicsHandle graphics);
 
             // Stream functions for non-Win32 (libgdiplus specific)
             [GeneratedDllImport(LibraryName)]

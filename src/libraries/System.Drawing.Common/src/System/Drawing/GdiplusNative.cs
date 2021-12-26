@@ -17,16 +17,16 @@ namespace System.Drawing
         {
             // Shared function imports (all platforms)
             [DllImport(LibraryName)]
-            internal static extern int GdipBeginContainer(HandleRef graphics, ref RectangleF dstRect, ref RectangleF srcRect, GraphicsUnit unit, out int state);
+            internal static extern int GdipBeginContainer(SafeGraphicsHandle graphics, ref RectangleF dstRect, ref RectangleF srcRect, GraphicsUnit unit, out int state);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipBeginContainer2(HandleRef graphics, out int state);
+            internal static extern int GdipBeginContainer2(SafeGraphicsHandle graphics, out int state);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipBeginContainerI(HandleRef graphics, ref Rectangle dstRect, ref Rectangle srcRect, GraphicsUnit unit, out int state);
+            internal static extern int GdipBeginContainerI(SafeGraphicsHandle graphics, ref Rectangle dstRect, ref Rectangle srcRect, GraphicsUnit unit, out int state);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipEndContainer(HandleRef graphics, int state);
+            internal static extern int GdipEndContainer(SafeGraphicsHandle graphics, int state);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial int GdipCreateAdjustableArrowCap(float height, float width, bool isFilled, out IntPtr adjustableArrowCap);
@@ -510,7 +510,7 @@ namespace System.Drawing
             internal static extern int GdipGetFontSize(HandleRef font, out float size);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetFontHeight(HandleRef font, HandleRef graphics, out float size);
+            internal static extern int GdipGetFontHeight(HandleRef font, SafeGraphicsHandle graphics, out float size);
 
             [DllImport(LibraryName)]
             internal static extern int GdipGetFontHeightGivenDPI(HandleRef font, float dpi, out float size);
@@ -519,7 +519,7 @@ namespace System.Drawing
             internal static extern int GdipGetFontUnit(HandleRef font, out GraphicsUnit unit);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetLogFontW(HandleRef font, HandleRef graphics, ref Interop.User32.LOGFONT lf);
+            internal static extern int GdipGetLogFontW(HandleRef font, SafeGraphicsHandle graphics, ref Interop.User32.LOGFONT lf);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial int GdipCreatePen1(int argb, float width, int unit, out SafePenHandle pen);
@@ -657,91 +657,91 @@ namespace System.Drawing
             internal static extern int GdipGetPenCompoundArray(SafePenHandle pen, float[] array, int count);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetWorldTransform(HandleRef graphics, SafeMatrixHandle matrix);
+            internal static extern int GdipSetWorldTransform(SafeGraphicsHandle graphics, SafeMatrixHandle matrix);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipResetWorldTransform(HandleRef graphics);
+            internal static extern int GdipResetWorldTransform(SafeGraphicsHandle graphics);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipMultiplyWorldTransform(HandleRef graphics, SafeMatrixHandle matrix, MatrixOrder order);
+            internal static extern int GdipMultiplyWorldTransform(SafeGraphicsHandle graphics, SafeMatrixHandle matrix, MatrixOrder order);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipTranslateWorldTransform(HandleRef graphics, float dx, float dy, MatrixOrder order);
+            internal static extern int GdipTranslateWorldTransform(SafeGraphicsHandle graphics, float dx, float dy, MatrixOrder order);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipScaleWorldTransform(HandleRef graphics, float sx, float sy, MatrixOrder order);
+            internal static extern int GdipScaleWorldTransform(SafeGraphicsHandle graphics, float sx, float sy, MatrixOrder order);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipRotateWorldTransform(HandleRef graphics, float angle, MatrixOrder order);
+            internal static extern int GdipRotateWorldTransform(SafeGraphicsHandle graphics, float angle, MatrixOrder order);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetWorldTransform(HandleRef graphics, SafeMatrixHandle matrix);
+            internal static extern int GdipGetWorldTransform(SafeGraphicsHandle graphics, SafeMatrixHandle matrix);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetCompositingMode(HandleRef graphics, CompositingMode compositingMode);
+            internal static extern int GdipSetCompositingMode(SafeGraphicsHandle graphics, CompositingMode compositingMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetTextRenderingHint(HandleRef graphics, TextRenderingHint textRenderingHint);
+            internal static extern int GdipSetTextRenderingHint(SafeGraphicsHandle graphics, TextRenderingHint textRenderingHint);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetTextContrast(HandleRef graphics, int textContrast);
+            internal static extern int GdipSetTextContrast(SafeGraphicsHandle graphics, int textContrast);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetInterpolationMode(HandleRef graphics, InterpolationMode interpolationMode);
+            internal static extern int GdipSetInterpolationMode(SafeGraphicsHandle graphics, InterpolationMode interpolationMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetCompositingMode(HandleRef graphics, out CompositingMode compositingMode);
+            internal static extern int GdipGetCompositingMode(SafeGraphicsHandle graphics, out CompositingMode compositingMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetRenderingOrigin(HandleRef graphics, int x, int y);
+            internal static extern int GdipSetRenderingOrigin(SafeGraphicsHandle graphics, int x, int y);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetRenderingOrigin(HandleRef graphics, out int x, out int y);
+            internal static extern int GdipGetRenderingOrigin(SafeGraphicsHandle graphics, out int x, out int y);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetCompositingQuality(HandleRef graphics, CompositingQuality quality);
+            internal static extern int GdipSetCompositingQuality(SafeGraphicsHandle graphics, CompositingQuality quality);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetCompositingQuality(HandleRef graphics, out CompositingQuality quality);
+            internal static extern int GdipGetCompositingQuality(SafeGraphicsHandle graphics, out CompositingQuality quality);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetSmoothingMode(HandleRef graphics, SmoothingMode smoothingMode);
+            internal static extern int GdipSetSmoothingMode(SafeGraphicsHandle graphics, SmoothingMode smoothingMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetSmoothingMode(HandleRef graphics, out SmoothingMode smoothingMode);
+            internal static extern int GdipGetSmoothingMode(SafeGraphicsHandle graphics, out SmoothingMode smoothingMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetPixelOffsetMode(HandleRef graphics, PixelOffsetMode pixelOffsetMode);
+            internal static extern int GdipSetPixelOffsetMode(SafeGraphicsHandle graphics, PixelOffsetMode pixelOffsetMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetPixelOffsetMode(HandleRef graphics, out PixelOffsetMode pixelOffsetMode);
+            internal static extern int GdipGetPixelOffsetMode(SafeGraphicsHandle graphics, out PixelOffsetMode pixelOffsetMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetTextRenderingHint(HandleRef graphics, out TextRenderingHint textRenderingHint);
+            internal static extern int GdipGetTextRenderingHint(SafeGraphicsHandle graphics, out TextRenderingHint textRenderingHint);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetTextContrast(HandleRef graphics, out int textContrast);
+            internal static extern int GdipGetTextContrast(SafeGraphicsHandle graphics, out int textContrast);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetInterpolationMode(HandleRef graphics, out InterpolationMode interpolationMode);
+            internal static extern int GdipGetInterpolationMode(SafeGraphicsHandle graphics, out InterpolationMode interpolationMode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetPageUnit(HandleRef graphics, out GraphicsUnit unit);
+            internal static extern int GdipGetPageUnit(SafeGraphicsHandle graphics, out GraphicsUnit unit);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetPageScale(HandleRef graphics, out float scale);
+            internal static extern int GdipGetPageScale(SafeGraphicsHandle graphics, out float scale);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetPageUnit(HandleRef graphics, GraphicsUnit unit);
+            internal static extern int GdipSetPageUnit(SafeGraphicsHandle graphics, GraphicsUnit unit);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetPageScale(HandleRef graphics, float scale);
+            internal static extern int GdipSetPageScale(SafeGraphicsHandle graphics, float scale);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetDpiX(HandleRef graphics, out float dpi);
+            internal static extern int GdipGetDpiX(SafeGraphicsHandle graphics, out float dpi);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetDpiY(HandleRef graphics, out float dpi);
+            internal static extern int GdipGetDpiY(SafeGraphicsHandle graphics, out float dpi);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial int GdipCreateMatrix(out SafeMatrixHandle matrix);
@@ -837,7 +837,7 @@ namespace System.Drawing
             internal static extern int GdipDeleteRegion(IntPtr region);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillRegion(HandleRef graphics, SafeBrushHandle brush, SafeRegionHandle region);
+            internal static extern int GdipFillRegion(SafeGraphicsHandle graphics, SafeBrushHandle brush, SafeRegionHandle region);
 
             [DllImport(LibraryName)]
             internal static extern int GdipSetInfinite(SafeRegionHandle region);
@@ -867,19 +867,19 @@ namespace System.Drawing
             internal static extern int GdipTransformRegion(SafeRegionHandle region, SafeMatrixHandle matrix);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetRegionBounds(SafeRegionHandle region, HandleRef graphics, out RectangleF gprectf);
+            internal static extern int GdipGetRegionBounds(SafeRegionHandle region, SafeGraphicsHandle graphics, out RectangleF gprectf);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetRegionHRgn(SafeRegionHandle region, HandleRef graphics, out IntPtr hrgn);
+            internal static extern int GdipGetRegionHRgn(SafeRegionHandle region, SafeGraphicsHandle graphics, out IntPtr hrgn);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsEmptyRegion(SafeRegionHandle region, HandleRef graphics, out int boolean);
+            internal static extern int GdipIsEmptyRegion(SafeRegionHandle region, SafeGraphicsHandle graphics, out int boolean);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsInfiniteRegion(SafeRegionHandle region, HandleRef graphics, out int boolean);
+            internal static extern int GdipIsInfiniteRegion(SafeRegionHandle region, SafeGraphicsHandle graphics, out int boolean);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsEqualRegion(SafeRegionHandle region, SafeRegionHandle region2, HandleRef graphics, out int boolean);
+            internal static extern int GdipIsEqualRegion(SafeRegionHandle region, SafeRegionHandle region2, SafeGraphicsHandle graphics, out int boolean);
 
             [DllImport(LibraryName)]
             internal static extern int GdipGetRegionDataSize(SafeRegionHandle region, out int bufferSize);
@@ -906,61 +906,61 @@ namespace System.Drawing
             internal static extern int GdipGetRegionScans(SafeRegionHandle region, RectangleF* rects, out int count, SafeMatrixHandle matrix);
 
             [GeneratedDllImport(LibraryName)]
-            internal static partial int GdipCreateFromHDC(IntPtr hdc, out IntPtr graphics);
+            internal static partial int GdipCreateFromHDC(IntPtr hdc, out SafeGraphicsHandle graphics);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetClipGraphics(HandleRef graphics, HandleRef srcgraphics, CombineMode mode);
+            internal static extern int GdipSetClipGraphics(SafeGraphicsHandle graphics, SafeGraphicsHandle srcgraphics, CombineMode mode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetClipRect(HandleRef graphics, float x, float y, float width, float height, CombineMode mode);
+            internal static extern int GdipSetClipRect(SafeGraphicsHandle graphics, float x, float y, float width, float height, CombineMode mode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetClipRectI(HandleRef graphics, int x, int y, int width, int height, CombineMode mode);
+            internal static extern int GdipSetClipRectI(SafeGraphicsHandle graphics, int x, int y, int width, int height, CombineMode mode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetClipPath(HandleRef graphics, SafeGraphicsPathHandle path, CombineMode mode);
+            internal static extern int GdipSetClipPath(SafeGraphicsHandle graphics, SafeGraphicsPathHandle path, CombineMode mode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSetClipRegion(HandleRef graphics, SafeRegionHandle region, CombineMode mode);
+            internal static extern int GdipSetClipRegion(SafeGraphicsHandle graphics, SafeRegionHandle region, CombineMode mode);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipResetClip(HandleRef graphics);
+            internal static extern int GdipResetClip(SafeGraphicsHandle graphics);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipTranslateClip(HandleRef graphics, float dx, float dy);
+            internal static extern int GdipTranslateClip(SafeGraphicsHandle graphics, float dx, float dy);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetClip(HandleRef graphics, SafeRegionHandle region);
+            internal static extern int GdipGetClip(SafeGraphicsHandle graphics, SafeRegionHandle region);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetClipBounds(HandleRef graphics, out RectangleF rect);
+            internal static extern int GdipGetClipBounds(SafeGraphicsHandle graphics, out RectangleF rect);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsClipEmpty(HandleRef graphics, out bool result);
+            internal static extern int GdipIsClipEmpty(SafeGraphicsHandle graphics, out bool result);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetVisibleClipBounds(HandleRef graphics, out RectangleF rect);
+            internal static extern int GdipGetVisibleClipBounds(SafeGraphicsHandle graphics, out RectangleF rect);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsVisibleClipEmpty(HandleRef graphics, out bool result);
+            internal static extern int GdipIsVisibleClipEmpty(SafeGraphicsHandle graphics, out bool result);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsVisiblePoint(HandleRef graphics, float x, float y, out bool result);
+            internal static extern int GdipIsVisiblePoint(SafeGraphicsHandle graphics, float x, float y, out bool result);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsVisiblePointI(HandleRef graphics, int x, int y, out bool result);
+            internal static extern int GdipIsVisiblePointI(SafeGraphicsHandle graphics, int x, int y, out bool result);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsVisibleRect(HandleRef graphics, float x, float y, float width, float height, out bool result);
+            internal static extern int GdipIsVisibleRect(SafeGraphicsHandle graphics, float x, float y, float width, float height, out bool result);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipIsVisibleRectI(HandleRef graphics, int x, int y, int width, int height, out bool result);
+            internal static extern int GdipIsVisibleRectI(SafeGraphicsHandle graphics, int x, int y, int width, int height, out bool result);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipFlush(HandleRef graphics, FlushIntention intention);
+            internal static extern int GdipFlush(SafeGraphicsHandle graphics, FlushIntention intention);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGetDC(HandleRef graphics, out IntPtr hdc);
+            internal static extern int GdipGetDC(SafeGraphicsHandle graphics, out IntPtr hdc);
 
             [DllImport(LibraryName)]
             internal static extern int GdipSetStringFormatMeasurableCharacterRanges(HandleRef format, int rangeCount, [In] [Out] CharacterRange[] range);
@@ -1107,7 +1107,7 @@ namespace System.Drawing
             internal static partial int GdipCreateBitmapFromScan0(int width, int height, int stride, int format, IntPtr scan0, out IntPtr bitmap);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipCreateBitmapFromGraphics(int width, int height, HandleRef graphics, out IntPtr bitmap);
+            internal static extern int GdipCreateBitmapFromGraphics(int width, int height, SafeGraphicsHandle graphics, out IntPtr bitmap);
 
             [GeneratedDllImport(LibraryName)]
             internal static partial int GdipCreateBitmapFromHBITMAP(IntPtr hbitmap, IntPtr hpalette, out IntPtr bitmap);
@@ -1191,187 +1191,187 @@ namespace System.Drawing
             internal static extern int GdipPlayMetafileRecord(HandleRef metafile, EmfPlusRecordType recordType, int flags, int dataSize, byte[] data);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipSaveGraphics(HandleRef graphics, out int state);
+            internal static extern int GdipSaveGraphics(SafeGraphicsHandle graphics, out int state);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawArc(HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static extern int GdipDrawArc(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawArcI(HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static extern int GdipDrawArcI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawLinesI(HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static extern int GdipDrawLinesI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawBezier(HandleRef graphics, SafePenHandle pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+            internal static extern int GdipDrawBezier(SafeGraphicsHandle graphics, SafePenHandle pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawEllipse(HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height);
+            internal static extern int GdipDrawEllipse(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawEllipseI(HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height);
+            internal static extern int GdipDrawEllipseI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawLine(HandleRef graphics, SafePenHandle pen, float x1, float y1, float x2, float y2);
+            internal static extern int GdipDrawLine(SafeGraphicsHandle graphics, SafePenHandle pen, float x1, float y1, float x2, float y2);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawLineI(HandleRef graphics, SafePenHandle pen, int x1, int y1, int x2, int y2);
+            internal static extern int GdipDrawLineI(SafeGraphicsHandle graphics, SafePenHandle pen, int x1, int y1, int x2, int y2);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawLines(HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static extern int GdipDrawLines(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawPath(HandleRef graphics, SafePenHandle pen, SafeGraphicsPathHandle path);
+            internal static extern int GdipDrawPath(SafeGraphicsHandle graphics, SafePenHandle pen, SafeGraphicsPathHandle path);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawPie(HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static extern int GdipDrawPie(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawPieI(HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static extern int GdipDrawPieI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawPolygon(HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static extern int GdipDrawPolygon(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawPolygonI(HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static extern int GdipDrawPolygonI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillEllipse(HandleRef graphics, SafeBrushHandle brush, float x, float y, float width, float height);
+            internal static extern int GdipFillEllipse(SafeGraphicsHandle graphics, SafeBrushHandle brush, float x, float y, float width, float height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillEllipseI(HandleRef graphics, SafeBrushHandle brush, int x, int y, int width, int height);
+            internal static extern int GdipFillEllipseI(SafeGraphicsHandle graphics, SafeBrushHandle brush, int x, int y, int width, int height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillPolygon(HandleRef graphics, SafeBrushHandle brush, PointF* points, int count, FillMode brushMode);
+            internal static extern int GdipFillPolygon(SafeGraphicsHandle graphics, SafeBrushHandle brush, PointF* points, int count, FillMode brushMode);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillPolygonI(HandleRef graphics, SafeBrushHandle brush, Point* points, int count, FillMode brushMode);
+            internal static extern int GdipFillPolygonI(SafeGraphicsHandle graphics, SafeBrushHandle brush, Point* points, int count, FillMode brushMode);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillRectangle(HandleRef graphics, SafeBrushHandle brush, float x, float y, float width, float height);
+            internal static extern int GdipFillRectangle(SafeGraphicsHandle graphics, SafeBrushHandle brush, float x, float y, float width, float height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillRectangleI(HandleRef graphics, SafeBrushHandle brush, int x, int y, int width, int height);
+            internal static extern int GdipFillRectangleI(SafeGraphicsHandle graphics, SafeBrushHandle brush, int x, int y, int width, int height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillRectangles(HandleRef graphics, SafeBrushHandle brush, RectangleF* rects, int count);
+            internal static extern int GdipFillRectangles(SafeGraphicsHandle graphics, SafeBrushHandle brush, RectangleF* rects, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillRectanglesI(HandleRef graphics, SafeBrushHandle brush, Rectangle* rects, int count);
+            internal static extern int GdipFillRectanglesI(SafeGraphicsHandle graphics, SafeBrushHandle brush, Rectangle* rects, int count);
 
             [DllImport(LibraryName, CharSet = CharSet.Unicode, SetLastError = true)]
-            internal static extern int GdipDrawString(HandleRef graphics, string textString, int length, HandleRef font, ref RectangleF layoutRect, HandleRef stringFormat, SafeBrushHandle brush);
+            internal static extern int GdipDrawString(SafeGraphicsHandle graphics, string textString, int length, HandleRef font, ref RectangleF layoutRect, HandleRef stringFormat, SafeBrushHandle brush);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImageRectI(HandleRef graphics, HandleRef image, int x, int y, int width, int height);
+            internal static extern int GdipDrawImageRectI(SafeGraphicsHandle graphics, HandleRef image, int x, int y, int width, int height);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipGraphicsClear(HandleRef graphics, int argb);
+            internal static extern int GdipGraphicsClear(SafeGraphicsHandle graphics, int argb);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawClosedCurve(HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static extern int GdipDrawClosedCurve(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawClosedCurveI(HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static extern int GdipDrawClosedCurveI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawClosedCurve2(HandleRef graphics, SafePenHandle pen, PointF* points, int count, float tension);
+            internal static extern int GdipDrawClosedCurve2(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count, float tension);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawClosedCurve2I(HandleRef graphics, SafePenHandle pen, Point* points, int count, float tension);
+            internal static extern int GdipDrawClosedCurve2I(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count, float tension);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawCurve(HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static extern int GdipDrawCurve(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawCurveI(HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static extern int GdipDrawCurveI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawCurve2(HandleRef graphics, SafePenHandle pen, PointF* points, int count, float tension);
+            internal static extern int GdipDrawCurve2(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count, float tension);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawCurve2I(HandleRef graphics, SafePenHandle pen, Point* points, int count, float tension);
+            internal static extern int GdipDrawCurve2I(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count, float tension);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawCurve3(HandleRef graphics, SafePenHandle pen, PointF* points, int count, int offset, int numberOfSegments, float tension);
+            internal static extern int GdipDrawCurve3(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count, int offset, int numberOfSegments, float tension);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawCurve3I(HandleRef graphics, SafePenHandle pen, Point* points, int count, int offset, int numberOfSegments, float tension);
+            internal static extern int GdipDrawCurve3I(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count, int offset, int numberOfSegments, float tension);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillClosedCurve(HandleRef graphics, SafeBrushHandle brush, PointF* points, int count);
+            internal static extern int GdipFillClosedCurve(SafeGraphicsHandle graphics, SafeBrushHandle brush, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillClosedCurveI(HandleRef graphics, SafeBrushHandle brush, Point* points, int count);
+            internal static extern int GdipFillClosedCurveI(SafeGraphicsHandle graphics, SafeBrushHandle brush, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillClosedCurve2(HandleRef graphics, SafeBrushHandle brush, PointF* points, int count, float tension, FillMode mode);
+            internal static extern int GdipFillClosedCurve2(SafeGraphicsHandle graphics, SafeBrushHandle brush, PointF* points, int count, float tension, FillMode mode);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillClosedCurve2I(HandleRef graphics, SafeBrushHandle brush, Point* points, int count, float tension, FillMode mode);
+            internal static extern int GdipFillClosedCurve2I(SafeGraphicsHandle graphics, SafeBrushHandle brush, Point* points, int count, float tension, FillMode mode);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillPie(HandleRef graphics, SafeBrushHandle brush, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static extern int GdipFillPie(SafeGraphicsHandle graphics, SafeBrushHandle brush, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipFillPieI(HandleRef graphics, SafeBrushHandle brush, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static extern int GdipFillPieI(SafeGraphicsHandle graphics, SafeBrushHandle brush, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-            internal static extern int GdipMeasureString(HandleRef graphics, string textString, int length, HandleRef font, ref RectangleF layoutRect, HandleRef stringFormat, ref RectangleF boundingBox, out int codepointsFitted, out int linesFilled);
+            internal static extern int GdipMeasureString(SafeGraphicsHandle graphics, string textString, int length, HandleRef font, ref RectangleF layoutRect, HandleRef stringFormat, ref RectangleF boundingBox, out int codepointsFitted, out int linesFilled);
 
             [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-            internal static extern int GdipMeasureCharacterRanges(HandleRef graphics, string textString, int length, HandleRef font, ref RectangleF layoutRect, HandleRef stringFormat, int characterCount, [In] [Out] IntPtr[] regions);
+            internal static extern int GdipMeasureCharacterRanges(SafeGraphicsHandle graphics, string textString, int length, HandleRef font, ref RectangleF layoutRect, HandleRef stringFormat, int characterCount, [In] [Out] IntPtr[] regions);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImageI(HandleRef graphics, HandleRef image, int x, int y);
+            internal static extern int GdipDrawImageI(SafeGraphicsHandle graphics, HandleRef image, int x, int y);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImage(HandleRef graphics, HandleRef image, float x, float y);
+            internal static extern int GdipDrawImage(SafeGraphicsHandle graphics, HandleRef image, float x, float y);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImagePoints(HandleRef graphics, HandleRef image, PointF* points, int count);
+            internal static extern int GdipDrawImagePoints(SafeGraphicsHandle graphics, HandleRef image, PointF* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImagePointsI(HandleRef graphics, HandleRef image, Point* points, int count);
+            internal static extern int GdipDrawImagePointsI(SafeGraphicsHandle graphics, HandleRef image, Point* points, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImageRectRectI(HandleRef graphics, HandleRef image, int dstx, int dsty, int dstwidth, int dstheight, int srcx, int srcy, int srcwidth, int srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
+            internal static extern int GdipDrawImageRectRectI(SafeGraphicsHandle graphics, HandleRef image, int dstx, int dsty, int dstwidth, int dstheight, int srcx, int srcy, int srcwidth, int srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImagePointsRect(HandleRef graphics, HandleRef image, PointF* points, int count, float srcx, float srcy, float srcwidth, float srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
+            internal static extern int GdipDrawImagePointsRect(SafeGraphicsHandle graphics, HandleRef image, PointF* points, int count, float srcx, float srcy, float srcwidth, float srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImageRectRect(HandleRef graphics, HandleRef image, float dstx, float dsty, float dstwidth, float dstheight, float srcx, float srcy, float srcwidth, float srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
+            internal static extern int GdipDrawImageRectRect(SafeGraphicsHandle graphics, HandleRef image, float dstx, float dsty, float dstwidth, float dstheight, float srcx, float srcy, float srcwidth, float srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImagePointsRectI(HandleRef graphics, HandleRef image, Point* points, int count, int srcx, int srcy, int srcwidth, int srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
+            internal static extern int GdipDrawImagePointsRectI(SafeGraphicsHandle graphics, HandleRef image, Point* points, int count, int srcx, int srcy, int srcwidth, int srcheight, GraphicsUnit srcunit, HandleRef imageAttributes, Graphics.DrawImageAbort? callback, HandleRef callbackdata);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImageRect(HandleRef graphics, HandleRef image, float x, float y, float width, float height);
+            internal static extern int GdipDrawImageRect(SafeGraphicsHandle graphics, HandleRef image, float x, float y, float width, float height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImagePointRect(HandleRef graphics, HandleRef image, float x, float y, float srcx, float srcy, float srcwidth, float srcheight, int srcunit);
+            internal static extern int GdipDrawImagePointRect(SafeGraphicsHandle graphics, HandleRef image, float x, float y, float srcx, float srcy, float srcwidth, float srcheight, int srcunit);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawImagePointRectI(HandleRef graphics, HandleRef image, int x, int y, int srcx, int srcy, int srcwidth, int srcheight, int srcunit);
+            internal static extern int GdipDrawImagePointRectI(SafeGraphicsHandle graphics, HandleRef image, int x, int y, int srcx, int srcy, int srcwidth, int srcheight, int srcunit);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawRectangle(HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height);
+            internal static extern int GdipDrawRectangle(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawRectangleI(HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height);
+            internal static extern int GdipDrawRectangleI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawRectangles(HandleRef graphics, SafePenHandle pen, RectangleF* rects, int count);
+            internal static extern int GdipDrawRectangles(SafeGraphicsHandle graphics, SafePenHandle pen, RectangleF* rects, int count);
 
             [DllImport(LibraryName, SetLastError = true)]
-            internal static extern int GdipDrawRectanglesI(HandleRef graphics, SafePenHandle pen, Rectangle* rects, int count);
+            internal static extern int GdipDrawRectanglesI(SafeGraphicsHandle graphics, SafePenHandle pen, Rectangle* rects, int count);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipTransformPoints(HandleRef graphics, int destSpace, int srcSpace, PointF* points, int count);
+            internal static extern int GdipTransformPoints(SafeGraphicsHandle graphics, int destSpace, int srcSpace, PointF* points, int count);
 
             [DllImport(LibraryName)]
-            internal static extern int GdipTransformPointsI(HandleRef graphics, int destSpace, int srcSpace, Point* points, int count);
+            internal static extern int GdipTransformPointsI(SafeGraphicsHandle graphics, int destSpace, int srcSpace, Point* points, int count);
 
             [GeneratedDllImport(LibraryName, CharSet = CharSet.Unicode, ExactSpelling = true)]
             internal static partial int GdipLoadImageFromFileICM(string filename, out IntPtr image);
