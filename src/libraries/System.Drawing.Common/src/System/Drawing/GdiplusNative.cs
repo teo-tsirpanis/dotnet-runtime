@@ -961,335 +961,163 @@ namespace System.Drawing
             HandleRef graphics, ref Interop.User32.LOGFONT lf);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePen1(int argb, float width, int unit, out IntPtr pen);
+            internal static partial int GdipCreatePen1(int argb, float width, int unit, out SafePenHandle pen);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePen2(SafeBrushHandle brush, float width, int unit, out IntPtr pen);
+            internal static partial int GdipCreatePen2(SafeBrushHandle brush, float width, int unit, out SafePenHandle pen);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipClonePen(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out IntPtr clonepen);
+            internal static partial int GdipClonePen(SafePenHandle pen, out SafePenHandle clonedPen);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipDeletePen(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef Pen);
+            internal static partial int GdipDeletePen(IntPtr pen);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PenAlignment penAlign);
+            internal static partial int GdipSetPenMode(SafePenHandle pen, PenAlignment penAlign);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out PenAlignment penAlign);
+            internal static partial int GdipGetPenMode(SafePenHandle pen, out PenAlignment penAlign);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenWidth(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float width);
+            internal static partial int GdipSetPenWidth(SafePenHandle pen, float width);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenWidth(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float[] width);
+            internal static partial int GdipGetPenWidth(SafePenHandle pen, out float width);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenLineCap197819(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int startCap, int endCap, int dashCap);
+            internal static partial int GdipSetPenLineCap197819(SafePenHandle pen, int startCap, int endCap, int dashCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenStartCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int startCap);
+            internal static partial int GdipSetPenStartCap(SafePenHandle pen, int startCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenEndCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int endCap);
+            internal static partial int GdipSetPenEndCap(SafePenHandle pen, int endCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenStartCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int startCap);
+            internal static partial int GdipGetPenStartCap(SafePenHandle pen, out int startCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenEndCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int endCap);
+            internal static partial int GdipGetPenEndCap(SafePenHandle pen, out int endCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenDashCap197819(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int dashCap);
+            internal static partial int GdipGetPenDashCap197819(SafePenHandle pen, out int dashCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenDashCap197819(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int dashCap);
+            internal static partial int GdipSetPenDashCap197819(SafePenHandle pen, int dashCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenLineJoin(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int lineJoin);
+            internal static partial int GdipSetPenLineJoin(SafePenHandle pen, int lineJoin);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenLineJoin(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int lineJoin);
+            internal static partial int GdipGetPenLineJoin(SafePenHandle pen, out int lineJoin);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenCustomStartCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            internal static partial int GdipSetPenCustomStartCap(SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef customCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenCustomStartCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out IntPtr customCap);
+            internal static partial int GdipGetPenCustomStartCap(SafePenHandle pen, out IntPtr customCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenCustomEndCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            internal static partial int GdipSetPenCustomEndCap(SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef customCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenCustomEndCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out IntPtr customCap);
+            internal static partial int GdipGetPenCustomEndCap(SafePenHandle pen, out IntPtr customCap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenMiterLimit(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float miterLimit);
+            internal static partial int GdipSetPenMiterLimit(SafePenHandle pen, float miterLimit);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenMiterLimit(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float[] miterLimit);
+            internal static partial int GdipGetPenMiterLimit(SafePenHandle pen, float[] miterLimit);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            internal static partial int GdipSetPenTransform(SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            internal static partial int GdipGetPenTransform(SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipResetPenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen);
+            internal static partial int GdipResetPenTransform(SafePenHandle pen);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyPenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            internal static partial int GdipMultiplyPenTransform(SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTranslatePenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float dx, float dy, MatrixOrder order);
+            internal static partial int GdipTranslatePenTransform(SafePenHandle pen, float dx, float dy, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipScalePenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float sx, float sy, MatrixOrder order);
+            internal static partial int GdipScalePenTransform(SafePenHandle pen, float sx, float sy, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipRotatePenTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float angle, MatrixOrder order);
+            internal static partial int GdipRotatePenTransform(SafePenHandle pen, float angle, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenColor(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int argb);
+            internal static partial int GdipSetPenColor(SafePenHandle pen, int argb);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenColor(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int argb);
+            internal static partial int GdipGetPenColor(SafePenHandle pen, out int argb);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenBrushFill(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, SafeBrushHandle brush);
+            internal static partial int GdipSetPenBrushFill(SafePenHandle pen, SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenBrushFill(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out SafeBrushHandle brush);
+            internal static partial int GdipGetPenBrushFill(SafePenHandle pen, out SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenFillType(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int pentype);
+            internal static partial int GdipGetPenFillType(SafePenHandle pen, out int pentype);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenDashStyle(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int dashstyle);
+            internal static partial int GdipGetPenDashStyle(SafePenHandle pen, out int dashstyle);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenDashStyle(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int dashstyle);
+            internal static partial int GdipSetPenDashStyle(SafePenHandle pen, int dashstyle);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenDashArray(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            internal static partial int GdipSetPenDashArray(SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef memorydash, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenDashOffset(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float[] dashoffset);
+            internal static partial int GdipGetPenDashOffset(SafePenHandle pen, float[] dashoffset);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenDashOffset(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float dashoffset);
+            internal static partial int GdipSetPenDashOffset(SafePenHandle pen, float dashoffset);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenDashCount(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int dashcount);
+            internal static partial int GdipGetPenDashCount(SafePenHandle pen, out int dashcount);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenDashArray(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float[] memorydash, int count);
+            internal static partial int GdipGetPenDashArray(SafePenHandle pen, float[] memorydash, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenCompoundCount(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, out int count);
+            internal static partial int GdipGetPenCompoundCount(SafePenHandle pen, out int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenCompoundArray(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float[] array, int count);
+            internal static partial int GdipSetPenCompoundArray(SafePenHandle pen, float[] array, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenCompoundArray(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float[] array, int count);
+            internal static partial int GdipGetPenCompoundArray(SafePenHandle pen, float[] array, int count);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipSetWorldTransform(
@@ -2506,110 +2334,70 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawArcI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawLinesI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawBezier(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+            HandleRef graphics, SafePenHandle pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawEllipse(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float x, float y, float width, float height);
+            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawEllipseI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int x, int y, int width, int height);
+            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawLine(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float x1, float y1, float x2, float y2);
+            HandleRef graphics, SafePenHandle pen, float x1, float y1, float x2, float y2);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawLineI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int x1, int y1, int x2, int y2);
+            HandleRef graphics, SafePenHandle pen, int x1, int y1, int x2, int y2);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawLines(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawPath(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            HandleRef graphics, SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2620,44 +2408,28 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawPieI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawPolygon(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawPolygonI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipFillEllipse(
@@ -2753,110 +2525,70 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawClosedCurveI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawClosedCurve2(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count, float tension);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawClosedCurve2I(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count, float tension);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawCurve(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawCurveI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawCurve2(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count, float tension);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawCurve2I(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count, float tension);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawCurve3(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count, int offset, int numberOfSegments, float tension);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count, int offset, int numberOfSegments, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawCurve3I(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count, int offset, int numberOfSegments, float tension);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count, int offset, int numberOfSegments, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipFillClosedCurve(
@@ -3088,44 +2820,28 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, float x, float y, float width, float height);
+            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawRectangleI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, int x, int y, int width, int height);
+            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawRectangles(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, RectangleF* rects, int count);
+            HandleRef graphics, SafePenHandle pen, RectangleF* rects, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawRectanglesI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Rectangle* rects, int count);
+            HandleRef graphics, SafePenHandle pen, Rectangle* rects, int count);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipTransformPoints(
@@ -3549,11 +3265,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef path,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            HandleRef path, SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3582,21 +3294,6 @@ namespace System.Drawing
             HandleRef matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathWorldBounds(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out RectangleF gprectf,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen);
-
-            [LibraryImport(LibraryName)]
             internal static partial int GdipIsVisiblePathPoint(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
@@ -3623,11 +3320,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef path, float x, float y,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            HandleRef path, float x, float y, SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3638,11 +3331,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef path, int x, int y,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen,
+            HandleRef path, int x, int y, SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3792,22 +3481,14 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, PointF* points, int count);
+            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawBeziersI(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef pen, Point* points, int count);
+            HandleRef graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipFillPath(

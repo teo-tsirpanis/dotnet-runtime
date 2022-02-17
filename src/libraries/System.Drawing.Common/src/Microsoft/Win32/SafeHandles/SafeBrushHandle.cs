@@ -13,7 +13,9 @@ namespace Microsoft.Win32.SafeHandles
             SetHandle(preexistingHandle);
         }
 
-        public SafeBrushHandle() : base(true) { }
+        public SafeBrushHandle() : base(true)
+        {
+        }
 
         protected override int ReleaseHandleImpl() => Gdip.GdipDeleteBrush(handle);
     }
