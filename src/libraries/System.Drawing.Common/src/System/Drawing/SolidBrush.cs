@@ -1,9 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using Microsoft.Win32.SafeHandles;
 using System.Diagnostics;
 using System.Drawing.Internal;
-using System.Runtime.InteropServices;
 using Gdip = System.Drawing.SafeNativeMethods.Gdip;
 
 namespace System.Drawing
@@ -18,7 +18,7 @@ namespace System.Drawing
         {
             _color = color;
 
-            IntPtr nativeBrush;
+            SafeBrushHandle nativeBrush;
             int status = Gdip.GdipCreateSolidFill(_color.ToArgb(), out nativeBrush);
             Gdip.CheckStatus(status);
 
@@ -35,16 +35,14 @@ namespace System.Drawing
             _immutable = immutable;
         }
 
-        internal SolidBrush(IntPtr nativeBrush)
+        internal SolidBrush(SafeBrushHandle nativeBrush) : base(nativeBrush)
         {
-            Debug.Assert(nativeBrush != IntPtr.Zero, "Initializing native brush with null.");
-            SetNativeBrushInternal(nativeBrush);
         }
 
         public override object Clone()
         {
-            IntPtr clonedBrush;
-            int status = Gdip.GdipCloneBrush(new HandleRef(this, NativeBrush), out clonedBrush);
+            SafeBrushHandle clonedBrush;
+            int status = Gdip.GdipCloneBrush(SafeBrushHandle, out clonedBrush);
             Gdip.CheckStatus(status);
 
             // Clones of immutable brushes are not immutable.
@@ -72,7 +70,7 @@ namespace System.Drawing
                 if (_color == Color.Empty)
                 {
                     int colorARGB;
-                    int status = Gdip.GdipGetSolidFillColor(new HandleRef(this, NativeBrush), out colorARGB);
+                    int status = Gdip.GdipGetSolidFillColor(SafeBrushHandle, out colorARGB);
                     Gdip.CheckStatus(status);
 
                     _color = Color.FromArgb(colorARGB);
@@ -107,7 +105,7 @@ namespace System.Drawing
         // Sets the color even if the brush is considered immutable.
         private void InternalSetColor(Color value)
         {
-            int status = Gdip.GdipSetSolidFillColor(new HandleRef(this, NativeBrush), value.ToArgb());
+            int status = Gdip.GdipSetSolidFillColor(SafeBrushHandle, value.ToArgb());
             Gdip.CheckStatus(status);
 
             _color = value;
@@ -115,7 +113,7 @@ namespace System.Drawing
 
         void ISystemColorTracker.OnSystemColorChanged()
         {
-            if (NativeBrush != IntPtr.Zero)
+            if (!SafeBrushHandle.IsClosed)
             {
                 InternalSetColor(_color);
             }

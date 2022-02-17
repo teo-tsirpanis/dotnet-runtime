@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.ComponentModel;
@@ -29,7 +30,7 @@ namespace System.Drawing
                 throw new InvalidEnumArgumentException(nameof(wrapMode), unchecked((int)wrapMode), typeof(WrapMode));
             }
 
-            IntPtr brush;
+            SafeBrushHandle brush;
             int status = Gdip.GdipCreateTexture(new HandleRef(image, image.nativeImage),
                                                    (int)wrapMode,
                                                    out brush);
@@ -45,7 +46,7 @@ namespace System.Drawing
                 throw new InvalidEnumArgumentException(nameof(wrapMode), unchecked((int)wrapMode), typeof(WrapMode));
             }
 
-            IntPtr brush;
+            SafeBrushHandle brush;
             int status = Gdip.GdipCreateTexture2(new HandleRef(image, image.nativeImage),
                                                     unchecked((int)wrapMode),
                                                     dstRect.X,
@@ -65,7 +66,7 @@ namespace System.Drawing
                 throw new InvalidEnumArgumentException(nameof(wrapMode), unchecked((int)wrapMode), typeof(WrapMode));
             }
 
-            IntPtr brush;
+            SafeBrushHandle brush;
             int status = Gdip.GdipCreateTexture2I(new HandleRef(image, image.nativeImage),
                                                      unchecked((int)wrapMode),
                                                      dstRect.X,
@@ -82,7 +83,7 @@ namespace System.Drawing
 
         public TextureBrush(Image image!!, RectangleF dstRect, ImageAttributes? imageAttr)
         {
-            IntPtr brush;
+            SafeBrushHandle brush;
             int status = Gdip.GdipCreateTextureIA(new HandleRef(image, image.nativeImage),
                                                      new HandleRef(imageAttr, (imageAttr == null) ?
                                                        IntPtr.Zero : imageAttr.nativeImageAttributes),
@@ -100,7 +101,7 @@ namespace System.Drawing
 
         public TextureBrush(Image image!!, Rectangle dstRect, ImageAttributes? imageAttr)
         {
-            IntPtr brush;
+            SafeBrushHandle brush;
             int status = Gdip.GdipCreateTextureIAI(new HandleRef(image, image.nativeImage),
                                                      new HandleRef(imageAttr, (imageAttr == null) ?
                                                        IntPtr.Zero : imageAttr.nativeImageAttributes),
@@ -114,16 +115,14 @@ namespace System.Drawing
             SetNativeBrushInternal(brush);
         }
 
-        internal TextureBrush(IntPtr nativeBrush)
+        internal TextureBrush(SafeBrushHandle nativeBrush) : base(nativeBrush)
         {
-            Debug.Assert(nativeBrush != IntPtr.Zero, "Initializing native brush with null.");
-            SetNativeBrushInternal(nativeBrush);
         }
 
         public override object Clone()
         {
-            IntPtr cloneBrush;
-            int status = Gdip.GdipCloneBrush(new HandleRef(this, NativeBrush), out cloneBrush);
+            SafeBrushHandle cloneBrush;
+            int status = Gdip.GdipCloneBrush(SafeBrushHandle, out cloneBrush);
             Gdip.CheckStatus(status);
 
             return new TextureBrush(cloneBrush);
@@ -134,7 +133,7 @@ namespace System.Drawing
             get
             {
                 var matrix = new Matrix();
-                int status = Gdip.GdipGetTextureTransform(new HandleRef(this, NativeBrush), new HandleRef(matrix, matrix.NativeMatrix));
+                int status = Gdip.GdipGetTextureTransform(SafeBrushHandle, new HandleRef(matrix, matrix.NativeMatrix));
                 Gdip.CheckStatus(status);
 
                 return matrix;
@@ -146,7 +145,7 @@ namespace System.Drawing
                     throw new ArgumentNullException(nameof(value));
                 }
 
-                int status = Gdip.GdipSetTextureTransform(new HandleRef(this, NativeBrush), new HandleRef(value, value.NativeMatrix));
+                int status = Gdip.GdipSetTextureTransform(SafeBrushHandle, new HandleRef(value, value.NativeMatrix));
                 Gdip.CheckStatus(status);
             }
         }
@@ -156,7 +155,7 @@ namespace System.Drawing
             get
             {
                 int mode;
-                int status = Gdip.GdipGetTextureWrapMode(new HandleRef(this, NativeBrush), out mode);
+                int status = Gdip.GdipGetTextureWrapMode(SafeBrushHandle, out mode);
                 Gdip.CheckStatus(status);
 
                 return (WrapMode)mode;
@@ -168,7 +167,7 @@ namespace System.Drawing
                     throw new InvalidEnumArgumentException(nameof(value), unchecked((int)value), typeof(WrapMode));
                 }
 
-                int status = Gdip.GdipSetTextureWrapMode(new HandleRef(this, NativeBrush), unchecked((int)value));
+                int status = Gdip.GdipSetTextureWrapMode(SafeBrushHandle, unchecked((int)value));
                 Gdip.CheckStatus(status);
             }
         }
@@ -178,7 +177,7 @@ namespace System.Drawing
             get
             {
                 IntPtr image;
-                int status = Gdip.GdipGetTextureImage(new HandleRef(this, NativeBrush), out image);
+                int status = Gdip.GdipGetTextureImage(SafeBrushHandle, out image);
                 Gdip.CheckStatus(status);
 
                 return Image.CreateImageObject(image);
@@ -187,7 +186,7 @@ namespace System.Drawing
 
         public void ResetTransform()
         {
-            int status = Gdip.GdipResetTextureTransform(new HandleRef(this, NativeBrush));
+            int status = Gdip.GdipResetTextureTransform(SafeBrushHandle);
             Gdip.CheckStatus(status);
         }
 
@@ -202,7 +201,7 @@ namespace System.Drawing
                 return;
             }
 
-            int status = Gdip.GdipMultiplyTextureTransform(new HandleRef(this, NativeBrush),
+            int status = Gdip.GdipMultiplyTextureTransform(SafeBrushHandle,
                                                               new HandleRef(matrix, matrix.NativeMatrix),
                                                               order);
             Gdip.CheckStatus(status);
@@ -212,7 +211,7 @@ namespace System.Drawing
 
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {
-            int status = Gdip.GdipTranslateTextureTransform(new HandleRef(this, NativeBrush),
+            int status = Gdip.GdipTranslateTextureTransform(SafeBrushHandle,
                                                                dx,
                                                                dy,
                                                                order);
@@ -223,7 +222,7 @@ namespace System.Drawing
 
         public void ScaleTransform(float sx, float sy, MatrixOrder order)
         {
-            int status = Gdip.GdipScaleTextureTransform(new HandleRef(this, NativeBrush),
+            int status = Gdip.GdipScaleTextureTransform(SafeBrushHandle,
                                                            sx,
                                                            sy,
                                                            order);
@@ -234,7 +233,7 @@ namespace System.Drawing
 
         public void RotateTransform(float angle, MatrixOrder order)
         {
-            int status = Gdip.GdipRotateTextureTransform(new HandleRef(this, NativeBrush),
+            int status = Gdip.GdipRotateTextureTransform(SafeBrushHandle,
                                                             angle,
                                                             order);
             Gdip.CheckStatus(status);
