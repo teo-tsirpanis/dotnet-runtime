@@ -80,7 +80,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawBezier_DisposedPen_ThrowsArgumentException()
+        public void DrawBezier_DisposedPen_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (Graphics graphics = Graphics.FromImage(image))
@@ -88,9 +88,9 @@ namespace System.Drawing.Tests
                 var pen = new Pen(Color.Red);
                 pen.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBezier(pen, 1, 2, 3, 4, 5, 6, 7, 8));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBezier(pen, Point.Empty, Point.Empty, Point.Empty, Point.Empty));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBezier(pen, PointF.Empty, PointF.Empty, PointF.Empty, PointF.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBezier(pen, 1, 2, 3, 4, 5, 6, 7, 8));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBezier(pen, Point.Empty, Point.Empty, Point.Empty, Point.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBezier(pen, PointF.Empty, PointF.Empty, PointF.Empty, PointF.Empty));
             }
         }
 
@@ -116,7 +116,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsWindowsOrAtLeastLibgdiplus6)]
-        public void DrawBezier_Disposed_ThrowsArgumentException()
+        public void DrawBezier_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var pen = new Pen(Color.Red))
@@ -124,10 +124,10 @@ namespace System.Drawing.Tests
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawArc(pen, new Rectangle(0, 0, 1, 1), 0, 90));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawArc(pen, 0, 0, 1, 1, 0, 90));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawArc(pen, new RectangleF(0, 0, 1, 1), 0, 90));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawArc(pen, 0f, 0f, 1f, 1f, 0, 90));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawArc(pen, new Rectangle(0, 0, 1, 1), 0, 90));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawArc(pen, 0, 0, 1, 1, 0, 90));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawArc(pen, new RectangleF(0, 0, 1, 1), 0, 90));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawArc(pen, 0f, 0f, 1f, 1f, 0, 90));
             }
         }
 
@@ -143,7 +143,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawBeziers_DisposedPen_ThrowsArgumentException()
+        public void DrawBeziers_DisposedPen_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (Graphics graphics = Graphics.FromImage(image))
@@ -151,8 +151,8 @@ namespace System.Drawing.Tests
                 var pen = new Pen(Color.Red);
                 pen.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBeziers(pen, new Point[2]));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBeziers(pen, new PointF[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBeziers(pen, new Point[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBeziers(pen, new PointF[2]));
             }
         }
 
@@ -201,7 +201,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawBeziers_Disposed_ThrowsArgumentException()
+        public void DrawBeziers_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var pen = new Pen(Color.Red))
@@ -209,8 +209,8 @@ namespace System.Drawing.Tests
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBeziers(pen, new Point[2]));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawBeziers(pen, new PointF[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBeziers(pen, new Point[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawBeziers(pen, new PointF[2]));
             }
         }
     }

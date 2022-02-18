@@ -368,17 +368,17 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Ctor_DisposedFamily_ThrowsArgumentException()
+        public void Ctor_DisposedFamily_ThrowsObjectDisposedException()
         {
             FontFamily family = FontFamily.GenericSansSerif;
             family.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => new Font(family, 10));
-            AssertExtensions.Throws<ArgumentException>(null, () => new Font(family, 10, FontStyle.Italic));
-            AssertExtensions.Throws<ArgumentException>(null, () => new Font(family, 10, GraphicsUnit.Display));
-            AssertExtensions.Throws<ArgumentException>(null, () => new Font(family, 10, FontStyle.Italic, GraphicsUnit.Display));
-            AssertExtensions.Throws<ArgumentException>(null, () => new Font(family, 10, FontStyle.Italic, GraphicsUnit.Display, 10));
-            AssertExtensions.Throws<ArgumentException>(null, () => new Font(family, 10, FontStyle.Italic, GraphicsUnit.Display, 10, gdiVerticalFont: true));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Font(family, 10));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Font(family, 10, FontStyle.Italic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Font(family, 10, GraphicsUnit.Display));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Font(family, 10, FontStyle.Italic, GraphicsUnit.Display));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Font(family, 10, FontStyle.Italic, GraphicsUnit.Display, 10));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Font(family, 10, FontStyle.Italic, GraphicsUnit.Display, 10, gdiVerticalFont: true));
         }
 
         [ConditionalTheory(Helpers.IsDrawingSupported)]
@@ -444,14 +444,14 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Clone_DisposedFont_ThrowsArgumentException()
+        public void Clone_DisposedFont_ThrowsObjectDisposedException()
         {
             using (FontFamily family = FontFamily.GenericSansSerif)
             {
                 var font = new Font(family, 10);
                 font.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => font.Clone());
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.Clone());
             }
         }
 
@@ -579,7 +579,7 @@ namespace System.Drawing.Tests
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
         [ActiveIssue("https://github.com/dotnet/runtime/issues/2060")] // causes an AccessViolation in GDI+
-        public void GetHeight_DisposedGraphics_ThrowsArgumentException()
+        public void GetHeight_DisposedGraphics_ThrowsObjectDisposedException()
         {
             using (FontFamily family = FontFamily.GenericMonospace)
             using (var font = new Font(family, 10))
@@ -588,12 +588,12 @@ namespace System.Drawing.Tests
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => font.GetHeight(graphics));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.GetHeight(graphics));
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetHeight_Disposed_ThrowsArgumentException()
+        public void GetHeight_Disposed_ThrowsObjectDisposedException()
         {
             using (FontFamily family = FontFamily.GenericSansSerif)
             using (var image = new Bitmap(10, 10))
@@ -602,9 +602,9 @@ namespace System.Drawing.Tests
                 var font = new Font(family, 10);
                 font.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => font.GetHeight());
-                AssertExtensions.Throws<ArgumentException>(null, () => font.GetHeight(10));
-                AssertExtensions.Throws<ArgumentException>(null, () => font.GetHeight(graphics));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.GetHeight());
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.GetHeight(10));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.GetHeight(graphics));
             }
         }
 
@@ -855,7 +855,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void ToLogFont_DisposedGraphics_ThrowsArgumentException()
+        public void ToLogFont_DisposedGraphics_ThrowsObjectDisposedException()
         {
             using (FontFamily family = FontFamily.GenericMonospace)
             using (var font = new Font(family, 10))
@@ -864,7 +864,7 @@ namespace System.Drawing.Tests
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Dispose();
 
-                Assert.Throws<ArgumentException>(() => font.ToLogFont(new LOGFONT(), graphics));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.ToLogFont(new LOGFONT(), graphics));
             }
         }
 
@@ -919,7 +919,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsWindowsOrAtLeastLibgdiplus6)]
-        public void ToHfont_Disposed_ThrowsArgumentException()
+        public void ToHfont_Disposed_ThrowsObjectDisposedException()
         {
             using (FontFamily family = FontFamily.GenericSansSerif)
             using (var image = new Bitmap(10, 10))
@@ -928,7 +928,7 @@ namespace System.Drawing.Tests
                 var font = new Font(family, 10);
                 font.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => font.ToHfont());
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => font.ToHfont());
             }
         }
 

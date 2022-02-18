@@ -53,7 +53,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawLine_DisposedPen_ThrowsArgumentException()
+        public void DrawLine_DisposedPen_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (Graphics graphics = Graphics.FromImage(image))
@@ -61,10 +61,10 @@ namespace System.Drawing.Tests
                 var pen = new Pen(Color.Red);
                 pen.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, Point.Empty, Point.Empty));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, 0, 0, 0, 0));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, PointF.Empty, PointF.Empty));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, 0f, 0f, 0f, 0f));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, Point.Empty, Point.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, 0, 0, 0, 0));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, PointF.Empty, PointF.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, 0f, 0f, 0f, 0f));
             }
         }
 
@@ -91,7 +91,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawLine_Disposed_ThrowsArgumentException()
+        public void DrawLine_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var pen = new Pen(Color.Red))
@@ -99,10 +99,10 @@ namespace System.Drawing.Tests
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, Point.Empty, Point.Empty));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, 0, 0, 0, 0));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, PointF.Empty, PointF.Empty));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLine(pen, 0f, 0f, 0f, 0f));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, Point.Empty, Point.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, 0, 0, 0, 0));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, PointF.Empty, PointF.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLine(pen, 0f, 0f, 0f, 0f));
             }
         }
 
@@ -118,7 +118,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawLines_DisposedPen_ThrowsArgumentException()
+        public void DrawLines_DisposedPen_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (Graphics graphics = Graphics.FromImage(image))
@@ -126,8 +126,8 @@ namespace System.Drawing.Tests
                 var pen = new Pen(Color.Red);
                 pen.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLines(pen, new Point[2]));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLines(pen, new PointF[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLines(pen, new Point[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLines(pen, new PointF[2]));
             }
         }
 
@@ -178,7 +178,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void DrawLines_Disposed_ThrowsArgumentException()
+        public void DrawLines_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var pen = new Pen(Color.Red))
@@ -186,8 +186,8 @@ namespace System.Drawing.Tests
                 Graphics graphics = Graphics.FromImage(image);
                 graphics.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLines(pen, new Point[2]));
-                AssertExtensions.Throws<ArgumentException>(null, () => graphics.DrawLines(pen, new PointF[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLines(pen, new Point[2]));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => graphics.DrawLines(pen, new PointF[2]));
             }
         }
 

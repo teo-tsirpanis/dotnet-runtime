@@ -215,21 +215,21 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void IsStyleAvailable_Disposed_ThrowsArgumentException()
+        public void IsStyleAvailable_Disposed_ThrowsObjectDisposedException()
         {
             FontFamily fontFamily = FontFamily.GenericMonospace;
             fontFamily.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontFamily.IsStyleAvailable(FontStyle.Italic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontFamily.IsStyleAvailable(FontStyle.Italic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetEmHeight_Disposed_ThrowsArgumentException()
+        public void GetEmHeight_Disposed_ThrowsObjectDisposedException()
         {
             FontFamily fontFamily = FontFamily.GenericMonospace;
             fontFamily.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontFamily.GetEmHeight(FontStyle.Italic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontFamily.GetEmHeight(FontStyle.Italic));
         }
 
         private const int FrenchLCID = 1036;
@@ -254,39 +254,39 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetName_Disposed_ThrowsArgumentException()
+        public void GetName_Disposed_ThrowsObjectDisposedException()
         {
             FontFamily fontFamily = FontFamily.GenericMonospace;
             fontFamily.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontFamily.GetName(0));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontFamily.GetName(0));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetCellAscent_Disposed_ThrowsArgumentException()
+        public void GetCellAscent_Disposed_ThrowsObjectDisposedException()
         {
             FontFamily fontFamily = FontFamily.GenericMonospace;
             fontFamily.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontFamily.GetCellAscent(FontStyle.Italic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontFamily.GetCellAscent(FontStyle.Italic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetCellDescent_Disposed_ThrowsArgumentException()
+        public void GetCellDescent_Disposed_ThrowsObjectDisposedException()
         {
             FontFamily fontFamily = FontFamily.GenericMonospace;
             fontFamily.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontFamily.GetCellDescent(FontStyle.Italic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontFamily.GetCellDescent(FontStyle.Italic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetLineSpacing_Disposed_ThrowsArgumentException()
+        public void GetLineSpacing_Disposed_ThrowsObjectDisposedException()
         {
             FontFamily fontFamily = FontFamily.GenericMonospace;
             fontFamily.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontFamily.GetLineSpacing(FontStyle.Italic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontFamily.GetLineSpacing(FontStyle.Italic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]

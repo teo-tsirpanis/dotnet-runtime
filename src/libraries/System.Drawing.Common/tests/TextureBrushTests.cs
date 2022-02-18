@@ -270,19 +270,19 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Ctor_DisposedImage_ThrowsArgumentException()
+        public void Ctor_DisposedImage_ThrowsObjectDisposedException()
         {
             var image = new Bitmap(10, 10);
             image.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, WrapMode.Tile));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, RectangleF.Empty));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, Rectangle.Empty));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, RectangleF.Empty, null));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, Rectangle.Empty, null));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, WrapMode.Tile, RectangleF.Empty));
-            AssertExtensions.Throws<ArgumentException>(null, () => new TextureBrush(image, WrapMode.Tile, Rectangle.Empty));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, WrapMode.Tile));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, RectangleF.Empty));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, Rectangle.Empty));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, RectangleF.Empty, null));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, Rectangle.Empty, null));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, WrapMode.Tile, RectangleF.Empty));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new TextureBrush(image, WrapMode.Tile, Rectangle.Empty));
         }
 
         [ConditionalTheory(Helpers.IsDrawingSupported)]
@@ -336,26 +336,26 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Clone_Disposed_ThrowsArgumentException()
+        public void Clone_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             {
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.Clone());
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.Clone());
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Image_GetWhenDisposed_ThrowsArgumentException()
+        public void Image_GetWhenDisposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             {
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.Image);
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.Image);
             }
         }
 
@@ -458,7 +458,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void MultiplyTransform_Disposed_ThrowsArgumentException()
+        public void MultiplyTransform_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var matrix = new Matrix())
@@ -466,8 +466,8 @@ namespace System.Drawing.Tests
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.MultiplyTransform(matrix));
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.MultiplyTransform(matrix, MatrixOrder.Prepend));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.MultiplyTransform(matrix));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.MultiplyTransform(matrix, MatrixOrder.Prepend));
             }
         }
 
@@ -489,14 +489,14 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void ResetTransform_Disposed_ThrowsArgumentException()
+        public void ResetTransform_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             {
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.ResetTransform());
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.ResetTransform());
             }
         }
 
@@ -555,7 +555,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void RotateTransform_Disposed_ThrowsArgumentException()
+        public void RotateTransform_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var matrix = new Matrix())
@@ -563,8 +563,8 @@ namespace System.Drawing.Tests
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.RotateTransform(1));
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.RotateTransform(1, MatrixOrder.Prepend));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.RotateTransform(1));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.RotateTransform(1, MatrixOrder.Prepend));
             }
         }
 
@@ -625,7 +625,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void ScaleTransform_Disposed_ThrowsArgumentException()
+        public void ScaleTransform_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var matrix = new Matrix())
@@ -633,8 +633,8 @@ namespace System.Drawing.Tests
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.ScaleTransform(1, 2));
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.ScaleTransform(1, 2, MatrixOrder.Prepend));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.ScaleTransform(1, 2));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.ScaleTransform(1, 2, MatrixOrder.Prepend));
             }
         }
 
@@ -661,7 +661,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Transform_SetDisposedMatrix_ThrowsArgumentException()
+        public void Transform_SetDisposedMatrix_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var brush = new TextureBrush(image))
@@ -669,12 +669,12 @@ namespace System.Drawing.Tests
                 var matrix = new Matrix();
                 matrix.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.Transform = matrix);
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.Transform = matrix);
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Transform_GetSetWhenDisposed_ThrowsArgumentException()
+        public void Transform_GetSetWhenDisposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var matrix = new Matrix())
@@ -682,8 +682,8 @@ namespace System.Drawing.Tests
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.Transform);
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.Transform = matrix);
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.Transform);
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.Transform = matrix);
             }
         }
 
@@ -744,7 +744,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void TranslateTransform_Disposed_ThrowsArgumentException()
+        public void TranslateTransform_Disposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             using (var matrix = new Matrix())
@@ -752,8 +752,8 @@ namespace System.Drawing.Tests
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.TranslateTransform(1, 2));
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.TranslateTransform(1, 2, MatrixOrder.Prepend));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.TranslateTransform(1, 2));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.TranslateTransform(1, 2, MatrixOrder.Prepend));
             }
         }
 
@@ -786,15 +786,15 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void WrapMode_GetSetWhenDisposed_ThrowsArgumentException()
+        public void WrapMode_GetSetWhenDisposed_ThrowsObjectDisposedException()
         {
             using (var image = new Bitmap(10, 10))
             {
                 var brush = new TextureBrush(image);
                 brush.Dispose();
 
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.WrapMode);
-                AssertExtensions.Throws<ArgumentException>(null, () => brush.WrapMode = WrapMode.Tile);
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.WrapMode);
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => brush.WrapMode = WrapMode.Tile);
             }
         }
 

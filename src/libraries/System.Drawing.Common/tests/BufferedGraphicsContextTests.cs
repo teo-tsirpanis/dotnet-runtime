@@ -161,7 +161,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Allocate_DisposedGraphics_ThrowsArgumentException()
+        public void Allocate_DisposedGraphics_ThrowsObjectDisposedException()
         {
             using (var context = new BufferedGraphicsContext())
             using (var image = new Bitmap(10, 10))
@@ -170,8 +170,8 @@ namespace System.Drawing.Tests
                 graphics.Dispose();
 
                 Rectangle largeRectangle = new Rectangle(0, 0, context.MaximumBuffer.Width + 1, context.MaximumBuffer.Height + 1);
-                AssertExtensions.Throws<ArgumentException>(null, () => context.Allocate(graphics, largeRectangle));
-                AssertExtensions.Throws<ArgumentException>(null, () => context.Allocate(graphics, Rectangle.Empty));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => context.Allocate(graphics, largeRectangle));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => context.Allocate(graphics, Rectangle.Empty));
             }
         }
 

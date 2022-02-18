@@ -270,12 +270,12 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Ctor_DisposedGraphicsPath_ThrowsArgumentException()
+        public void Ctor_DisposedGraphicsPath_ThrowsObjectDisposedException()
         {
             var path = new GraphicsPath();
             path.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => new Region(path));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Region(path));
         }
 
         [ConditionalTheory(Helpers.IsDrawingSupported)]
@@ -294,9 +294,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Clone_Disposed_ThrowsArgumentException()
+        public void Clone_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().Clone());
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().Clone());
         }
 
         public static IEnumerable<object[]> Complement_TestData()
@@ -443,9 +443,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Complement_DisposedRegion_ThrowsArgumentException()
+        public void Complement_DisposedRegion_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => new Region().Complement(CreateDisposedRegion()));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Region().Complement(CreateDisposedRegion()));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -562,17 +562,17 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Complement_Disposed_ThrowsArgumentException()
+        public void Complement_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
             using (var graphicPath = new GraphicsPath())
             using (var other = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Complement(graphicPath));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Complement(new Rectangle()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Complement(new RectangleF()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Complement(disposedRegion));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Complement(graphicPath));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Complement(new Rectangle()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Complement(new RectangleF()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Complement(disposedRegion));
             }
         }
 
@@ -658,7 +658,7 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Equals_DisposedGraphics_ThrowsArgumentException()
+        public void Equals_DisposedGraphics_ThrowsObjectDisposedException()
         {
             using (var region = new Region())
             using (var other = new Region())
@@ -666,17 +666,17 @@ namespace System.Drawing.Tests
             {
                 var graphics = Graphics.FromImage(image);
                 graphics.Dispose();
-                AssertExtensions.Throws<ArgumentException>(null, () => region.Equals(region, graphics));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => region.Equals(region, graphics));
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Equals_Disposed_ThrowsArgumentException()
+        public void Equals_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Equals(new Region(), s_graphic));
-            AssertExtensions.Throws<ArgumentException>(null, () => new Region().Equals(disposedRegion, s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Equals(new Region(), s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Region().Equals(disposedRegion, s_graphic));
         }
 
         public static IEnumerable<object[]> Exclude_TestData()
@@ -884,9 +884,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Exclude_DisposedRegion_ThrowsArgumentException()
+        public void Exclude_DisposedRegion_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => new Region().Exclude(CreateDisposedRegion()));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Region().Exclude(CreateDisposedRegion()));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -977,17 +977,17 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Exclude_Disposed_ThrowsArgumentException()
+        public void Exclude_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
             using (var graphicsPath = new GraphicsPath())
             using (var other = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Exclude(graphicsPath));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Exclude(new Rectangle()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Exclude(new RectangleF()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Exclude(other));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Exclude(graphicsPath));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Exclude(new Rectangle()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Exclude(new RectangleF()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Exclude(other));
             }
         }
 
@@ -1056,9 +1056,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetHrgn_Disposed_ThrowsArgumentException()
+        public void GetHrgn_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().GetHrgn(s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().GetHrgn(s_graphic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -1080,27 +1080,27 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetBounds_DisposedGraphics_ThrowsArgumentException()
+        public void GetBounds_DisposedGraphics_ThrowsObjectDisposedException()
         {
             using (var region = new Region())
             using (var image = new Bitmap(10, 10))
             {
                 var graphics = Graphics.FromImage(image);
                 graphics.Dispose();
-                AssertExtensions.Throws<ArgumentException>(null, () => region.GetBounds(graphics));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => region.GetBounds(graphics));
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetBounds_Disposed_ThrowsArgumentException()
+        public void GetBounds_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().GetBounds(s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().GetBounds(s_graphic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetRegionData_Disposed_ThrowsArgumentException()
+        public void GetRegionData_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().GetRegionData());
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().GetRegionData());
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -1128,22 +1128,22 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetRegionScans_Disposed_ThrowsArgumentException()
+        public void GetRegionScans_Disposed_ThrowsObjectDisposedException()
         {
             using (var matrix = new Matrix())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().GetRegionScans(matrix));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().GetRegionScans(matrix));
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void GetRegionScans_DisposedMatrix_ThrowsArgumentException()
+        public void GetRegionScans_DisposedMatrix_ThrowsObjectDisposedException()
         {
             using (var region = new Region())
             {
                 var matrix = new Matrix();
                 matrix.Dispose();
-                AssertExtensions.Throws<ArgumentException>(null, () => region.GetRegionScans(matrix));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => region.GetRegionScans(matrix));
             }
         }
 
@@ -1265,9 +1265,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Intersect_DisposedRegion_ThrowsArgumentException()
+        public void Intersect_DisposedRegion_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => new Region().Intersect(CreateDisposedRegion()));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => new Region().Intersect(CreateDisposedRegion()));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -1386,17 +1386,17 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Intersect_Disposed_ThrowsArgumentException()
+        public void Intersect_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
             using (var graphicsPath = new GraphicsPath())
             using (var other = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Intersect(graphicsPath));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Intersect(new Rectangle()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Intersect(new RectangleF()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Intersect(other));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Intersect(graphicsPath));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Intersect(new Rectangle()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Intersect(new RectangleF()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Intersect(other));
             }
         }
 
@@ -1410,9 +1410,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void IsEmpty_Disposed_ThrowsArgumentException()
+        public void IsEmpty_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().IsEmpty(s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().IsEmpty(s_graphic));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -1425,21 +1425,21 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void IsInfinite_DisposedGraphics_ThrowsArgumentException()
+        public void IsInfinite_DisposedGraphics_ThrowsObjectDisposedException()
         {
             using (var region = new Region())
             using (var image = new Bitmap(10, 10))
             {
                 var graphics = Graphics.FromImage(image);
                 graphics.Dispose();
-                AssertExtensions.Throws<ArgumentException>(null, () => region.IsInfinite(graphics));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => region.IsInfinite(graphics));
             }
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void IsInfinite_Disposed_ThrowsArgumentException()
+        public void IsInfinite_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().IsInfinite(s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().IsInfinite(s_graphic));
         }
 
         public static IEnumerable<object[]> IsVisible_Rectangle_TestData()
@@ -1552,29 +1552,29 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void IsVisible_Disposed_ThrowsArgumentException()
+        public void IsVisible_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1f, 2f));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new PointF(1, 2)));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new Point(1, 2)));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1f, 2f));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new PointF(1, 2)));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new Point(1, 2)));
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1f, 2f, s_graphic));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new PointF(1, 2), s_graphic));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new Point(1, 2), s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1f, 2f, s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new PointF(1, 2), s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new Point(1, 2), s_graphic));
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1f, 2f, 3f, 4f));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new Rectangle(1, 2, 3, 4)));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new RectangleF(1, 2, 3, 4)));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1f, 2f, 3f, 4f));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new Rectangle(1, 2, 3, 4)));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new RectangleF(1, 2, 3, 4)));
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1f, 2f, 3f, 4f, s_graphic));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new Rectangle(1, 2, 3, 4), s_graphic));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(new RectangleF(1, 2, 3, 4), s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1f, 2f, 3f, 4f, s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new Rectangle(1, 2, 3, 4), s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(new RectangleF(1, 2, 3, 4), s_graphic));
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1, 2, s_graphic));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1, 2, 3, 4));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.IsVisible(1, 2, 3, 4, s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1, 2, s_graphic));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1, 2, 3, 4));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.IsVisible(1, 2, 3, 4, s_graphic));
         }
 
         [ConditionalTheory(Helpers.IsDrawingSupported)]
@@ -1599,9 +1599,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void MakeEmpty_Disposed_ThrowsArgumentException()
+        public void MakeEmpty_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().MakeEmpty());
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().MakeEmpty());
         }
 
         [ConditionalTheory(Helpers.IsDrawingSupported)]
@@ -1622,9 +1622,9 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void MakeInfinite_Disposed_ThrowsArgumentException()
+        public void MakeInfinite_Disposed_ThrowsObjectDisposedException()
         {
-            AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().MakeInfinite());
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().MakeInfinite());
         }
 
         public static IEnumerable<object[]> Union_TestData()
@@ -1861,11 +1861,11 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Union_DisposedRegion_ThrowsArgumentException()
+        public void Union_DisposedRegion_ThrowsObjectDisposedException()
         {
             using (var region = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => region.Union(CreateDisposedRegion()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => region.Union(CreateDisposedRegion()));
             }
         }
 
@@ -1957,17 +1957,17 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Union_Disposed_ThrowsArgumentException()
+        public void Union_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
             using (var graphicsPath = new GraphicsPath())
             using (var other = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Union(graphicsPath));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Union(new Rectangle()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Union(new RectangleF()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Union(disposedRegion));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Union(graphicsPath));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Union(new Rectangle()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Union(new RectangleF()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Union(disposedRegion));
             }
         }
 
@@ -2059,11 +2059,11 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Transform_Disposed_ThrowsArgumentException()
+        public void Transform_Disposed_ThrowsObjectDisposedException()
         {
             using (var matrix = new Matrix())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => CreateDisposedRegion().Transform(matrix));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => CreateDisposedRegion().Transform(matrix));
             }
         }
 
@@ -2156,12 +2156,12 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Translate_Disposed_ThrowsArgumentException()
+        public void Translate_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Translate(1, 2));
-            AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Translate(1f, 2f));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Translate(1, 2));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Translate(1f, 2f));
         }
 
         public static IEnumerable<object[]> Xor_TestData()
@@ -2271,11 +2271,11 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Xor_DisposedRegion_ThrowsArgumentException()
+        public void Xor_DisposedRegion_ThrowsObjectDisposedException()
         {
             using (var region = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => region.Xor(CreateDisposedRegion()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => region.Xor(CreateDisposedRegion()));
             }
         }
 
@@ -2367,17 +2367,17 @@ namespace System.Drawing.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Xor_Disposed_ThrowsArgumentException()
+        public void Xor_Disposed_ThrowsObjectDisposedException()
         {
             Region disposedRegion = CreateDisposedRegion();
 
             using (var graphicsPath = new GraphicsPath())
             using (var other = new Region())
             {
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Xor(graphicsPath));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Xor(new Rectangle()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Xor(new RectangleF()));
-                AssertExtensions.Throws<ArgumentException>(null, () => disposedRegion.Xor(other));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Xor(graphicsPath));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Xor(new Rectangle()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Xor(new RectangleF()));
+                AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => disposedRegion.Xor(other));
             }
         }
     }

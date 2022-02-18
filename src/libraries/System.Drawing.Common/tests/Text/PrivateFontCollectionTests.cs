@@ -157,12 +157,12 @@ namespace System.Drawing.Text.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void AddFontFile_Disposed_ThrowsArgumentException()
+        public void AddFontFile_Disposed_ThrowsObjectDisposedException()
         {
             var fontCollection = new PrivateFontCollection();
             fontCollection.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontCollection.AddFontFile("fileName"));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontCollection.AddFontFile("fileName"));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
@@ -226,21 +226,21 @@ namespace System.Drawing.Text.Tests
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void AddMemoryFont_Disposed_ThrowsArgumentException()
+        public void AddMemoryFont_Disposed_ThrowsObjectDisposedException()
         {
             var fontCollection = new PrivateFontCollection();
             fontCollection.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontCollection.AddMemoryFont((IntPtr)10, 100));
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontCollection.AddMemoryFont((IntPtr)10, 100));
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
-        public void Families_GetWhenDisposed_ThrowsArgumentException()
+        public void Families_GetWhenDisposed_ThrowsObjectDisposedException()
         {
             var fontCollection = new PrivateFontCollection();
             fontCollection.Dispose();
 
-            AssertExtensions.Throws<ArgumentException>(null, () => fontCollection.Families);
+            AssertExtensions.Throws<ObjectDisposedException, ArgumentException>(() => fontCollection.Families);
         }
 
         [ConditionalFact(Helpers.IsDrawingSupported)]
