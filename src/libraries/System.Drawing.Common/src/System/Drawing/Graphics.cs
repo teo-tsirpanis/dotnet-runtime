@@ -2964,9 +2964,8 @@ namespace System.Drawing
             }
         }
 
-#if NETCOREAPP3_1_OR_GREATER
         /// <summary>
-        ///  Gets the cumulative offset.
+        /// Gets the cumulative offset.
         /// </summary>
         /// <param name="offset">The cumulative offset.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -2979,7 +2978,7 @@ namespace System.Drawing
         }
 
         /// <summary>
-        ///  Gets the cumulative offset and clip region.
+        /// Gets the cumulative offset and clip region.
         /// </summary>
         /// <param name="offset">The cumulative offset.</param>
         /// <param name="clip">The cumulative clip region or null if the clip region is infinite.</param>
@@ -2991,7 +2990,6 @@ namespace System.Drawing
             Vector2 translation = cumulativeTransform.Translation;
             offset = new PointF(translation.X, translation.Y);
         }
-#endif
 
         public RectangleF VisibleClipBounds
         {
