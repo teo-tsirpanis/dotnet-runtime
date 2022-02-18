@@ -309,7 +309,7 @@ namespace System.Drawing.Drawing2D
             get
             {
                 Matrix matrix = new Matrix();
-                Gdip.CheckStatus(Gdip.GdipGetPathGradientTransform(SafeBrushHandle, new HandleRef(matrix, matrix.NativeMatrix)));
+                Gdip.CheckStatus(Gdip.GdipGetPathGradientTransform(SafeBrushHandle, matrix.SafeMatrixHandle));
                 return matrix;
             }
             set
@@ -317,7 +317,7 @@ namespace System.Drawing.Drawing2D
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
 
-                Gdip.CheckStatus(Gdip.GdipSetPathGradientTransform(SafeBrushHandle, new HandleRef(value, value.NativeMatrix)));
+                Gdip.CheckStatus(Gdip.GdipSetPathGradientTransform(SafeBrushHandle, value.SafeMatrixHandle));
             }
         }
 
@@ -338,7 +338,7 @@ namespace System.Drawing.Drawing2D
 
             Gdip.CheckStatus(Gdip.GdipMultiplyPathGradientTransform(
                 SafeBrushHandle,
-                new HandleRef(matrix, matrix.NativeMatrix),
+                matrix.SafeMatrixHandle,
                 order));
         }
 

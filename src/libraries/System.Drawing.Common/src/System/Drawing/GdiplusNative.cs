@@ -393,25 +393,13 @@ namespace System.Drawing
             internal static partial int GdipResetLineTransform(SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyLineTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, MatrixOrder order);
+            internal static partial int GdipMultiplyLineTransform(SafeBrushHandle brush, SafeMatrixHandle matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetLineTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipGetLineTransform(SafeBrushHandle brush, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetLineTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipSetLineTransform(SafeBrushHandle brush, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipTranslateLineTransform(SafeBrushHandle brush, float dx, float dy, MatrixOrder order);
@@ -493,28 +481,16 @@ namespace System.Drawing
             internal static partial int GdipGetPathGradientWrapMode(SafeBrushHandle brush, out int wrapmode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPathGradientTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipSetPathGradientTransform(SafeBrushHandle brush, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathGradientTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipGetPathGradientTransform(SafeBrushHandle brush, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipResetPathGradientTransform(SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyPathGradientTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, MatrixOrder order);
+            internal static partial int GdipMultiplyPathGradientTransform(SafeBrushHandle brush, SafeMatrixHandle matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipTranslatePathGradientTransform(SafeBrushHandle brush, float dx, float dy, MatrixOrder order);
@@ -692,28 +668,16 @@ namespace System.Drawing
             HandleRef imageAttrib, int x, int y, int width, int height, out SafeBrushHandle texture);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetTextureTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipSetTextureTransform(SafeBrushHandle brush, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetTextureTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipGetTextureTransform(SafeBrushHandle brush, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipResetTextureTransform(SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyTextureTransform(SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, MatrixOrder order);
+            internal static partial int GdipMultiplyTextureTransform(SafeBrushHandle brush, SafeMatrixHandle matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipTranslateTextureTransform(
@@ -1038,28 +1002,16 @@ namespace System.Drawing
             internal static partial int GdipGetPenMiterLimit(SafePenHandle pen, float[] miterLimit);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPenTransform(SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipSetPenTransform(SafePenHandle pen, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPenTransform(SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipGetPenTransform(SafePenHandle pen, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipResetPenTransform(SafePenHandle pen);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyPenTransform(SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, MatrixOrder order);
+            internal static partial int GdipMultiplyPenTransform(SafePenHandle pen, SafeMatrixHandle matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipTranslatePenTransform(SafePenHandle pen, float dx, float dy, MatrixOrder order);
@@ -1124,11 +1076,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            HandleRef graphics, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipResetWorldTransform(
@@ -1142,11 +1090,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, MatrixOrder order);
+            HandleRef graphics, SafeMatrixHandle matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipTranslateWorldTransform(
@@ -1174,11 +1118,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            HandleRef graphics, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipSetCompositingMode(
@@ -1335,143 +1275,67 @@ namespace System.Drawing
             HandleRef graphics, out float dpi);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateMatrix(out IntPtr matrix);
+            internal static partial int GdipCreateMatrix(out SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateMatrix2(float m11, float m12, float m21, float m22, float dx, float dy, out IntPtr matrix);
+            internal static partial int GdipCreateMatrix2(float m11, float m12, float m21, float m22, float dx, float dy, out SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateMatrix3(ref RectangleF rect, PointF* dstplg, out IntPtr matrix);
+            internal static partial int GdipCreateMatrix3(ref RectangleF rect, PointF* dstplg, out SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateMatrix3I(ref Rectangle rect, Point* dstplg, out IntPtr matrix);
+            internal static partial int GdipCreateMatrix3I(ref Rectangle rect, Point* dstplg, out SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCloneMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, out IntPtr cloneMatrix);
+            internal static partial int GdipCloneMatrix(SafeMatrixHandle matrix, out SafeMatrixHandle clonedMatrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipDeleteMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipDeleteMatrix(IntPtr matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetMatrixElements(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float m11, float m12, float m21, float m22, float dx, float dy);
+            internal static partial int GdipSetMatrixElements(SafeMatrixHandle matrix, float m11, float m12, float m21, float m22, float dx, float dy);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix2, MatrixOrder order);
+            internal static partial int GdipMultiplyMatrix(SafeMatrixHandle matrix, SafeMatrixHandle matrix2, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTranslateMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float offsetX, float offsetY, MatrixOrder order);
+            internal static partial int GdipTranslateMatrix(SafeMatrixHandle matrix, float offsetX, float offsetY, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipScaleMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float scaleX, float scaleY, MatrixOrder order);
+            internal static partial int GdipScaleMatrix(SafeMatrixHandle matrix, float scaleX, float scaleY, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipRotateMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float angle, MatrixOrder order);
+            internal static partial int GdipRotateMatrix(SafeMatrixHandle matrix, float angle, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipShearMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float shearX, float shearY, MatrixOrder order);
+            internal static partial int GdipShearMatrix(SafeMatrixHandle matrix, float shearX, float shearY, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipInvertMatrix(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipInvertMatrix(SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformMatrixPoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, PointF* pts, int count);
+            internal static partial int GdipTransformMatrixPoints(SafeMatrixHandle matrix, PointF* pts, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformMatrixPointsI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, Point* pts, int count);
+            internal static partial int GdipTransformMatrixPointsI(SafeMatrixHandle matrix, Point* pts, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipVectorTransformMatrixPoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, PointF* pts, int count);
+            internal static partial int GdipVectorTransformMatrixPoints(SafeMatrixHandle matrix, PointF* pts, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipVectorTransformMatrixPointsI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, Point* pts, int count);
+            internal static partial int GdipVectorTransformMatrixPointsI(SafeMatrixHandle matrix, Point* pts, int count);
 
             [LibraryImport(LibraryName)]
-            internal static unsafe partial int GdipGetMatrixElements(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float* m);
+            internal static unsafe partial int GdipGetMatrixElements(SafeMatrixHandle matrix, float* m);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsMatrixInvertible(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, out int boolean);
+            internal static partial int GdipIsMatrixInvertible(SafeMatrixHandle matrix, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsMatrixIdentity(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, out int boolean);
+            internal static partial int GdipIsMatrixIdentity(SafeMatrixHandle matrix, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsMatrixEqual(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix2, out int boolean);
+            internal static partial int GdipIsMatrixEqual(SafeMatrixHandle matrix, SafeMatrixHandle matrix2, out int boolean);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateRegion(out SafeRegionHandle region);
@@ -1537,11 +1401,7 @@ namespace System.Drawing
             internal static partial int GdipTranslateRegionI(SafeRegionHandle region, int dx, int dy);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformRegion(SafeRegionHandle region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipTransformRegion(SafeRegionHandle region, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetRegionBounds(SafeRegionHandle region,
@@ -1613,18 +1473,10 @@ namespace System.Drawing
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionScansCount(SafeRegionHandle region, out int count,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipGetRegionScansCount(SafeRegionHandle region, out int count, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionScans(SafeRegionHandle region, RectangleF* rects, out int count,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            internal static partial int GdipGetRegionScans(SafeRegionHandle region, RectangleF* rects, out int count, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateFromHDC(IntPtr hdc, out IntPtr graphics);
@@ -3134,48 +2986,11 @@ namespace System.Drawing
             HandleRef path, Point* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipFlattenPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrixfloat, float flatness);
-
-            [LibraryImport(LibraryName)]
-            internal static partial int GdipWidenPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, float flatness);
-
-            [LibraryImport(LibraryName)]
-            internal static partial int GdipWarpPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix, PointF* points, int count, float srcX, float srcY, float srcWidth, float srcHeight, WarpMode warpMode, float flatness);
-
-            [LibraryImport(LibraryName)]
             internal static partial int GdipTransformPath(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef path,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef matrix);
+            HandleRef path, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipIsVisiblePathPoint(
@@ -3650,7 +3465,6 @@ namespace System.Drawing
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateBitmapFromStreamICM(IntPtr stream, IntPtr* bitmap);
-
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -3661,10 +3475,10 @@ namespace System.Drawing
             public IntPtr DebugEventCallback;
 
             public Interop.BOOL SuppressBackgroundThread;     // FALSE unless you're prepared to call
-                                                      // the hook/unhook functions properly
+                                                              // the hook/unhook functions properly
 
             public Interop.BOOL SuppressExternalCodecs;       // FALSE unless you want GDI+ only to use
-                                                      // its internal image codecs.
+                                                              // its internal image codecs.
             public int StartupParameters;
 
             public static StartupInputEx GetDefault()

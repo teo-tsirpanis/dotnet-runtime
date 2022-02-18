@@ -455,7 +455,7 @@ namespace System.Drawing.Drawing2D
             get
             {
                 var matrix = new Matrix();
-                Gdip.CheckStatus(Gdip.GdipGetLineTransform(SafeBrushHandle, new HandleRef(matrix, matrix.NativeMatrix)));
+                Gdip.CheckStatus(Gdip.GdipGetLineTransform(SafeBrushHandle, matrix.SafeMatrixHandle));
                 return matrix;
             }
             set
@@ -463,7 +463,7 @@ namespace System.Drawing.Drawing2D
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
 
-                Gdip.CheckStatus(Gdip.GdipSetLineTransform(SafeBrushHandle, new HandleRef(value, value.NativeMatrix)));
+                Gdip.CheckStatus(Gdip.GdipSetLineTransform(SafeBrushHandle, value.SafeMatrixHandle));
             }
         }
 
@@ -483,7 +483,7 @@ namespace System.Drawing.Drawing2D
 
             Gdip.CheckStatus(Gdip.GdipMultiplyLineTransform(
                 SafeBrushHandle,
-                new HandleRef(matrix, matrix.NativeMatrix),
+                matrix.SafeMatrixHandle,
                 order));
         }
 

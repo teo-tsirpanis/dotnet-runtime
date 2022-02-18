@@ -496,14 +496,14 @@ namespace System.Drawing
             {
                 var matrix = new Matrix();
                 Gdip.CheckStatus(Gdip.GdipGetWorldTransform(
-                    new HandleRef(this, NativeGraphics), new HandleRef(matrix, matrix.NativeMatrix)));
+                    new HandleRef(this, NativeGraphics), matrix.SafeMatrixHandle));
 
                 return matrix;
             }
             set
             {
                 Gdip.CheckStatus(Gdip.GdipSetWorldTransform(
-                    new HandleRef(this, NativeGraphics), new HandleRef(value, value.NativeMatrix)));
+                    new HandleRef(this, NativeGraphics), value.SafeMatrixHandle));
             }
         }
 
@@ -517,40 +517,34 @@ namespace System.Drawing
         {
             get
             {
-                Gdip.CheckStatus(Gdip.GdipCreateMatrix(out IntPtr nativeMatrix));
+                Gdip.CheckStatus(Gdip.GdipCreateMatrix(out SafeMatrixHandle nativeMatrix));
 
                 try
                 {
                     Gdip.CheckStatus(Gdip.GdipGetWorldTransform(
-                        new HandleRef(this, NativeGraphics), new HandleRef(null, nativeMatrix)));
+                        new HandleRef(this, NativeGraphics), nativeMatrix));
 
                     Matrix3x2 matrix = default;
-                    Gdip.CheckStatus(Gdip.GdipGetMatrixElements(new HandleRef(null, nativeMatrix), (float*)&matrix));
+                    Gdip.CheckStatus(Gdip.GdipGetMatrixElements(nativeMatrix, (float*)&matrix));
                     return matrix;
                 }
                 finally
                 {
-                    if (nativeMatrix != IntPtr.Zero)
-                    {
-                        Gdip.GdipDeleteMatrix(new HandleRef(null, nativeMatrix));
-                    }
+                    nativeMatrix?.Dispose();
                 }
             }
             set
             {
-                IntPtr nativeMatrix = Matrix.CreateNativeHandle(value);
+                SafeMatrixHandle nativeMatrix = Matrix.CreateNativeHandle(value);
 
                 try
                 {
                     Gdip.CheckStatus(Gdip.GdipSetWorldTransform(
-                        new HandleRef(this, NativeGraphics), new HandleRef(null, nativeMatrix)));
+                        new HandleRef(this, NativeGraphics), nativeMatrix));
                 }
                 finally
                 {
-                    if (nativeMatrix != IntPtr.Zero)
-                    {
-                        Gdip.GdipDeleteMatrix(new HandleRef(null, nativeMatrix));
-                    }
+                    nativeMatrix?.Dispose();
                 }
             }
         }
@@ -763,7 +757,7 @@ namespace System.Drawing
                 return;
 
             Gdip.CheckStatus(Gdip.GdipMultiplyWorldTransform(
-                new HandleRef(this, NativeGraphics), new HandleRef(matrix, matrix.NativeMatrix), order));
+                new HandleRef(this, NativeGraphics), matrix.SafeMatrixHandle, order));
         }
 
         public void TranslateTransform(float dx, float dy) => TranslateTransform(dx, dy, MatrixOrder.Prepend);

@@ -615,7 +615,7 @@ namespace System.Drawing.Drawing2D
 
             Gdip.CheckStatus(Gdip.GdipTransformPath(
                 new HandleRef(this, _nativePath),
-                new HandleRef(matrix, matrix.NativeMatrix)));
+                matrix.SafeMatrixHandle));
         }
 
         public RectangleF GetBounds() => GetBounds(null);
@@ -627,7 +627,7 @@ namespace System.Drawing.Drawing2D
             Gdip.CheckStatus(Gdip.GdipGetPathWorldBounds(
                 new HandleRef(this, _nativePath),
                 out RectangleF bounds,
-                new HandleRef(matrix, matrix?.NativeMatrix ?? IntPtr.Zero),
+                matrix?.SafeMatrixHandle,
                 pen?.SafePenHandle));
 
             return bounds;
@@ -641,7 +641,7 @@ namespace System.Drawing.Drawing2D
         {
             Gdip.CheckStatus(Gdip.GdipFlattenPath(
                 new HandleRef(this, _nativePath),
-                new HandleRef(matrix, matrix?.NativeMatrix ?? IntPtr.Zero),
+                matrix?.SafeMatrixHandle,
                 flatness));
         }
 
@@ -659,7 +659,7 @@ namespace System.Drawing.Drawing2D
             Gdip.CheckStatus(Gdip.GdipWidenPath(
                 new HandleRef(this, _nativePath),
                 pen.SafePenHandle,
-                new HandleRef(matrix, matrix?.NativeMatrix ?? IntPtr.Zero),
+                matrix?.SafeMatrixHandle,
                 flatness));
         }
 
@@ -674,17 +674,14 @@ namespace System.Drawing.Drawing2D
 
         public unsafe void Warp(PointF[] destPoints!!, RectangleF srcRect, Matrix? matrix, WarpMode warpMode, float flatness)
         {
-            fixed (PointF* p = destPoints)
-            {
-                Gdip.CheckStatus(Gdip.GdipWarpPath(
-                    new HandleRef(this, _nativePath),
-                    new HandleRef(matrix, matrix?.NativeMatrix ?? IntPtr.Zero),
-                    p,
-                    destPoints.Length,
-                    srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height,
-                    warpMode,
-                    flatness));
-            }
+            Gdip.CheckStatus(Gdip.GdipWarpPath(
+                new HandleRef(this, _nativePath),
+                matrix?.SafeMatrixHandle,
+                destPoints,
+                destPoints.Length,
+                srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height,
+                warpMode,
+                flatness));
         }
 
         public int PointCount
