@@ -1474,261 +1474,153 @@ namespace System.Drawing
             HandleRef matrix2, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateRegion(out IntPtr region);
+            internal static partial int GdipCreateRegion(out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateRegionRect(ref RectangleF gprectf, out IntPtr region);
+            internal static partial int GdipCreateRegionRect(ref RectangleF gprectf, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateRegionRectI(ref Rectangle gprect, out IntPtr region);
+            internal static partial int GdipCreateRegionRectI(ref Rectangle gprect, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateRegionPath(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef path, out IntPtr region);
+            HandleRef path, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateRegionRgnData(byte[] rgndata, int size, out IntPtr region);
+            internal static partial int GdipCreateRegionRgnData(byte[] rgndata, int size, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateRegionHrgn(IntPtr hRgn, out IntPtr region);
+            internal static partial int GdipCreateRegionHrgn(IntPtr hRgn, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCloneRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, out IntPtr cloneregion);
+            internal static partial int GdipCloneRegion(SafeRegionHandle region, out SafeRegionHandle clonedRegion);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipDeleteRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region);
+            internal static partial int GdipDeleteRegion(IntPtr region);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipFillRegion(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics, SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region);
+            HandleRef graphics, SafeBrushHandle brush, SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetInfinite(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region);
+            internal static partial int GdipSetInfinite(SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetEmpty(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region);
+            internal static partial int GdipSetEmpty(SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCombineRegionRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, ref RectangleF gprectf, CombineMode mode);
+            internal static partial int GdipCombineRegionRect(SafeRegionHandle region, ref RectangleF gprectf, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCombineRegionRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, ref Rectangle gprect, CombineMode mode);
+            internal static partial int GdipCombineRegionRectI(SafeRegionHandle region, ref Rectangle gprect, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCombineRegionPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
+            internal static partial int GdipCombineRegionPath(SafeRegionHandle region,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef path, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCombineRegionRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region2, CombineMode mode);
+            internal static partial int GdipCombineRegionRegion(SafeRegionHandle region, SafeRegionHandle region2, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTranslateRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, float dx, float dy);
+            internal static partial int GdipTranslateRegion(SafeRegionHandle region, float dx, float dy);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTranslateRegionI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, int dx, int dy);
+            internal static partial int GdipTranslateRegionI(SafeRegionHandle region, int dx, int dy);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
+            internal static partial int GdipTransformRegion(SafeRegionHandle region,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionBounds(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
+            internal static partial int GdipGetRegionBounds(SafeRegionHandle region,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out RectangleF gprectf);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionHRgn(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
+            internal static partial int GdipGetRegionHRgn(SafeRegionHandle region,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out IntPtr hrgn);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsEmptyRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
+            internal static partial int GdipIsEmptyRegion(SafeRegionHandle region,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsInfiniteRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
+            internal static partial int GdipIsInfiniteRegion(SafeRegionHandle region,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsEqualRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region2,
+            internal static partial int GdipIsEqualRegion(SafeRegionHandle region, SafeRegionHandle region2,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionDataSize(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, out int bufferSize);
+            internal static partial int GdipGetRegionDataSize(SafeRegionHandle region, out int bufferSize);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionData(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, byte[] regionData, int bufferSize, out int sizeFilled);
+            internal static partial int GdipGetRegionData(SafeRegionHandle region, byte[] regionData, int bufferSize, out int sizeFilled);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionPoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, float X, float Y,
+            internal static partial int GdipIsVisibleRegionPoint(SafeRegionHandle region, float X, float Y,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionPointI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, int X, int Y,
+            internal static partial int GdipIsVisibleRegionPointI(SafeRegionHandle region, int X, int Y,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, float X, float Y, float width, float height,
+            internal static partial int GdipIsVisibleRegionRect(SafeRegionHandle region, float X, float Y, float width, float height,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, int X, int Y, int width, int height,
+            internal static partial int GdipIsVisibleRegionRectI(SafeRegionHandle region, int X, int Y, int width, int height,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionScansCount(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, out int count,
+            internal static partial int GdipGetRegionScansCount(SafeRegionHandle region, out int count,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionScans(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, RectangleF* rects, out int count,
+            internal static partial int GdipGetRegionScans(SafeRegionHandle region, RectangleF* rects, out int count,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -1778,11 +1670,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region, CombineMode mode);
+            HandleRef graphics, SafeRegionHandle region, CombineMode mode);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipResetClip(
@@ -1803,11 +1691,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef region);
+            HandleRef graphics, SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetClipBounds(

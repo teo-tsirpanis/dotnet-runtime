@@ -35,6 +35,7 @@ Since .NET 7, non-Windows platforms are not supported, even with the runtime con
     <Compile Include="Microsoft\Win32\SafeHandles\SafeBrushHandle.cs" />
     <Compile Include="Microsoft\Win32\SafeHandles\SafeGdiPlusHandle.cs" />
     <Compile Include="Microsoft\Win32\SafeHandles\SafePenHandle.cs" />
+    <Compile Include="Microsoft\Win32\SafeHandles\SafeRegionHandle.cs" />
     <Compile Include="System\Drawing\Bitmap.cs" />
     <Compile Include="System\Drawing\BitmapSuffixInSameAssemblyAttribute.cs" />
     <Compile Include="System\Drawing\BitmapSuffixInSatelliteAssemblyAttribute.cs" />

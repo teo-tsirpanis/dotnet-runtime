@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using Microsoft.Win32.SafeHandles;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
@@ -225,7 +226,7 @@ namespace System.Drawing
             get
             {
                 var region = new Region();
-                int status = Gdip.GdipGetClip(new HandleRef(this, NativeGraphics), new HandleRef(region, region.NativeRegion));
+                int status = Gdip.GdipGetClip(new HandleRef(this, NativeGraphics), region.SafeRegionHandle);
                 Gdip.CheckStatus(status);
 
                 return region;
@@ -625,7 +626,7 @@ namespace System.Drawing
         {
             Gdip.CheckStatus(Gdip.GdipSetClipRegion(
                 new HandleRef(this, NativeGraphics),
-                new HandleRef(region, region.NativeRegion),
+                region.SafeRegionHandle,
                 combineMode));
         }
 
@@ -649,7 +650,7 @@ namespace System.Drawing
         {
             Gdip.CheckStatus(Gdip.GdipSetClipRegion(
                 new HandleRef(this, NativeGraphics),
-                new HandleRef(region, region.NativeRegion),
+                region.SafeRegionHandle,
                 CombineMode.Intersect));
         }
 
@@ -665,7 +666,7 @@ namespace System.Drawing
         {
             Gdip.CheckStatus(Gdip.GdipSetClipRegion(
                 new HandleRef(this, NativeGraphics),
-                new HandleRef(region, region.NativeRegion),
+                region.SafeRegionHandle,
                 CombineMode.Exclude));
         }
 
@@ -1617,13 +1618,15 @@ namespace System.Drawing
                 new HandleRef(stringFormat, stringFormat?.nativeFormat ?? IntPtr.Zero),
                 out int count));
 
-            IntPtr[] gpRegions = new IntPtr[count];
             Region[] regions = new Region[count];
+            IntPtr[] gpRegions = new IntPtr[count];
 
             for (int f = 0; f < count; f++)
             {
                 regions[f] = new Region();
-                gpRegions[f] = regions[f].NativeRegion;
+                // We can get away with just calling DangerousGetHandle; we just created the regions
+                // and they are rooted by the GC because we will return them after the P/Invoke.
+                gpRegions[f] = regions[f].SafeRegionHandle.DangerousGetHandle();
             }
 
             Gdip.CheckStatus(Gdip.GdipMeasureCharacterRanges(
@@ -2409,12 +2412,12 @@ namespace System.Drawing
         /// </summary>
         internal Region? GetRegionIfNotInfinite()
         {
-            Gdip.CheckStatus(Gdip.GdipCreateRegion(out IntPtr regionHandle));
+            Gdip.CheckStatus(Gdip.GdipCreateRegion(out SafeRegionHandle? regionHandle));
             try
             {
-                Gdip.GdipGetClip(new HandleRef(this, NativeGraphics), new HandleRef(null, regionHandle));
+                Gdip.GdipGetClip(new HandleRef(this, NativeGraphics), regionHandle);
                 Gdip.CheckStatus(Gdip.GdipIsInfiniteRegion(
-                    new HandleRef(null, regionHandle),
+                    regionHandle,
                     new HandleRef(this, NativeGraphics),
                     out int isInfinite));
 
@@ -2425,15 +2428,12 @@ namespace System.Drawing
                 }
 
                 Region region = new Region(regionHandle);
-                regionHandle = IntPtr.Zero;
+                regionHandle = null;
                 return region;
             }
             finally
             {
-                if (regionHandle != IntPtr.Zero)
-                {
-                    Gdip.GdipDeleteRegion(new HandleRef(null, regionHandle));
-                }
+                regionHandle?.Dispose();
             }
         }
 
@@ -2575,7 +2575,7 @@ namespace System.Drawing
             CheckErrorStatus(Gdip.GdipFillRegion(
                 new HandleRef(this, NativeGraphics),
                 brush.SafeBrushHandle,
-                new HandleRef(region, region.NativeRegion)));
+                region.SafeRegionHandle));
         }
 
         public void DrawIcon(Icon icon!!, int x, int y)
