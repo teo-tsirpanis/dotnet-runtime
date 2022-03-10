@@ -35,13 +35,13 @@ namespace LibraryImportGenerator.IntegrationTests
             [LibraryImport(NativeExportsNE_Binary, EntryPoint = "create_range_array_out")]
             public static partial void CreateRange_Out(int start, int end, out int numValues, [MarshalUsing(typeof(ListMarshaller<int>), CountElementName = "numValues")] out List<int> res);
 
-            [GeneratedDllImport(NativeExportsNE_Binary, EntryPoint = "sum_string_lengths")]
+            [LibraryImport(NativeExportsNE_Binary, EntryPoint = "sum_string_lengths")]
             public static partial int SumStringLengths([MarshalUsing(typeof(ListMarshaller<string>)), MarshalUsing(typeof(Utf16StringMarshaller), ElementIndirectionDepth = 1)] List<string> strArray);
 
-            [GeneratedDllImport(NativeExportsNE_Binary, EntryPoint = "reverse_strings_replace")]
+            [LibraryImport(NativeExportsNE_Binary, EntryPoint = "reverse_strings_replace")]
             public static partial void ReverseStrings_Ref([MarshalUsing(typeof(ListMarshaller<string>), CountElementName = "numElements"), MarshalUsing(typeof(Utf16StringMarshaller), ElementIndirectionDepth = 1)] ref List<string> strArray, out int numElements);
 
-            [GeneratedDllImport(NativeExportsNE_Binary, EntryPoint = "reverse_strings_return")]
+            [LibraryImport(NativeExportsNE_Binary, EntryPoint = "reverse_strings_return")]
             [return: MarshalUsing(typeof(ListMarshaller<string>), CountElementName = "numElements"), MarshalUsing(typeof(Utf16StringMarshaller), ElementIndirectionDepth = 1)]
             public static partial List<string> ReverseStrings_Return([MarshalUsing(typeof(ListMarshaller<string>), CountElementName = "numElements"), MarshalUsing(typeof(Utf16StringMarshaller), ElementIndirectionDepth = 1)] List<string> strArray, out int numElements);
 
