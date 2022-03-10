@@ -28,7 +28,7 @@ struct S
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
-                VerifyCS.Diagnostic(NativeTypeMustBeNonNullRule).WithLocation(0).WithArguments("S"));
+                VerifyCS.Diagnostic(NativeTypeMustHaveCustomTypeMarshallerAttributeRule).WithLocation(0).WithArguments("S"));
         }
 
         [ConditionalFact]
@@ -44,7 +44,7 @@ struct S
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
-                VerifyCS.Diagnostic(NativeTypeMustHaveRequiredShapeRule).WithLocation(0).WithArguments("int*", "S"));
+                VerifyCS.Diagnostic(NativeTypeMustHaveCustomTypeMarshallerAttributeRule).WithLocation(0).WithArguments("S"));
         }
 
         [ConditionalFact]
@@ -59,6 +59,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct {|#0:Native|}
 {
     private string value;
@@ -87,6 +88,7 @@ struct S
     public string s;
 }
 
+[{|CS0592:CustomTypeMarshaller|}(typeof(S))]
 class {|#0:Native|}
 {
     private IntPtr value;
@@ -98,7 +100,8 @@ class {|#0:Native|}
     public S ToManaged() => new S();
 }";
             await VerifyCS.VerifyAnalyzerAsync(source,
-                VerifyCS.Diagnostic(NativeTypeMustHaveRequiredShapeRule).WithLocation(0).WithArguments("Native", "S"));
+                VerifyCS.Diagnostic(NativeTypeMustHaveRequiredShapeRule).WithLocation(0).WithArguments("Native", "S"),
+                VerifyCS.Diagnostic(NativeTypeMustBeBlittableRule).WithLocation(0).WithArguments("Native", "S"));
         }
 
         [ConditionalFact]
@@ -114,6 +117,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     private IntPtr value;
@@ -142,6 +146,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     private IntPtr value;
@@ -153,7 +158,8 @@ struct Native
 
     public S ToManaged() => new S();
 
-    public string {|#0:Value|} { get => null; set {} }
+    public string {|#0:ToNativeValue|}() => throw null;
+    public void FromNativeValue(string value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -173,6 +179,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     private string value;
@@ -184,7 +191,8 @@ struct Native
 
     public S ToManaged() => new S() { s = value };
 
-    public IntPtr Value { get => IntPtr.Zero; set {} }
+    public IntPtr ToNativeValue() => throw null;
+    public void FromNativeValue(IntPtr value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -203,6 +211,7 @@ struct S
     public string s;
 }
 
+[{|CS0592:CustomTypeMarshaller|}(typeof(S))]
 class {|#0:Native|}
 {
     private string value;
@@ -214,7 +223,8 @@ class {|#0:Native|}
 
     public S ToManaged() => new S() { s = value };
 
-    public IntPtr Value { get => IntPtr.Zero; set {} }
+    public IntPtr ToNativeValue() => throw null;
+    public void FromNativeValue(IntPtr value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -236,6 +246,7 @@ class S
     public ref string {|#0:GetPinnableReference|}() => ref s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private IntPtr value;
@@ -247,7 +258,8 @@ unsafe struct Native
 
     public S ToManaged() => new S();
 
-    public IntPtr Value { get => IntPtr.Zero; set {} }
+    public IntPtr ToNativeValue() => throw null;
+    public void FromNativeValue(IntPtr value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -269,6 +281,7 @@ class S
     public ref byte GetPinnableReference() => ref c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private IntPtr value;
@@ -280,7 +293,8 @@ unsafe struct Native
 
     public S ToManaged() => new S();
 
-    public IntPtr Value { get => IntPtr.Zero; set {} }
+    public IntPtr ToNativeValue() => throw null;
+    public void FromNativeValue(IntPtr value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -299,6 +313,7 @@ class S
     public char c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private IntPtr value;
@@ -312,7 +327,8 @@ unsafe struct Native
 
     public S ToManaged() => new S();
 
-    public IntPtr Value { get => IntPtr.Zero; set {} }
+    public IntPtr ToNativeValue() => throw null;
+    public void FromNativeValue(IntPtr value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -331,6 +347,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private IntPtr value;
@@ -344,7 +361,8 @@ unsafe struct Native
 
     public ref byte GetPinnableReference() => ref System.Runtime.CompilerServices.Unsafe.NullRef<byte>();
 
-    public IntPtr Value { get => IntPtr.Zero; set {} }
+    public IntPtr ToNativeValue() => throw null;
+    public void FromNativeValue(IntPtr value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -365,6 +383,7 @@ class S
     public ref byte GetPinnableReference() => ref c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private IntPtr value;
@@ -376,7 +395,8 @@ unsafe struct Native
 
     public S ToManaged() => new S();
 
-    public int {|#0:Value|} { get => 0; set {} }
+    public int {|#0:ToNativeValue|}() => throw null;
+    public void FromNativeValue(int value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -398,6 +418,7 @@ class S
     public ref byte GetPinnableReference() => ref c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private IntPtr value;
@@ -409,7 +430,8 @@ unsafe struct Native
 
     public S ToManaged() => new S();
 
-    public int* Value { get => null; set {} }
+    public int* ToNativeValue() => throw null;
+    public void FromNativeValue(int* value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -430,6 +452,7 @@ class S
     public ref byte GetPinnableReference() => ref c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private S value;
@@ -438,8 +461,7 @@ unsafe struct Native
     {
         value = s;
     }
-
-    public ref byte {|#0:Value|} { get => ref value.GetPinnableReference(); }
+    public ref byte {|#0:ToNativeValue|}() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -459,6 +481,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private S value;
@@ -470,7 +493,7 @@ unsafe struct Native
 
     public ref byte GetPinnableReference() => ref value.c;
 
-    public ref byte {|#0:Value|} { get => ref GetPinnableReference(); }
+    public ref byte {|#0:ToNativeValue|}() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -490,6 +513,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private byte value;
@@ -519,6 +543,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 unsafe struct Native
 {
     private byte value;
@@ -530,7 +555,8 @@ unsafe struct Native
 
     public ref byte GetPinnableReference() => ref System.Runtime.CompilerServices.Unsafe.NullRef<byte>();
 
-    public int Value { get; set; }
+    public int ToNativeValue() => throw null;
+    public void FromNativeValue(int value) => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -549,6 +575,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct {|#0:Native|}
 {
 }";
@@ -570,7 +597,7 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection)]
 struct {|#0:Native|}
 {
 }";
@@ -592,15 +619,15 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection)]
 ref struct {|#0:Native|}
 {
     public Native(S s) : this() {}
 
-    public Span<int> ManagedValues { get; set; }
-    public Span<byte> NativeValueStorage { get; set; }
 
-    public IntPtr Value { get; }
+    public System.ReadOnlySpan<int> GetManagedValuesSource() => throw null;
+    public System.Span<byte> GetNativeValuesDestination() => throw null;
+    public System.IntPtr ToNativeValue() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -620,15 +647,14 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection)]
 ref struct Native
 {
     public Native(S s, int nativeElementSize) : this() {}
 
-    public Span<int> ManagedValues { get; set; }
-    public Span<byte> NativeValueStorage { get; set; }
-
-    public IntPtr Value { get; }
+    public System.ReadOnlySpan<int> GetManagedValuesSource() => throw null;
+    public System.Span<byte> GetNativeValuesDestination() => throw null;
+    public System.IntPtr ToNativeValue() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source);
@@ -647,17 +673,14 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection, BufferSize = 1)]
 ref struct {|#0:Native|}
 {
     public Native(S s, Span<byte> stackSpace) : this() {}
 
-    public const int BufferSize = 1;
-
-    public Span<int> ManagedValues { get; set; }
-    public Span<byte> NativeValueStorage { get; set; }
-
-    public IntPtr Value { get; }
+    public System.ReadOnlySpan<int> GetManagedValuesSource() => throw null;
+    public System.Span<byte> GetNativeValuesDestination() => throw null;
+    public System.IntPtr ToNativeValue() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -677,17 +700,14 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection, BufferSize = 1)]
 ref struct {|#0:Native|}
 {
     public Native(S s, Span<byte> stackSpace, int nativeElementSize) : this() {}
 
-    public const int BufferSize = 1;
-
-    public Span<int> ManagedValues { get; set; }
-    public Span<byte> NativeValueStorage { get; set; }
-
-    public IntPtr Value { get; }
+    public System.ReadOnlySpan<int> GetManagedValuesSource() => throw null;
+    public System.Span<byte> GetNativeValuesDestination() => throw null;
+    public System.IntPtr ToNativeValue() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -695,7 +715,7 @@ ref struct {|#0:Native|}
         }
 
         [ConditionalFact]
-        public async Task CollectionNativeTypeWithMissingManagedValuesProperty_ReportsDiagnostic()
+        public async Task CollectionNativeTypeWithMissingManagedValuesSourceProperty_ReportsDiagnostic()
         {
             string source = @"
 using System;
@@ -707,14 +727,13 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection)]
 ref struct {|#0:Native|}
 {
     public Native(S s, int nativeElementSize) : this() {}
 
-    public Span<byte> NativeValueStorage { get; set; }
-
-    public IntPtr Value { get; }
+    public System.Span<byte> GetNativeValuesDestination() => throw null;
+    public System.IntPtr ToNativeValue() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -722,7 +741,7 @@ ref struct {|#0:Native|}
         }
 
         [ConditionalFact]
-        public async Task CollectionNativeTypeWithMissingNativeValueStorageProperty_ReportsDiagnostic()
+        public async Task CollectionNativeTypeWithMissingNativeValuesDestinationProperty_ReportsDiagnostic()
         {
             string source = @"
 using System;
@@ -734,14 +753,13 @@ class S
     public byte c;
 }
 
-[GenericContiguousCollectionMarshaller]
+[CustomTypeMarshaller(typeof(S), CustomTypeMarshallerKind.LinearCollection)]
 ref struct {|#0:Native|}
 {
     public Native(S s, int nativeElementSize) : this() {}
 
-    public Span<int> ManagedValues { get; set; }
-
-    public IntPtr Value { get; }
+    public System.ReadOnlySpan<int> GetManagedValuesSource() => throw null;
+    public System.IntPtr ToNativeValue() => throw null;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -761,6 +779,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     public Native(S s) {}
@@ -782,6 +801,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     public S ToManaged() => new S();
@@ -803,11 +823,10 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S), BufferSize = 0x100)]
 struct {|#0:Native|}
 {
     public Native(S s, Span<byte> buffer) {}
-
-    public const int BufferSize = 0x100;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -821,20 +840,19 @@ struct {|#0:Native|}
 using System;
 using System.Runtime.InteropServices;
 
-[{|#0:NativeMarshalling(typeof(Native))|}]
-class S
+[NativeMarshalling(typeof(Native))]
+class {|#0:S|}
 {
     public byte c;
     public ref byte GetPinnableReference() => ref c;
 }
 
+[CustomTypeMarshaller(typeof(S), BufferSize = 0x100)]
 struct {|#1:Native|}
 {
     public Native(S s, Span<byte> buffer) {}
 
     public IntPtr Value => IntPtr.Zero;
-
-    public const int BufferSize = 0x100;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -843,7 +861,7 @@ struct {|#1:Native|}
         }
 
         [ConditionalFact]
-        public async Task NativeTypeWithConstructorAndSetOnlyValueProperty_ReportsDiagnostic()
+        public async Task NativeTypeWithConstructorAndFromNativeValueMethod_ReportsDiagnostic()
         {
             string source = @"
 using System;
@@ -855,11 +873,14 @@ class S
     public byte c;
 }
 
-struct Native
+[CustomTypeMarshaller(typeof(S))]
+struct {|#0:Native|}
 {
     public Native(S s) {}
 
-    public IntPtr {|#0:Value|} { set {} }
+    public void FromNativeValue(IntPtr value) => throw null;
+
+    public S ToManaged() => new S();
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -867,7 +888,7 @@ struct Native
         }
 
         [ConditionalFact]
-        public async Task NativeTypeWithToManagedAndGetOnlyValueProperty_ReportsDiagnostic()
+        public async Task NativeTypeWithToManagedAndToNativeValueMethod_ReportsDiagnostic()
         {
             string source = @"
 using System;
@@ -879,11 +900,14 @@ class S
     public byte c;
 }
 
-struct Native
+[CustomTypeMarshaller(typeof(S))]
+struct {|#0:Native|}
 {
+    public Native(S managed) {}
+
     public S ToManaged() => new S();
 
-    public IntPtr {|#0:Value|} => IntPtr.Zero;
+    public IntPtr ToNativeValue() => IntPtr.Zero;
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
@@ -902,6 +926,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     private IntPtr value;
@@ -936,6 +961,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct {|#0:Native|}
 {
     private string value;
@@ -959,57 +985,6 @@ static class Test
         }
 
         [ConditionalFact]
-        public async Task NonBlittableNativeTypeOnMarshalUsingParameter_MultipleCompilations_ReportsDiagnostic_WithLocation()
-        {
-            string source1 = @"
-using System;
-using System.Runtime.InteropServices;
-
-public struct S
-{
-    public string s;
-}
-
-public struct Native
-{
-    private string value;
-
-    public Native(S s) : this()
-    {
-    }
-
-    public S ToManaged() => new S();
-}
-";
-            Compilation compilation1 = await TestUtils.CreateCompilation(source1);
-
-            string source2 = @"
-using System;
-using System.Runtime.InteropServices;
-
-static class Test
-{
-    static void Foo([{|#0:MarshalUsing(typeof(Native))|}] S s)
-    {}
-}
-";
-            var test = new Verifiers.CSharpCodeFixVerifier<Microsoft.Interop.Analyzers.ManualTypeMarshallingAnalyzer, EmptyCodeFixProvider>.Test
-            {
-                ExpectedDiagnostics =
-                {
-                    VerifyCS.Diagnostic(NativeTypeMustBeBlittableRule).WithLocation(0).WithArguments("Native", "S")
-                },
-                SolutionTransforms =
-                {
-                    (solution, projectId) => solution.AddMetadataReference(projectId, compilation1.ToMetadataReference())
-                },
-                TestCode = source2
-            };
-
-            await test.RunAsync();
-        }
-
-        [ConditionalFact]
         public async Task NonBlittableNativeTypeOnMarshalUsingReturn_ReportsDiagnostic()
         {
             string source = @"
@@ -1021,6 +996,7 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct {|#0:Native|}
 {
     private string value;
@@ -1044,67 +1020,6 @@ static class Test
         }
 
         [ConditionalFact]
-        public async Task NonBlittableNativeTypeOnMarshalUsingField_ReportsDiagnostic()
-        {
-            string source = @"
-using System;
-using System.Runtime.InteropServices;
-
-struct S
-{
-    public string s;
-}
-
-struct {|#0:Native|}
-{
-    private string value;
-
-    public Native(S s) : this()
-    {
-    }
-
-    public S ToManaged() => new S();
-}
-
-
-struct Test
-{
-    [MarshalUsing(typeof(Native))]
-    S s;
-}
-";
-            await VerifyCS.VerifyAnalyzerAsync(source,
-                VerifyCS.Diagnostic(NativeTypeMustBeBlittableRule).WithLocation(0).WithArguments("Native", "S"));
-        }
-
-        [ConditionalFact]
-        public async Task GenericNativeTypeWithValueTypeValueProperty_DoesNotReportDiagnostic()
-        {
-            string source = @"
-using System.Runtime.InteropServices;
-
-[NativeMarshalling(typeof(Native<S>))]
-struct S
-{
-    public string s;
-}
-
-struct Native<T>
-    where T : new()
-{
-    public Native(T s)
-    {
-        Value = 0;
-    }
-
-    public T ToManaged() => new T();
-
-    public int Value { get; set; }
-}";
-            await VerifyCS.VerifyAnalyzerAsync(source);
-        }
-
-        [ConditionalFact]
         public async Task GenericNativeTypeWithGenericMemberInstantiatedWithBlittable_DoesNotReportDiagnostic()
         {
 
@@ -1117,17 +1032,18 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native<T>
-    where T : new()
+    where T : unmanaged
 {
     public Native(S s)
     {
-        Value = new T();
     }
 
     public S ToManaged() => new S();
 
-    public T Value { get; set; }
+    public T ToNativeValue() => throw null;
+    public void FromNativeValue(T value) => throw null;
 }";
             await VerifyCS.VerifyAnalyzerAsync(source);
         }
@@ -1145,17 +1061,52 @@ struct S
     public string s;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native<T>
-    where T : new()
+    where T : unmanaged
 {
     public Native(S s)
     {
-        Value = new T();
     }
 
     public S ToManaged() => new S();
 
-    public T Value { get; set; }
+    public T ToNativeValue() => throw null;
+    public void FromNativeValue(T value) => throw null;
+}";
+            await VerifyCS.VerifyAnalyzerAsync(source, VerifyCS.Diagnostic(NativeGenericTypeMustBeClosedOrMatchArityRule).WithLocation(0).WithArguments("Native<>", "S"));
+        }
+
+        [ConditionalFact]
+        public async Task MarshalUsingUninstantiatedGenericNativeType_ReportsDiagnostic()
+        {
+
+            string source = @"
+using System.Runtime.InteropServices;
+
+struct S
+{
+    public string s;
+}
+
+[CustomTypeMarshaller(typeof(S))]
+struct Native<T>
+    where T : unmanaged
+{
+    public Native(S s)
+    {
+    }
+
+    public S ToManaged() => new S();
+
+    public T ToNativeValue() => throw null;
+    public void FromNativeValue(T value) => throw null;
+}
+
+static class Test
+{
+    static void Foo([{|#0:MarshalUsing(typeof(Native<>))|}] S s)
+    {}
 }";
             await VerifyCS.VerifyAnalyzerAsync(source, VerifyCS.Diagnostic(NativeGenericTypeMustBeClosedOrMatchArityRule).WithLocation(0).WithArguments("Native<>", "S"));
         }
@@ -1172,19 +1123,22 @@ struct S<T>
     public string s;
 }
 
-struct Native<T, U>
+[CustomTypeMarshaller(typeof(S<>))]
+struct {|#1:Native|}<T, U>
     where T : new()
 {
     public Native(S<T> s)
     {
-        Value = 0;
     }
 
     public S<T> ToManaged() => new S<T>();
 
-    public int Value { get; set; }
+    public T ToNativeValue() => throw null;
+    public void FromNativeValue(T value) => throw null;
 }";
-            await VerifyCS.VerifyAnalyzerAsync(source, VerifyCS.Diagnostic(NativeGenericTypeMustBeClosedOrMatchArityRule).WithLocation(0).WithArguments("Native<,>", "S<T>"));
+            await VerifyCS.VerifyAnalyzerAsync(source,
+                VerifyCS.Diagnostic(NativeTypeMustHaveCustomTypeMarshallerAttributeRule).WithLocation(0).WithArguments("S<T>"),
+                VerifyCS.Diagnostic(NativeGenericTypeMustBeClosedOrMatchArityRule).WithLocation(1).WithArguments("Native<T, U>", "S<>"));
         }
 
         [ConditionalFact]
@@ -1199,17 +1153,18 @@ struct S<T>
     public T t;
 }
 
+[CustomTypeMarshaller(typeof(S<>))]
 struct Native<T>
     where T : new()
 {
     public Native(S<T> s)
     {
-        Value = 0;
     }
 
     public S<T> ToManaged() => new S<T>();
 
-    public int Value { get; set; }
+    public T ToNativeValue() => throw null;
+    public void FromNativeValue(T value) => throw null;
 }";
             await VerifyCS.VerifyAnalyzerAsync(source);
         }
@@ -1227,6 +1182,7 @@ class S
     public byte c;
 }
 
+[CustomTypeMarshaller(typeof(S))]
 struct Native
 {
     public Native(S s) {}
@@ -1234,7 +1190,55 @@ struct Native
 }";
 
             await VerifyCS.VerifyAnalyzerAsync(source,
-                VerifyCS.Diagnostic(CallerAllocConstructorMustHaveBufferSizeConstantRule).WithLocation(0).WithArguments("Native"));
+                VerifyCS.Diagnostic(CallerAllocConstructorMustHaveBufferSizeRule).WithLocation(0).WithArguments("Native"));
+        }
+
+        [ConditionalFact]
+        public async Task CustomTypeMarshallerForArrayTypeWithPlaceholder_DoesNotReportDiagnostic()
+        {
+            string source = @"
+using System;
+using System.Runtime.InteropServices;
+
+[CustomTypeMarshaller(typeof(CustomTypeMarshallerAttribute.GenericPlaceholder[]))]
+struct Native<T>
+{
+    public Native(T[] a) {}
+}";
+
+            await VerifyCS.VerifyAnalyzerAsync(source);
+        }
+
+        [ConditionalFact]
+        public async Task CustomTypeMarshallerForPointerTypeWithPlaceholder_DoesNotReportDiagnostic()
+        {
+            string source = @"
+using System;
+using System.Runtime.InteropServices;
+
+[CustomTypeMarshaller(typeof(CustomTypeMarshallerAttribute.GenericPlaceholder*))]
+unsafe struct Native<T> where T : unmanaged
+{
+    public Native(T* a) {}
+}";
+
+            await VerifyCS.VerifyAnalyzerAsync(source);
+        }
+
+        [ConditionalFact]
+        public async Task CustomTypeMarshallerForArrayOfPointerTypeWithPlaceholder_DoesNotReportDiagnostic()
+        {
+            string source = @"
+using System;
+using System.Runtime.InteropServices;
+
+[CustomTypeMarshaller(typeof(CustomTypeMarshallerAttribute.GenericPlaceholder*[]))]
+unsafe struct Native<T> where T : unmanaged
+{
+    public Native(T*[] a) {}
+}";
+
+            await VerifyCS.VerifyAnalyzerAsync(source);
         }
     }
 }

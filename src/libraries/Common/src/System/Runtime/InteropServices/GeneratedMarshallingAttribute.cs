@@ -18,7 +18,7 @@ namespace System.Runtime.InteropServices
     {
     }
 
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Delegate)]
 #if LIBRARYIMPORT_GENERATOR_TEST
     public
 #else
@@ -34,7 +34,7 @@ namespace System.Runtime.InteropServices
         public Type NativeType { get; }
     }
 
-    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.ReturnValue | AttributeTargets.Field, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true)]
 #if LIBRARYIMPORT_GENERATOR_TEST
     public
 #else
@@ -59,20 +59,34 @@ namespace System.Runtime.InteropServices
 
         public int ConstantElementCount { get; set; }
 
-        public int ElementIndirectionLevel { get; set; }
+        public int ElementIndirectionDepth { get; set; }
 
         public const string ReturnsCountValue = "return-value";
     }
 
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Struct)]
 #if LIBRARYIMPORT_GENERATOR_TEST
     public
 #else
     internal
 #endif
-    sealed class GenericContiguousCollectionMarshallerAttribute : Attribute
+    sealed class CustomTypeMarshallerAttribute : Attribute
     {
-        public GenericContiguousCollectionMarshallerAttribute()
+        public CustomTypeMarshallerAttribute(Type managedType, CustomTypeMarshallerKind marshallerKind = CustomTypeMarshallerKind.Value)
+        {
+            ManagedType = managedType;
+            MarshallerKind = marshallerKind;
+        }
+
+        public Type ManagedType { get; }
+        public CustomTypeMarshallerKind MarshallerKind { get; }
+        public int BufferSize { get; set; }
+
+        /// <summary>
+        /// This type is used as a placeholder for the first generic parameter when generic parameters cannot be used
+        /// to identify the managed type (i.e. when the marshaller type is generic over T and the managed type is T[])
+        /// </summary>
+        public struct GenericPlaceholder
         {
         }
     }
