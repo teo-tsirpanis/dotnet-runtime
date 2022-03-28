@@ -25,32 +25,16 @@ namespace System.Drawing
             private static partial int GdiplusStartup(out IntPtr token, in StartupInputEx input, out StartupOutput output);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipBeginContainer(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, ref RectangleF dstRect, ref RectangleF srcRect, GraphicsUnit unit, out int state);
+            internal static partial int GdipBeginContainer(SafeGraphicsHandle graphics, ref RectangleF dstRect, ref RectangleF srcRect, GraphicsUnit unit, out int state);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipBeginContainer2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int state);
+            internal static partial int GdipBeginContainer2(SafeGraphicsHandle graphics, out int state);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipBeginContainerI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, ref Rectangle dstRect, ref Rectangle srcRect, GraphicsUnit unit, out int state);
+            internal static partial int GdipBeginContainerI(SafeGraphicsHandle graphics, ref Rectangle dstRect, ref Rectangle srcRect, GraphicsUnit unit, out int state);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEndContainer(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int state);
+            internal static partial int GdipEndContainer(SafeGraphicsHandle graphics, int state);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateAdjustableArrowCap(float height, float width, [MarshalAs(UnmanagedType.Bool)] bool isFilled, out IntPtr adjustableArrowCap);
@@ -863,11 +847,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef font,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out float size);
+            HandleRef font, SafeGraphicsHandle graphics, out float size);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetFontHeightGivenDPI(
@@ -888,11 +868,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef font,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, ref Interop.User32.LOGFONT lf);
+            HandleRef font, SafeGraphicsHandle graphics, ref Interop.User32.LOGFONT lf);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreatePen1(int argb, float width, int unit, out SafePenHandle pen);
@@ -1042,207 +1018,91 @@ namespace System.Drawing
             internal static partial int GdipGetPenCompoundArray(SafePenHandle pen, float[] array, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeMatrixHandle matrix);
+            internal static partial int GdipSetWorldTransform(SafeGraphicsHandle graphics, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipResetWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics);
+            internal static partial int GdipResetWorldTransform(SafeGraphicsHandle graphics);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipMultiplyWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeMatrixHandle matrix, MatrixOrder order);
+            internal static partial int GdipMultiplyWorldTransform(SafeGraphicsHandle graphics, SafeMatrixHandle matrix, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTranslateWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float dx, float dy, MatrixOrder order);
+            internal static partial int GdipTranslateWorldTransform(SafeGraphicsHandle graphics, float dx, float dy, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipScaleWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float sx, float sy, MatrixOrder order);
+            internal static partial int GdipScaleWorldTransform(SafeGraphicsHandle graphics, float sx, float sy, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipRotateWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float angle, MatrixOrder order);
+            internal static partial int GdipRotateWorldTransform(SafeGraphicsHandle graphics, float angle, MatrixOrder order);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetWorldTransform(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeMatrixHandle matrix);
+            internal static partial int GdipGetWorldTransform(SafeGraphicsHandle graphics, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetCompositingMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, CompositingMode compositingMode);
+            internal static partial int GdipSetCompositingMode(SafeGraphicsHandle graphics, CompositingMode compositingMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetTextRenderingHint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, TextRenderingHint textRenderingHint);
+            internal static partial int GdipSetTextRenderingHint(SafeGraphicsHandle graphics, TextRenderingHint textRenderingHint);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetTextContrast(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int textContrast);
+            internal static partial int GdipSetTextContrast(SafeGraphicsHandle graphics, int textContrast);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetInterpolationMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, InterpolationMode interpolationMode);
+            internal static partial int GdipSetInterpolationMode(SafeGraphicsHandle graphics, InterpolationMode interpolationMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetCompositingMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out CompositingMode compositingMode);
+            internal static partial int GdipGetCompositingMode(SafeGraphicsHandle graphics, out CompositingMode compositingMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetRenderingOrigin(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int x, int y);
+            internal static partial int GdipSetRenderingOrigin(SafeGraphicsHandle graphics, int x, int y);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRenderingOrigin(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int x, out int y);
+            internal static partial int GdipGetRenderingOrigin(SafeGraphicsHandle graphics, out int x, out int y);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetCompositingQuality(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, CompositingQuality quality);
+            internal static partial int GdipSetCompositingQuality(SafeGraphicsHandle graphics, CompositingQuality quality);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetCompositingQuality(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out CompositingQuality quality);
+            internal static partial int GdipGetCompositingQuality(SafeGraphicsHandle graphics, out CompositingQuality quality);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetSmoothingMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SmoothingMode smoothingMode);
+            internal static partial int GdipSetSmoothingMode(SafeGraphicsHandle graphics, SmoothingMode smoothingMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetSmoothingMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out SmoothingMode smoothingMode);
+            internal static partial int GdipGetSmoothingMode(SafeGraphicsHandle graphics, out SmoothingMode smoothingMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPixelOffsetMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, PixelOffsetMode pixelOffsetMode);
+            internal static partial int GdipSetPixelOffsetMode(SafeGraphicsHandle graphics, PixelOffsetMode pixelOffsetMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPixelOffsetMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out PixelOffsetMode pixelOffsetMode);
+            internal static partial int GdipGetPixelOffsetMode(SafeGraphicsHandle graphics, out PixelOffsetMode pixelOffsetMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetTextRenderingHint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out TextRenderingHint textRenderingHint);
+            internal static partial int GdipGetTextRenderingHint(SafeGraphicsHandle graphics, out TextRenderingHint textRenderingHint);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetTextContrast(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int textContrast);
+            internal static partial int GdipGetTextContrast(SafeGraphicsHandle graphics, out int textContrast);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetInterpolationMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out InterpolationMode interpolationMode);
+            internal static partial int GdipGetInterpolationMode(SafeGraphicsHandle graphics, out InterpolationMode interpolationMode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPageUnit(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out GraphicsUnit unit);
+            internal static partial int GdipGetPageUnit(SafeGraphicsHandle graphics, out GraphicsUnit unit);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPageScale(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out float scale);
+            internal static partial int GdipGetPageScale(SafeGraphicsHandle graphics, out float scale);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPageUnit(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, GraphicsUnit unit);
+            internal static partial int GdipSetPageUnit(SafeGraphicsHandle graphics, GraphicsUnit unit);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPageScale(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float scale);
+            internal static partial int GdipSetPageScale(SafeGraphicsHandle graphics, float scale);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetDpiX(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out float dpi);
+            internal static partial int GdipGetDpiX(SafeGraphicsHandle graphics, out float dpi);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetDpiY(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out float dpi);
+            internal static partial int GdipGetDpiY(SafeGraphicsHandle graphics, out float dpi);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateMatrix(out SafeMatrixHandle matrix);
@@ -1332,11 +1192,7 @@ namespace System.Drawing
             internal static partial int GdipDeleteRegion(IntPtr region);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, SafeRegionHandle region);
+            internal static partial int GdipFillRegion(SafeGraphicsHandle graphics, SafeBrushHandle brush, SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipSetInfinite(SafeRegionHandle region);
@@ -1366,39 +1222,19 @@ namespace System.Drawing
             internal static partial int GdipTransformRegion(SafeRegionHandle region, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionBounds(SafeRegionHandle region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out RectangleF gprectf);
+            internal static partial int GdipGetRegionBounds(SafeRegionHandle region, SafeGraphicsHandle graphics, out RectangleF gprectf);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetRegionHRgn(SafeRegionHandle region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out IntPtr hrgn);
+            internal static partial int GdipGetRegionHRgn(SafeRegionHandle region, SafeGraphicsHandle graphics, out IntPtr hrgn);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsEmptyRegion(SafeRegionHandle region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsEmptyRegion(SafeRegionHandle region, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsInfiniteRegion(SafeRegionHandle region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsInfiniteRegion(SafeRegionHandle region, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsEqualRegion(SafeRegionHandle region, SafeRegionHandle region2,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsEqualRegion(SafeRegionHandle region, SafeRegionHandle region2, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetRegionDataSize(SafeRegionHandle region, out int bufferSize);
@@ -1407,32 +1243,16 @@ namespace System.Drawing
             internal static partial int GdipGetRegionData(SafeRegionHandle region, byte[] regionData, int bufferSize, out int sizeFilled);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionPoint(SafeRegionHandle region, float X, float Y,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsVisibleRegionPoint(SafeRegionHandle region, float X, float Y, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionPointI(SafeRegionHandle region, int X, int Y,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsVisibleRegionPointI(SafeRegionHandle region, int X, int Y, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionRect(SafeRegionHandle region, float X, float Y, float width, float height,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsVisibleRegionRect(SafeRegionHandle region, float X, float Y, float width, float height, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRegionRectI(SafeRegionHandle region, int X, int Y, int width, int height,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int boolean);
+            internal static partial int GdipIsVisibleRegionRectI(SafeRegionHandle region, int X, int Y, int width, int height, SafeGraphicsHandle graphics, out int boolean);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetRegionScansCount(SafeRegionHandle region, out int count, SafeMatrixHandle matrix);
@@ -1441,137 +1261,61 @@ namespace System.Drawing
             internal static partial int GdipGetRegionScans(SafeRegionHandle region, RectangleF* rects, out int count, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateFromHDC(IntPtr hdc, out IntPtr graphics);
+            internal static partial int GdipCreateFromHDC(IntPtr hdc, out SafeGraphicsHandle graphics);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetClipGraphics(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef srcgraphics, CombineMode mode);
+            internal static partial int GdipSetClipGraphics(SafeGraphicsHandle graphics, SafeGraphicsHandle srcgraphics, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetClipRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float x, float y, float width, float height, CombineMode mode);
+            internal static partial int GdipSetClipRect(SafeGraphicsHandle graphics, float x, float y, float width, float height, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetClipRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int x, int y, int width, int height, CombineMode mode);
+            internal static partial int GdipSetClipRectI(SafeGraphicsHandle graphics, int x, int y, int width, int height, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetClipPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeGraphicsPathHandle path, CombineMode mode);
+            internal static partial int GdipSetClipPath(SafeGraphicsHandle graphics, SafeGraphicsPathHandle path, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetClipRegion(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeRegionHandle region, CombineMode mode);
+            internal static partial int GdipSetClipRegion(SafeGraphicsHandle graphics, SafeRegionHandle region, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipResetClip(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics);
+            internal static partial int GdipResetClip(SafeGraphicsHandle graphics);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTranslateClip(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float dx, float dy);
+            internal static partial int GdipTranslateClip(SafeGraphicsHandle graphics, float dx, float dy);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetClip(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeRegionHandle region);
+            internal static partial int GdipGetClip(SafeGraphicsHandle graphics, SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetClipBounds(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out RectangleF rect);
+            internal static partial int GdipGetClipBounds(SafeGraphicsHandle graphics, out RectangleF rect);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsClipEmpty(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsClipEmpty(SafeGraphicsHandle graphics, out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetVisibleClipBounds(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out RectangleF rect);
+            internal static partial int GdipGetVisibleClipBounds(SafeGraphicsHandle graphics, out RectangleF rect);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleClipEmpty(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisibleClipEmpty(SafeGraphicsHandle graphics, out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisiblePoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float x, float y, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisiblePoint(SafeGraphicsHandle graphics, float x, float y, out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisiblePointI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int x, int y, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisiblePointI(SafeGraphicsHandle graphics, int x, int y, out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, float x, float y, float width, float height, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisibleRect(SafeGraphicsHandle graphics, float x, float y, float width, float height, out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisibleRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int x, int y, int width, int height, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisibleRectI(SafeGraphicsHandle graphics, int x, int y, int width, int height, out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipFlush(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, FlushIntention intention);
+            internal static partial int GdipFlush(SafeGraphicsHandle graphics, FlushIntention intention);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetDC(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out IntPtr hdc);
+            internal static partial int GdipGetDC(SafeGraphicsHandle graphics, out IntPtr hdc);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipSetStringFormatMeasurableCharacterRanges(
@@ -1878,11 +1622,7 @@ namespace System.Drawing
             internal static partial int GdipCreateBitmapFromScan0(int width, int height, int stride, int format, IntPtr scan0, out IntPtr bitmap);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateBitmapFromGraphics(int width, int height,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out IntPtr bitmap);
+            internal static partial int GdipCreateBitmapFromGraphics(int width, int height, SafeGraphicsHandle graphics, out IntPtr bitmap);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateBitmapFromHBITMAP(IntPtr hbitmap, IntPtr hpalette, out IntPtr bitmap);
@@ -2017,172 +1757,76 @@ namespace System.Drawing
             HandleRef metafile, EmfPlusRecordType recordType, int flags, int dataSize, byte[] data);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSaveGraphics(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, out int state);
+            internal static partial int GdipSaveGraphics(SafeGraphicsHandle graphics, out int state);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawArc(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static partial int GdipDrawArc(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawArcI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static partial int GdipDrawArcI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawLinesI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static partial int GdipDrawLinesI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawBezier(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+            internal static partial int GdipDrawBezier(SafeGraphicsHandle graphics, SafePenHandle pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawEllipse(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height);
+            internal static partial int GdipDrawEllipse(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawEllipseI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height);
+            internal static partial int GdipDrawEllipseI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawLine(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, float x1, float y1, float x2, float y2);
+            internal static partial int GdipDrawLine(SafeGraphicsHandle graphics, SafePenHandle pen, float x1, float y1, float x2, float y2);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawLineI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, int x1, int y1, int x2, int y2);
+            internal static partial int GdipDrawLineI(SafeGraphicsHandle graphics, SafePenHandle pen, int x1, int y1, int x2, int y2);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawLines(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static partial int GdipDrawLines(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, SafeGraphicsPathHandle path);
+            internal static partial int GdipDrawPath(SafeGraphicsHandle graphics, SafePenHandle pen, SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawPie(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static partial int GdipDrawPie(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawPieI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static partial int GdipDrawPieI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawPolygon(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static partial int GdipDrawPolygon(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawPolygonI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static partial int GdipDrawPolygonI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillEllipse(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, float x, float y, float width, float height);
+            internal static partial int GdipFillEllipse(SafeGraphicsHandle graphics, SafeBrushHandle brush, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillEllipseI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, int x, int y, int width, int height);
+            internal static partial int GdipFillEllipseI(SafeGraphicsHandle graphics, SafeBrushHandle brush, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillPolygon(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, PointF* points, int count, FillMode brushMode);
+            internal static partial int GdipFillPolygon(SafeGraphicsHandle graphics, SafeBrushHandle brush, PointF* points, int count, FillMode brushMode);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillPolygonI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, Point* points, int count, FillMode brushMode);
+            internal static partial int GdipFillPolygonI(SafeGraphicsHandle graphics, SafeBrushHandle brush, Point* points, int count, FillMode brushMode);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillRectangle(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, float x, float y, float width, float height);
+            internal static partial int GdipFillRectangle(SafeGraphicsHandle graphics, SafeBrushHandle brush, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillRectangleI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, int x, int y, int width, int height);
+            internal static partial int GdipFillRectangleI(SafeGraphicsHandle graphics, SafeBrushHandle brush, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillRectangles(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, RectangleF* rects, int count);
+            internal static partial int GdipFillRectangles(SafeGraphicsHandle graphics, SafeBrushHandle brush, RectangleF* rects, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillRectanglesI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, Rectangle* rects, int count);
+            internal static partial int GdipFillRectanglesI(SafeGraphicsHandle graphics, SafeBrushHandle brush, Rectangle* rects, int count);
 
-            [LibraryImport(LibraryName,  SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
-            internal static partial int GdipDrawString(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, string textString, int length,
+            [LibraryImport(LibraryName, CharSet = CharSet.Unicode, SetLastError = true)]
+            internal static partial int GdipDrawString(SafeGraphicsHandle graphics, string textString, int length,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2193,141 +1837,65 @@ namespace System.Drawing
             HandleRef stringFormat, SafeBrushHandle brush);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImageRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImageRectI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGraphicsClear(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int argb);
+            internal static partial int GdipGraphicsClear(SafeGraphicsHandle graphics, int argb);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawClosedCurve(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static partial int GdipDrawClosedCurve(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawClosedCurveI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static partial int GdipDrawClosedCurveI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawClosedCurve2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count, float tension);
+            internal static partial int GdipDrawClosedCurve2(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawClosedCurve2I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count, float tension);
+            internal static partial int GdipDrawClosedCurve2I(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawCurve(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static partial int GdipDrawCurve(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawCurveI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static partial int GdipDrawCurveI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawCurve2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count, float tension);
+            internal static partial int GdipDrawCurve2(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawCurve2I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count, float tension);
+            internal static partial int GdipDrawCurve2I(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawCurve3(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count, int offset, int numberOfSegments, float tension);
+            internal static partial int GdipDrawCurve3(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count, int offset, int numberOfSegments, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawCurve3I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count, int offset, int numberOfSegments, float tension);
+            internal static partial int GdipDrawCurve3I(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count, int offset, int numberOfSegments, float tension);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillClosedCurve(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, PointF* points, int count);
+            internal static partial int GdipFillClosedCurve(SafeGraphicsHandle graphics, SafeBrushHandle brush, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillClosedCurveI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, Point* points, int count);
+            internal static partial int GdipFillClosedCurveI(SafeGraphicsHandle graphics, SafeBrushHandle brush, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillClosedCurve2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, PointF* points, int count, float tension, FillMode mode);
+            internal static partial int GdipFillClosedCurve2(SafeGraphicsHandle graphics, SafeBrushHandle brush, PointF* points, int count, float tension, FillMode mode);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillClosedCurve2I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, Point* points, int count, float tension, FillMode mode);
+            internal static partial int GdipFillClosedCurve2I(SafeGraphicsHandle graphics, SafeBrushHandle brush, Point* points, int count, float tension, FillMode mode);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillPie(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static partial int GdipFillPie(SafeGraphicsHandle graphics, SafeBrushHandle brush, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillPieI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static partial int GdipFillPieI(SafeGraphicsHandle graphics, SafeBrushHandle brush, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
-            [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf16)]
-            internal static partial int GdipMeasureString(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, string textString, int length,
+            [LibraryImport(LibraryName, CharSet = CharSet.Unicode)]
+            internal static partial int GdipMeasureString(SafeGraphicsHandle graphics, string textString, int length,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2337,12 +1905,8 @@ namespace System.Drawing
 #endif
             HandleRef stringFormat, ref RectangleF boundingBox, out int codepointsFitted, out int linesFilled);
 
-            [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf16)]
-            internal static partial int GdipMeasureCharacterRanges(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, string textString, int length,
+            [LibraryImport(LibraryName, CharSet = CharSet.Unicode)]
+            internal static partial int GdipMeasureCharacterRanges(SafeGraphicsHandle graphics, string textString, int length,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2353,55 +1917,35 @@ namespace System.Drawing
             HandleRef stringFormat, int characterCount, IntPtr[] region);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImageI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImageI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, int x, int y);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImage(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImage(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, float x, float y);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImagePoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImagePoints(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImagePointsI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImagePointsI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImageRectRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImageRectRectI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2416,11 +1960,7 @@ namespace System.Drawing
             HandleRef callbackdata);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImagePointsRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImagePointsRect(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2435,11 +1975,7 @@ namespace System.Drawing
             HandleRef callbackdata);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImageRectRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImageRectRect(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2454,11 +1990,7 @@ namespace System.Drawing
             HandleRef callbackdata);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImagePointsRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImagePointsRectI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2473,79 +2005,43 @@ namespace System.Drawing
             HandleRef callbackdata);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImageRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImageRect(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImagePointRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImagePointRect(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, float x, float y, float srcx, float srcy, float srcwidth, float srcheight, int srcunit);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawImagePointRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipDrawImagePointRectI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef image, int x, int y, int srcx, int srcy, int srcwidth, int srcheight, int srcunit);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawRectangle(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, float x, float y, float width, float height);
+            internal static partial int GdipDrawRectangle(SafeGraphicsHandle graphics, SafePenHandle pen, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawRectangleI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, int x, int y, int width, int height);
+            internal static partial int GdipDrawRectangleI(SafeGraphicsHandle graphics, SafePenHandle pen, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawRectangles(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, RectangleF* rects, int count);
+            internal static partial int GdipDrawRectangles(SafeGraphicsHandle graphics, SafePenHandle pen, RectangleF* rects, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawRectanglesI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Rectangle* rects, int count);
+            internal static partial int GdipDrawRectanglesI(SafeGraphicsHandle graphics, SafePenHandle pen, Rectangle* rects, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformPoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int destSpace, int srcSpace, PointF* points, int count);
+            internal static partial int GdipTransformPoints(SafeGraphicsHandle graphics, int destSpace, int srcSpace, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformPointsI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int destSpace, int srcSpace, Point* points, int count);
+            internal static partial int GdipTransformPointsI(SafeGraphicsHandle graphics, int destSpace, int srcSpace, Point* points, int count);
 
             [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf16)]
             internal static partial int GdipLoadImageFromFileICM(string filename, out IntPtr image);
@@ -2743,32 +2239,16 @@ namespace System.Drawing
             internal static partial int GdipTransformPath(SafeGraphicsPathHandle path, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisiblePathPoint(SafeGraphicsPathHandle path, float x, float y,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisiblePathPoint(SafeGraphicsPathHandle path, float x, float y, SafeGraphicsHandle graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisiblePathPointI(SafeGraphicsPathHandle path, int x, int y,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsVisiblePathPointI(SafeGraphicsPathHandle path, int x, int y, SafeGraphicsHandle graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsOutlineVisiblePathPoint(SafeGraphicsPathHandle path, float x, float y, SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsOutlineVisiblePathPoint(SafeGraphicsPathHandle path, float x, float y, SafePenHandle pen, SafeGraphicsHandle graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsOutlineVisiblePathPointI(SafeGraphicsPathHandle path, int x, int y, SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
+            internal static partial int GdipIsOutlineVisiblePathPointI(SafeGraphicsPathHandle path, int x, int y, SafePenHandle pen, SafeGraphicsHandle graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipDeleteBrush(IntPtr brush);
@@ -2839,7 +2319,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef image, out IntPtr graphics);
+            HandleRef image, out SafeGraphicsHandle graphics);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetImageBounds(
@@ -2880,62 +2360,34 @@ namespace System.Drawing
             internal static partial int GdipImageForceValidation(IntPtr image);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateFromHDC2(IntPtr hdc, IntPtr hdevice, out IntPtr graphics);
+            internal static partial int GdipCreateFromHDC2(IntPtr hdc, IntPtr hdevice, out SafeGraphicsHandle graphics);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateFromHWND(IntPtr hwnd, out IntPtr graphics);
+            internal static partial int GdipCreateFromHWND(IntPtr hwnd, out SafeGraphicsHandle graphics);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipDeleteGraphics(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics);
+            internal static partial int GdipDeleteGraphics(IntPtr graphics);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipReleaseDC(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, IntPtr hdc);
+            internal static partial int GdipReleaseDC(SafeGraphicsHandle graphics, IntPtr hdc);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetNearestColor(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, ref int color);
+            internal static partial int GdipGetNearestColor(SafeGraphicsHandle graphics, ref int color);
 
             [LibraryImport(LibraryName)]
             internal static partial IntPtr GdipCreateHalftonePalette();
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawBeziers(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, PointF* points, int count);
+            internal static partial int GdipDrawBeziers(SafeGraphicsHandle graphics, SafePenHandle pen, PointF* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipDrawBeziersI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafePenHandle pen, Point* points, int count);
+            internal static partial int GdipDrawBeziersI(SafeGraphicsHandle graphics, SafePenHandle pen, Point* points, int count);
 
             [LibraryImport(LibraryName, SetLastError = true)]
-            internal static partial int GdipFillPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
+            internal static partial int GdipFillPath(SafeGraphicsHandle graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileDestPoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileDestPoint(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2946,11 +2398,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileDestPointI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileDestPointI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2961,11 +2409,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileDestRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileDestRect(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2976,11 +2420,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileDestRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileDestRectI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2991,11 +2431,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileDestPoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileDestPoints(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3006,11 +2442,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileDestPointsI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileDestPointsI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3021,11 +2453,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileSrcRectDestPoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileSrcRectDestPoint(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3036,11 +2464,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileSrcRectDestPointI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileSrcRectDestPointI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3051,11 +2475,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileSrcRectDestRect(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileSrcRectDestRect(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3066,11 +2486,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileSrcRectDestRectI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileSrcRectDestRectI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3081,11 +2497,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileSrcRectDestPoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileSrcRectDestPoints(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3096,11 +2508,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipEnumerateMetafileSrcRectDestPointsI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics,
+            internal static partial int GdipEnumerateMetafileSrcRectDestPointsI(SafeGraphicsHandle graphics,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3111,11 +2519,7 @@ namespace System.Drawing
             HandleRef imageattributes);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipRestoreGraphics(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int state);
+            internal static partial int GdipRestoreGraphics(SafeGraphicsHandle graphics, int state);
 
             [LibraryImport(LibraryName, EntryPoint = "GdipGetMetafileHeaderFromWmf")]
             private static partial int GdipGetMetafileHeaderFromWmf_Internal(IntPtr hMetafile,
@@ -3181,11 +2585,7 @@ namespace System.Drawing
             internal static partial int GdipRecordMetafileStreamI(IntPtr stream, IntPtr referenceHdc, EmfType emfType, Rectangle* frameRect, MetafileFrameUnit frameUnit, string? description, IntPtr* metafile);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipComment(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef graphics, int sizeData, byte[] data);
+            internal static partial int GdipComment(SafeGraphicsHandle graphics, int sizeData, byte[] data);
 
             [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf16)]
             internal static partial int GdipCreateFontFromLogfontW(IntPtr hdc, ref Interop.User32.LOGFONT lf, out IntPtr font);

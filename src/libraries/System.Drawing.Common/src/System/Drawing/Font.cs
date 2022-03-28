@@ -202,7 +202,7 @@ namespace System.Drawing
         public float GetHeight(Graphics graphics!!)
         {
             float height;
-            int status = Gdip.GdipGetFontHeight(new HandleRef(this, NativeFont), new HandleRef(graphics, graphics.NativeGraphics), out height);
+            int status = Gdip.GdipGetFontHeight(new HandleRef(this, NativeFont), graphics.SafeGraphicsHandle, out height);
             Gdip.CheckStatus(status);
 
             return height;
@@ -291,7 +291,7 @@ namespace System.Drawing
         {
             Interop.User32.LOGFONT logFont = default;
             Gdip.CheckStatus(Gdip.GdipGetLogFontW(
-                new HandleRef(this, NativeFont), new HandleRef(graphics, graphics.NativeGraphics), ref logFont));
+                new HandleRef(this, NativeFont), graphics.SafeGraphicsHandle, ref logFont));
 
             // Prefix the string with '@' if this is a gdiVerticalFont.
             if (_gdiVerticalFont)

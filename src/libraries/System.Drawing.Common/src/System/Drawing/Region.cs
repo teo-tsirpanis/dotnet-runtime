@@ -203,31 +203,31 @@ namespace System.Drawing
 
         public RectangleF GetBounds(Graphics g!!)
         {
-            Gdip.CheckStatus(Gdip.GdipGetRegionBounds(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out RectangleF bounds));
+            Gdip.CheckStatus(Gdip.GdipGetRegionBounds(SafeRegionHandle, g.SafeGraphicsHandle, out RectangleF bounds));
             return bounds;
         }
 
         public IntPtr GetHrgn(Graphics g!!)
         {
-            Gdip.CheckStatus(Gdip.GdipGetRegionHRgn(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out IntPtr hrgn));
+            Gdip.CheckStatus(Gdip.GdipGetRegionHRgn(SafeRegionHandle, g.SafeGraphicsHandle, out IntPtr hrgn));
             return hrgn;
         }
 
         public bool IsEmpty(Graphics g!!)
         {
-            Gdip.CheckStatus(Gdip.GdipIsEmptyRegion(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out int isEmpty));
+            Gdip.CheckStatus(Gdip.GdipIsEmptyRegion(SafeRegionHandle, g.SafeGraphicsHandle, out int isEmpty));
             return isEmpty != 0;
         }
 
         public bool IsInfinite(Graphics g!!)
         {
-            Gdip.CheckStatus(Gdip.GdipIsInfiniteRegion(SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out int isInfinite));
+            Gdip.CheckStatus(Gdip.GdipIsInfiniteRegion(SafeRegionHandle, g.SafeGraphicsHandle, out int isInfinite));
             return isInfinite != 0;
         }
 
         public bool Equals(Region region!!, Graphics g!!)
         {
-            Gdip.CheckStatus(Gdip.GdipIsEqualRegion(SafeRegionHandle, region.SafeRegionHandle, new HandleRef(g, g.NativeGraphics), out int isEqual));
+            Gdip.CheckStatus(Gdip.GdipIsEqualRegion(SafeRegionHandle, region.SafeRegionHandle, g.SafeGraphicsHandle, out int isEqual));
             return isEqual != 0;
         }
 
@@ -254,7 +254,7 @@ namespace System.Drawing
             Gdip.CheckStatus(Gdip.GdipIsVisibleRegionPoint(
                 SafeRegionHandle,
                 point.X, point.Y,
-                new HandleRef(g, g?.NativeGraphics ?? IntPtr.Zero),
+                g?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out int isVisible));
 
             return isVisible != 0;
@@ -271,7 +271,7 @@ namespace System.Drawing
             Gdip.CheckStatus(Gdip.GdipIsVisibleRegionRect(
                 SafeRegionHandle,
                 rect.X, rect.Y, rect.Width, rect.Height,
-                new HandleRef(g, g?.NativeGraphics ?? IntPtr.Zero),
+                g?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out int isVisible));
 
             return isVisible != 0;
@@ -286,7 +286,7 @@ namespace System.Drawing
             Gdip.CheckStatus(Gdip.GdipIsVisibleRegionPointI(
                 SafeRegionHandle,
                 point.X, point.Y,
-                new HandleRef(g, g?.NativeGraphics ?? IntPtr.Zero),
+                g?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out int isVisible));
 
             return isVisible != 0;
@@ -303,7 +303,7 @@ namespace System.Drawing
             Gdip.CheckStatus(Gdip.GdipIsVisibleRegionRectI(
                 SafeRegionHandle,
                 rect.X, rect.Y, rect.Width, rect.Height,
-                new HandleRef(g, g?.NativeGraphics ?? IntPtr.Zero),
+                g?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out int isVisible));
 
             return isVisible != 0;

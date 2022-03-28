@@ -170,7 +170,7 @@ namespace System.Drawing.Drawing2D
             Gdip.CheckStatus(Gdip.GdipIsVisiblePathPoint(
                 SafeGraphicsPathHandle,
                 pt.X, pt.Y,
-                new HandleRef(graphics, graphics?.NativeGraphics ?? IntPtr.Zero),
+                graphics?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out bool isVisible));
 
             return isVisible;
@@ -187,7 +187,7 @@ namespace System.Drawing.Drawing2D
             Gdip.CheckStatus(Gdip.GdipIsVisiblePathPointI(
                 SafeGraphicsPathHandle,
                 pt.X, pt.Y,
-                new HandleRef(graphics, graphics?.NativeGraphics ?? IntPtr.Zero),
+                graphics?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out bool isVisible));
 
             return isVisible;
@@ -208,7 +208,7 @@ namespace System.Drawing.Drawing2D
                 SafeGraphicsPathHandle,
                 pt.X, pt.Y,
                 pen.SafePenHandle,
-                new HandleRef(graphics, graphics?.NativeGraphics ?? IntPtr.Zero),
+                graphics?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out bool isVisible));
 
             return isVisible;
@@ -226,7 +226,7 @@ namespace System.Drawing.Drawing2D
                 SafeGraphicsPathHandle,
                 pt.X, pt.Y,
                 pen.SafePenHandle,
-                new HandleRef(graphics, graphics?.NativeGraphics ?? IntPtr.Zero),
+                graphics?.SafeGraphicsHandle ?? Graphics.s_dummyHandle,
                 out bool isVisible));
 
             return isVisible;
