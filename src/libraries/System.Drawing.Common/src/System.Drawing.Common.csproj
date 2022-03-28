@@ -34,6 +34,7 @@ Since .NET 7, non-Windows platforms are not supported, even with the runtime con
   <ItemGroup Condition="'$(TargetPlatformIdentifier)' != ''">
     <Compile Include="Microsoft\Win32\SafeHandles\SafeBrushHandle.cs" />
     <Compile Include="Microsoft\Win32\SafeHandles\SafeGdiPlusHandle.cs" />
+    <Compile Include="Microsoft\Win32\SafeHandles\SafeGraphicsPathHandle.cs" />
     <Compile Include="Microsoft\Win32\SafeHandles\SafeMatrixHandle.cs" />
     <Compile Include="Microsoft\Win32\SafeHandles\SafePenHandle.cs" />
     <Compile Include="Microsoft\Win32\SafeHandles\SafeRegionHandle.cs" />

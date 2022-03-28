@@ -612,7 +612,7 @@ namespace System.Drawing
         {
             Gdip.CheckStatus(Gdip.GdipSetClipPath(
                 new HandleRef(this, NativeGraphics),
-                new HandleRef(path, path._nativePath),
+                path.SafeGraphicsPathHandle,
                 combineMode));
         }
 
@@ -1027,7 +1027,7 @@ namespace System.Drawing
             CheckErrorStatus(Gdip.GdipDrawPath(
                 new HandleRef(this, NativeGraphics),
                 pen.SafePenHandle,
-                new HandleRef(path, path._nativePath)));
+                path.SafeGraphicsPathHandle));
         }
 
         /// <summary>
@@ -2558,7 +2558,7 @@ namespace System.Drawing
             CheckErrorStatus(Gdip.GdipFillPath(
                 new HandleRef(this, NativeGraphics),
                 brush.SafeBrushHandle,
-                new HandleRef(path, path._nativePath)));
+                path.SafeGraphicsPathHandle));
         }
 
         /// <summary>

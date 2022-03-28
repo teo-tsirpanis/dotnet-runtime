@@ -115,17 +115,6 @@ namespace System.Drawing
             internal static partial int GdipGetCustomLineCapType(IntPtr customCap, out CustomLineCapType capType);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateCustomLineCap(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef fillpath,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef strokepath, LineCap baseCap, float baseInset, out IntPtr customCap);
-
-            [LibraryImport(LibraryName)]
             internal static partial int GdipDeleteCustomLineCap(IntPtr customCap);
 
             [LibraryImport(LibraryName)]
@@ -213,13 +202,6 @@ namespace System.Drawing
             HandleRef customCap, out float widthScale);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePathIter(out IntPtr pathIter,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
-
-            [LibraryImport(LibraryName)]
             internal static partial int GdipDeletePathIter(
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
@@ -238,11 +220,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef pathIter, out int resultCount,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, [MarshalAs(UnmanagedType.Bool)] out bool isClosed);
+            HandleRef pathIter, out int resultCount, SafeGraphicsPathHandle path, out bool isClosed);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipPathIterNextPathType(
@@ -263,11 +241,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef pathIter, out int resultCount,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            HandleRef pathIter, out int resultCount, SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipPathIterGetCount(
@@ -417,11 +391,7 @@ namespace System.Drawing
             internal static partial int GdipCreatePathGradientI(Point* points, int count, WrapMode wrapMode, out SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePathGradientFromPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out SafeBrushHandle brush);
+            internal static partial int GdipCreatePathGradientFromPath(SafeGraphicsPathHandle path, out SafeBrushHandle brush);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipGetPathGradientCenterColor(SafeBrushHandle brush, out int color);
@@ -1347,11 +1317,7 @@ namespace System.Drawing
             internal static partial int GdipCreateRegionRectI(ref Rectangle gprect, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreateRegionPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out SafeRegionHandle region);
+            internal static partial int GdipCreateRegionPath(SafeGraphicsPathHandle path, out SafeRegionHandle region);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCreateRegionRgnData(byte[] rgndata, int size, out SafeRegionHandle region);
@@ -1385,11 +1351,7 @@ namespace System.Drawing
             internal static partial int GdipCombineRegionRectI(SafeRegionHandle region, ref Rectangle gprect, CombineMode mode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCombineRegionPath(SafeRegionHandle region,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, CombineMode mode);
+            internal static partial int GdipCombineRegionPath(SafeRegionHandle region, SafeGraphicsPathHandle path, CombineMode mode);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipCombineRegionRegion(SafeRegionHandle region, SafeRegionHandle region2, CombineMode mode);
@@ -1511,11 +1473,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, CombineMode mode);
+            HandleRef graphics, SafeGraphicsPathHandle path, CombineMode mode);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipSetClipRegion(
@@ -2133,11 +2091,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics, SafePenHandle pen,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            HandleRef graphics, SafePenHandle pen, SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName, SetLastError = true)]
             internal static partial int GdipDrawPie(
@@ -2614,248 +2568,112 @@ namespace System.Drawing
             HandleRef image, ref Guid encoder, int size, IntPtr buffer);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePath(int brushMode, out IntPtr path);
+            internal static partial int GdipCreatePath(int brushMode, out SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePath2(PointF* points, byte* types, int count, int brushMode, out IntPtr path);
+            internal static partial int GdipCreatePath2(PointF* points, byte* types, int count, int brushMode, out SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipCreatePath2I(Point* points, byte* types, int count, int brushMode, out IntPtr path);
+            internal static partial int GdipCreatePath2I(Point* points, byte* types, int count, int brushMode, out SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipClonePath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out IntPtr clonepath);
+            internal static partial int GdipClonePath(SafeGraphicsPathHandle path, out SafeGraphicsPathHandle clonepath);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipDeletePath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipDeletePath(IntPtr path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipResetPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipResetPath(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPointCount(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out int count);
+            internal static partial int GdipGetPointCount(SafeGraphicsPathHandle path, out int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathTypes(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, byte[] types, int count);
+            internal static partial int GdipGetPathTypes(SafeGraphicsPathHandle path, byte[] types, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathPoints(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count);
+            internal static partial int GdipGetPathPoints(SafeGraphicsPathHandle path, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathFillMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out FillMode fillmode);
+            internal static partial int GdipGetPathFillMode(SafeGraphicsPathHandle path, out FillMode fillmode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPathFillMode(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, FillMode fillmode);
+            internal static partial int GdipSetPathFillMode(SafeGraphicsPathHandle path, FillMode fillmode);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathData(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, GpPathData* pathData);
+            internal static partial int GdipGetPathData(SafeGraphicsPathHandle path, GpPathData* pathData);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipStartPathFigure(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipStartPathFigure(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipClosePathFigure(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipClosePathFigure(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipClosePathFigures(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipClosePathFigures(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipSetPathMarker(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipSetPathMarker(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipClearPathMarkers(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipClearPathMarkers(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipReversePath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            internal static partial int GdipReversePath(SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipGetPathLastPoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, out PointF lastPoint);
+            internal static partial int GdipGetPathLastPoint(SafeGraphicsPathHandle path, out PointF lastPoint);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathLine(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x1, float y1, float x2, float y2);
+            internal static partial int GdipAddPathLine(SafeGraphicsPathHandle path, float x1, float y1, float x2, float y2);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathLine2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count);
+            internal static partial int GdipAddPathLine2(SafeGraphicsPathHandle path, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathArc(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static partial int GdipAddPathArc(SafeGraphicsPathHandle path, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathBezier(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+            internal static partial int GdipAddPathBezier(SafeGraphicsPathHandle path, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathBeziers(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count);
+            internal static partial int GdipAddPathBeziers(SafeGraphicsPathHandle path, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathCurve(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count);
+            internal static partial int GdipAddPathCurve(SafeGraphicsPathHandle path, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathCurve2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count, float tension);
+            internal static partial int GdipAddPathCurve2(SafeGraphicsPathHandle path, PointF* points, int count, float tension);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathCurve3(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count, int offset, int numberOfSegments, float tension);
+            internal static partial int GdipAddPathCurve3(SafeGraphicsPathHandle path, PointF* points, int count, int offset, int numberOfSegments, float tension);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathClosedCurve(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count);
+            internal static partial int GdipAddPathClosedCurve(SafeGraphicsPathHandle path, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathClosedCurve2(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count, float tension);
+            internal static partial int GdipAddPathClosedCurve2(SafeGraphicsPathHandle path, PointF* points, int count, float tension);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathRectangle(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x, float y, float width, float height);
+            internal static partial int GdipAddPathRectangle(SafeGraphicsPathHandle path, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathRectangles(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, RectangleF* rects, int count);
+            internal static partial int GdipAddPathRectangles(SafeGraphicsPathHandle path, RectangleF* rects, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathEllipse(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x, float y, float width, float height);
+            internal static partial int GdipAddPathEllipse(SafeGraphicsPathHandle path, float x, float y, float width, float height);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathPie(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x, float y, float width, float height, float startAngle, float sweepAngle);
+            internal static partial int GdipAddPathPie(SafeGraphicsPathHandle path, float x, float y, float width, float height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathPolygon(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, PointF* points, int count);
+            internal static partial int GdipAddPathPolygon(SafeGraphicsPathHandle path, PointF* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef addingPath, [MarshalAs(UnmanagedType.Bool)] bool connect);
+            internal static partial int GdipAddPathPath(SafeGraphicsPathHandle path, SafeGraphicsPathHandle addingPath, [MarshalAs(UnmanagedType.Bool)] bool connect);
 
             [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf16)]
-            internal static partial int GdipAddPathString(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, string s, int length,
+            internal static partial int GdipAddPathString(SafeGraphicsPathHandle path, string s, int length,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -2870,10 +2688,6 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef path, string s, int length,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
             HandleRef fontFamily, int style, float emSize, ref Rectangle layoutRect,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
@@ -2881,156 +2695,76 @@ namespace System.Drawing
             HandleRef format);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathLineI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x1, int y1, int x2, int y2);
+            internal static partial int GdipAddPathLineI(SafeGraphicsPathHandle path, int x1, int y1, int x2, int y2);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathLine2I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count);
+            internal static partial int GdipAddPathLine2I(SafeGraphicsPathHandle path, Point* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathArcI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static partial int GdipAddPathArcI(SafeGraphicsPathHandle path, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathBezierI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+            internal static partial int GdipAddPathBezierI(SafeGraphicsPathHandle path, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathBeziersI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count);
+            internal static partial int GdipAddPathBeziersI(SafeGraphicsPathHandle path, Point* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathCurveI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count);
+            internal static partial int GdipAddPathCurveI(SafeGraphicsPathHandle path, Point* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathCurve2I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count, float tension);
+            internal static partial int GdipAddPathCurve2I(SafeGraphicsPathHandle path, Point* points, int count, float tension);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathCurve3I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count, int offset, int numberOfSegments, float tension);
+            internal static partial int GdipAddPathCurve3I(SafeGraphicsPathHandle path, Point* points, int count, int offset, int numberOfSegments, float tension);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathClosedCurveI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count);
+            internal static partial int GdipAddPathClosedCurveI(SafeGraphicsPathHandle path, Point* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathClosedCurve2I(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count, float tension);
+            internal static partial int GdipAddPathClosedCurve2I(SafeGraphicsPathHandle path, Point* points, int count, float tension);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathRectangleI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x, int y, int width, int height);
+            internal static partial int GdipAddPathRectangleI(SafeGraphicsPathHandle path, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathRectanglesI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Rectangle* rects, int count);
+            internal static partial int GdipAddPathRectanglesI(SafeGraphicsPathHandle path, Rectangle* rects, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathEllipseI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x, int y, int width, int height);
+            internal static partial int GdipAddPathEllipseI(SafeGraphicsPathHandle path, int x, int y, int width, int height);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathPieI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x, int y, int width, int height, float startAngle, float sweepAngle);
+            internal static partial int GdipAddPathPieI(SafeGraphicsPathHandle path, int x, int y, int width, int height, float startAngle, float sweepAngle);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipAddPathPolygonI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, Point* points, int count);
+            internal static partial int GdipAddPathPolygonI(SafeGraphicsPathHandle path, Point* points, int count);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipTransformPath(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, SafeMatrixHandle matrix);
+            internal static partial int GdipTransformPath(SafeGraphicsPathHandle path, SafeMatrixHandle matrix);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisiblePathPoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x, float y,
+            internal static partial int GdipIsVisiblePathPoint(SafeGraphicsPathHandle path, float x, float y,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsVisiblePathPointI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x, int y,
+            internal static partial int GdipIsVisiblePathPointI(SafeGraphicsPathHandle path, int x, int y,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsOutlineVisiblePathPoint(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, float x, float y, SafePenHandle pen,
+            internal static partial int GdipIsOutlineVisiblePathPoint(SafeGraphicsPathHandle path, float x, float y, SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
             HandleRef graphics, [MarshalAs(UnmanagedType.Bool)] out bool result);
 
             [LibraryImport(LibraryName)]
-            internal static partial int GdipIsOutlineVisiblePathPointI(
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path, int x, int y, SafePenHandle pen,
+            internal static partial int GdipIsOutlineVisiblePathPointI(SafeGraphicsPathHandle path, int x, int y, SafePenHandle pen,
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
@@ -3194,11 +2928,7 @@ namespace System.Drawing
 #if NET7_0_OR_GREATER
             [MarshalUsing(typeof(HandleRefMarshaller))]
 #endif
-            HandleRef graphics, SafeBrushHandle brush,
-#if NET7_0_OR_GREATER
-            [MarshalUsing(typeof(HandleRefMarshaller))]
-#endif
-            HandleRef path);
+            HandleRef graphics, SafeBrushHandle brush, SafeGraphicsPathHandle path);
 
             [LibraryImport(LibraryName)]
             internal static partial int GdipEnumerateMetafileDestPoint(
