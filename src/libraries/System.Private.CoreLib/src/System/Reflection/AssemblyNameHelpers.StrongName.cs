@@ -21,15 +21,12 @@ namespace System.Reflection
 
             Span<byte> hash = stackalloc byte[20];
 
-            Sha1ForNonSecretPurposes sha1 = default;
-            sha1.Start();
+            Sha1ForNonSecretPurposes sha1 = new();
             sha1.Append(publicKey);
             sha1.Finish(hash);
 
-            byte[] publicKeyToken = new byte[PublicKeyTokenLength];
-            for (int i = 0; i < publicKeyToken.Length; i++)
-                publicKeyToken[i] = hash[hash.Length - 1 - i];
-            return publicKeyToken;
+            hash.Reverse();
+            return hash.ToArray();
         }
 
         //
