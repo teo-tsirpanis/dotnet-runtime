@@ -34,9 +34,6 @@ namespace System.Transactions
 
         private static TransactionStartedEventHandler? s_distributedTransactionStartedDelegate;
 
-        internal const string DistributedTransactionTrimmingWarning =
-            "Distributed transactions support may not be compatible with trimming. If your program creates a distributed transaction via System.Transactions, the correctness of the application cannot be guaranteed after trimming.";
-
         public static event TransactionStartedEventHandler? DistributedTransactionStarted
         {
             add
@@ -407,7 +404,6 @@ namespace System.Transactions
             get => DtcProxyShimFactory.s_transactionConnector is not null;
 
             [SupportedOSPlatform("windows")]
-            [RequiresUnreferencedCode(DistributedTransactionTrimmingWarning)]
             set
             {
                 lock (s_implicitDistributedTransactionsLock)
@@ -439,7 +435,6 @@ namespace System.Transactions
             get => false;
 
             [SupportedOSPlatform("windows")]
-            [RequiresUnreferencedCode(DistributedTransactionTrimmingWarning)]
             set
             {
                 if (value)

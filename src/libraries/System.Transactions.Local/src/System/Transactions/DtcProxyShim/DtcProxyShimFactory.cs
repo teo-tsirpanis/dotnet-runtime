@@ -46,7 +46,6 @@ internal sealed partial class DtcProxyShimFactory
 
     // https://learn.microsoft.com/previous-versions/windows/desktop/ms678898(v=vs.85)
     [LibraryImport(Interop.Libraries.Xolehlp, StringMarshalling = StringMarshalling.Utf16)]
-    [RequiresUnreferencedCode(TransactionManager.DistributedTransactionTrimmingWarning)]
     private static unsafe partial int DtcGetTransactionManagerExW(
         [MarshalAs(UnmanagedType.LPWStr)] string? pszHost,
         [MarshalAs(UnmanagedType.LPWStr)] string? pszTmName,
@@ -55,7 +54,6 @@ internal sealed partial class DtcProxyShimFactory
         void* pvConfigPararms,
         [MarshalAs(UnmanagedType.Interface)] out ITransactionDispenser ppvObject);
 
-    [RequiresUnreferencedCode(TransactionManager.DistributedTransactionTrimmingWarning)]
     private static unsafe void DtcGetTransactionManager(string? nodeName, out ITransactionDispenser localDispenser) => Marshal.ThrowExceptionForHR(DtcGetTransactionManagerExW(nodeName, null, Guids.IID_ITransactionDispenser_Guid, 0, null, out localDispenser));
 
     public void ConnectToProxy(
@@ -86,7 +84,6 @@ internal sealed partial class DtcProxyShimFactory
         s_transactionConnector.ConnectToProxyCore(this, nodeName, resourceManagerIdentifier, managedIdentifier, out nodeNameMatches, out whereabouts, out resourceManagerShim);
     }
 
-    [RequiresUnreferencedCode(TransactionManager.DistributedTransactionTrimmingWarning)]
     private void ConnectToProxyCore(
         string? nodeName,
         Guid resourceManagerIdentifier,
@@ -413,7 +410,6 @@ internal sealed partial class DtcProxyShimFactory
             out ResourceManagerShim resourceManagerShim);
     }
 
-    [RequiresUnreferencedCode(TransactionManager.DistributedTransactionTrimmingWarning)]
     internal sealed class DtcTransactionConnector : ITransactionConnector
     {
         public void ConnectToProxyCore(
