@@ -814,7 +814,8 @@ class ClrDataAccess
       public ISOSDacInterface12,
       public ISOSDacInterface13,
       public ISOSDacInterface14,
-      public ISOSDacInterface15
+      public ISOSDacInterface15,
+      public ISOSDacInterface16
 {
 public:
     ClrDataAccess(ICorDebugDataTarget * pTarget, ICLRDataTarget * pLegacyTarget=0);
@@ -1221,6 +1222,9 @@ public:
 
     // ISOSDacInterface15
     virtual HRESULT STDMETHODCALLTYPE GetMethodTableSlotEnumerator(CLRDATA_ADDRESS mt, ISOSMethodEnum **enumerator);
+
+    // ISOSDacInterface16
+    virtual HRESULT STDMETHODCALLTYPE GetGCDynamicAdaptationMode(int* pDynamicAdaptationMode);
 
     //
     // ClrDataAccess.
@@ -3416,12 +3420,7 @@ private:
 //
 //----------------------------------------------------------------------------
 
-#ifdef FEATURE_EH_FUNCLETS
-typedef ExceptionTrackerBase ClrDataExStateType;
-#else // FEATURE_EH_FUNCLETS
 typedef ExInfo ClrDataExStateType;
-#endif // FEATURE_EH_FUNCLETS
-
 
 class ClrDataExceptionState : public IXCLRDataExceptionState
 {

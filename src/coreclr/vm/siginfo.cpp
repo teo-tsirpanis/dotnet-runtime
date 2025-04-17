@@ -386,6 +386,21 @@ void SigPointer::ConvertToInternalSignature(Module* pSigModule, SigTypeContext *
         cArgs--;
     }
 }
+
+void SigPointer::CopySignature(Module* pSigModule, SigBuilder* pSigBuilder, BYTE additionalCallConv)
+{
+    CONTRACTL
+    {
+        INSTANCE_CHECK;
+        STANDARD_VM_CHECK;
+    }
+    CONTRACTL_END
+
+    SigPointer spEnd(*this);
+    IfFailThrowBF(spEnd.SkipSignature(), BFA_BAD_COMPLUS_SIG, pSigModule);
+    pSigBuilder->AppendByte(*m_ptr | additionalCallConv);
+    pSigBuilder->AppendBlob((const PVOID)(m_ptr + 1), spEnd.m_ptr - (m_ptr + 1));
+}
 #endif // DACCESS_COMPILE
 
 
@@ -3666,7 +3681,7 @@ ErrExit:
 #endif //!DACCESS_COMPILE
 } // CompareTypeTokens
 
-static void ConsumeCustomModifiers(PCCOR_SIGNATURE& pSig, PCCOR_SIGNATURE pEndSig)
+void MetaSig::ConsumeCustomModifiers(PCCOR_SIGNATURE& pSig, PCCOR_SIGNATURE pEndSig)
 {
     mdToken tk;
     void* ptr;
@@ -5145,12 +5160,9 @@ void PromoteCarefully(promote_func   fn,
 
     if (sc->promotion)
     {
-        LoaderAllocator*pLoaderAllocator = LoaderAllocator::GetAssociatedLoaderAllocator_Unsafe(PTR_TO_TADDR(*ppObj));
-        if (pLoaderAllocator != NULL)
-        {
-            GcReportLoaderAllocator(fn, sc, pLoaderAllocator);
-        }
+        LoaderAllocator::GcReportAssociatedLoaderAllocators_Unsafe(PTR_TO_TADDR(*ppObj), fn, sc);
     }
+
 #endif // !defined(DACCESS_COMPILE)
 
     (*fn) (ppObj, sc, flags);

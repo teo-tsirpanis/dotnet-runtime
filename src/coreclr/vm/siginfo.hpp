@@ -129,7 +129,7 @@ public:
 
         void ConvertToInternalExactlyOne(Module* pSigModule, SigTypeContext *pTypeContext, SigBuilder * pSigBuilder, BOOL bSkipCustomModifier = TRUE);
         void ConvertToInternalSignature(Module* pSigModule, SigTypeContext *pTypeContext, SigBuilder * pSigBuilder, BOOL bSkipCustomModifier = TRUE);
-
+        void CopySignature(Module* pSigModule, SigBuilder * pSigBuilder, BYTE additionalCallConv);
 
     //=========================================================================
     // The CLOSED interface for reading signatures.  With the following
@@ -946,6 +946,14 @@ class MetaSig
         // can never be ELEMENT_TYPE_BYREF.
         //------------------------------------------------------------------
         CorElementType GetByRefType(TypeHandle* pTy) const;
+
+        //------------------------------------------------------------------
+        // Consume the custom modifiers, if any, in the current signature
+        // and update it.
+        // This is a non destructive operation if the current signature is not
+        // pointing at a sequence of ELEMENT_TYPE_CMOD_REQD or ELEMENT_TYPE_CMOD_OPT.
+        //------------------------------------------------------------------
+        static void ConsumeCustomModifiers(PCCOR_SIGNATURE& pSig, PCCOR_SIGNATURE pEndSig);
 
         // Struct used to capture in/out state during the comparison
         // of element types.
