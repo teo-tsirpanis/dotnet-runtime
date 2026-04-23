@@ -187,6 +187,10 @@ namespace System.Reflection.Metadata.Ecma335.Tests
             {
                 Assert.Equal(builder.GetRowCount(tableIndex), rowCounts[(int)tableIndex]);
             }
+
+            // Test that clearing the buffer resets all row counts to 0.
+            builder.Clear();
+            Assert.All(builder.GetRowCounts(), c => Assert.Equal(0, c));
         }
 
         [Fact]
