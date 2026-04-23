@@ -2850,6 +2850,7 @@ namespace System.Reflection.Metadata.Ecma335
         public void AddTypeLayout(System.Reflection.Metadata.TypeDefinitionHandle type, ushort packingSize, uint size) { }
         public System.Reflection.Metadata.TypeReferenceHandle AddTypeReference(System.Reflection.Metadata.EntityHandle resolutionScope, System.Reflection.Metadata.StringHandle @namespace, System.Reflection.Metadata.StringHandle name) { throw null; }
         public System.Reflection.Metadata.TypeSpecificationHandle AddTypeSpecification(System.Reflection.Metadata.BlobHandle signature) { throw null; }
+        public void Clear(int userStringHeapStartOffset = 0, int stringHeapStartOffset = 0, int blobHeapStartOffset = 0, int guidHeapStartOffset = 0) { }
         public System.Reflection.Metadata.BlobHandle GetOrAddBlob(byte[] value) { throw null; }
         public System.Reflection.Metadata.BlobHandle GetOrAddBlob(System.Collections.Immutable.ImmutableArray<byte> value) { throw null; }
         public System.Reflection.Metadata.BlobHandle GetOrAddBlob(System.Reflection.Metadata.BlobBuilder value) { throw null; }
