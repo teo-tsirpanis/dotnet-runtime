@@ -68,7 +68,7 @@ namespace System.Reflection.Metadata.Ecma335
             }
 
             _tablesAndHeaps = tablesAndHeaps;
-            MetadataVersion = metadataVersion ?? DefaultMetadataVersionString;
+            MetadataVersion = metadataVersion;
             SuppressValidation = suppressValidation;
             _serializedMetadata = tablesAndHeaps.GetSerializedMetadata(EmptyRowCounts, metadataVersionByteCount, isStandaloneDebugMetadata: false);
         }
