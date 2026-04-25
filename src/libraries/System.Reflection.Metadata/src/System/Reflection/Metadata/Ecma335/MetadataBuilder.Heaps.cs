@@ -193,14 +193,18 @@ namespace System.Reflection.Metadata.Ecma335
                 throw new ArgumentException(SR.Format(SR.ValueMustBeMultiple, BlobUtilities.SizeOfGuid), nameof(guidHeapStartOffset));
             }
 
+            // We must create new BlobBuilders, because the old ones might have been linked
+            // to user-provided builders, or returned to a pool and reused.
+            _userStringBuilder = new HeapBlobBuilder(4 * 1024);
+            _blobBuilder = new HeapBlobBuilder(1024);
+            _guidBuilder = new HeapBlobBuilder(16);
+
             _userStrings.Clear();
-            _userStringBuilder.Clear();
             _userStringBuilder.WriteByte(0);
             _strings.Clear();
             _blobs.Clear();
             _ = _blobs.GetOrAdd((ReadOnlySpan<byte>)[], default);
             _guids.Clear();
-            _guidBuilder.Clear();
             // Update heap start offsets in case of EnC delta:
             _userStringHeapStartOffset = userStringHeapStartOffset;
             _stringHeapStartOffset = stringHeapStartOffset;
