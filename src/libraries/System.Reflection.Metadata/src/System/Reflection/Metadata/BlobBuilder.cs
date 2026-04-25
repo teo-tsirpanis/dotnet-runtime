@@ -64,6 +64,7 @@ namespace System.Reflection.Metadata
         private const uint IsFrozenMask = 0x80000000;
         internal bool IsHead => (_length & IsFrozenMask) == 0;
         private int Length => (int)(_length & ~IsFrozenMask);
+        private int NextChunkLength => Math.Max(MinChunkSize, Math.Min(Count, _maxChunkSize));
         private uint FrozenLength => _length | IsFrozenMask;
         private Span<byte> Span => _buffer.AsSpan(0, Length);
         private Span<byte> RemainingSpan => _buffer.AsSpan(Length);
@@ -706,7 +707,7 @@ namespace System.Reflection.Metadata
         {
             if (FreeBytes < minBytes)
             {
-                Expand(Math.Max(minBytes, Math.Min(Count, _maxChunkSize)));
+                Expand(Math.Max(minBytes, NextChunkLength));
             }
             return new ArraySegment<byte>(_buffer, Length, FreeBytes);
         }

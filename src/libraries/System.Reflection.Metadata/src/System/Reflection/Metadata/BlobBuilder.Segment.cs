@@ -19,12 +19,6 @@ namespace System.Reflection.Metadata
         /// <seealso cref="EnsureCanWriteSegment"/>
         private bool CanWriteSegment => _nextOrPrevious != this && Length == 0 && _nextOrPrevious.FreeBytes > 0;
 
-        // TODO: Move the chunking logic to the main BlobBuilder.cs file, and use it everywhere in BlobBuilder.
-        // https://github.com/dotnet/runtime/issues/100418
-        internal const int DefaultMaxChunkSize = 8192;
-
-        private int NextChunkLength => Math.Max(MinChunkSize, Math.Min(Count, DefaultMaxChunkSize));
-
         /// <summary>
         /// Brings the <see cref="BlobBuilder"/> into a state where <see cref="Segment"/>-addressable
         /// data can be written to it.
