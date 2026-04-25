@@ -15,22 +15,22 @@ namespace System.Reflection.Metadata.Ecma335
         // #US heap
         private const int UserStringHeapSizeLimit = 0x01000000;
         private readonly Dictionary<string, UserStringHandle> _userStrings = new Dictionary<string, UserStringHandle>(256);
-        private readonly BlobBuilder _userStringBuilder;
-        private readonly int _userStringHeapStartOffset;
+        private BlobBuilder _userStringBuilder;
+        private int _userStringHeapStartOffset;
 
         // #String heap
         private readonly Dictionary<string, StringHandle> _strings = new Dictionary<string, StringHandle>(256);
-        private readonly int _stringHeapStartOffset;
+        private int _stringHeapStartOffset;
         private int _stringHeapCapacity = 4 * 1024;
 
         // #Blob heap
-        private readonly BlobDictionary _blobs;
-        private readonly BlobBuilder _blobBuilder;
-        private readonly int _blobHeapStartOffset;
+        private BlobDictionary _blobs;
+        private BlobBuilder _blobBuilder;
+        private int _blobHeapStartOffset;
 
         // #GUID heap
         private readonly Dictionary<Guid, GuidHandle> _guids = new Dictionary<Guid, GuidHandle>();
-        private readonly BlobBuilder _guidBuilder;
+        private BlobBuilder _guidBuilder;
 
         private readonly Func<int, BlobBuilder> _createBlobBuilderFunc;
 
@@ -139,8 +139,11 @@ namespace System.Reflection.Metadata.Ecma335
             // beginning of the delta blob.
             _userStringBuilder.WriteByte(0);
 
+            _blobBuilder = _createBlobBuilderFunc(1024);
             _blobs = new BlobDictionary(_blobBuilder, 32);
             _ = _blobs.GetOrAdd((ReadOnlySpan<byte>)[], default);
+
+            _guidBuilder = _createBlobBuilderFunc(16); // full metadata has just a single guid
 
             // When EnC delta is applied #US, #String and #Blob heaps are appended.
             // Thus indices of strings and blobs added to this generation are offset
@@ -151,6 +154,87 @@ namespace System.Reflection.Metadata.Ecma335
 
             // Unlike other heaps, #Guid heap in EnC delta is zero-padded.
             _guidBuilder.WriteBytes(0, guidHeapStartOffset);
+        }
+
+        /// <summary>
+        /// Clears the <see cref="MetadataBuilder"/>'s internal state, allowing the same instance to be reused.
+        /// </summary>
+        /// <param name="userStringHeapStartOffset">
+        /// Start offset of the User String heap.
+        /// The cumulative size of User String heaps of all previous EnC generations. Should be 0 unless the metadata is EnC delta metadata.
+        /// </param>
+        /// <param name="stringHeapStartOffset">
+        /// Start offset of the String heap.
+        /// The cumulative size of String heaps of all previous EnC generations. Should be 0 unless the metadata is EnC delta metadata.
+        /// </param>
+        /// <param name="blobHeapStartOffset">
+        /// Start offset of the Blob heap.
+        /// The cumulative size of Blob heaps of all previous EnC generations. Should be 0 unless the metadata is EnC delta metadata.
+        /// </param>
+        /// <param name="guidHeapStartOffset">
+        /// Start offset of the Guid heap.
+        /// The cumulative size of Guid heaps of all previous EnC generations. Should be 0 unless the metadata is EnC delta metadata.
+        /// </param>
+        /// <exception cref="ImageFormatLimitationException">Offset is too big.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Offset is negative.</exception>
+        /// <exception cref="ArgumentException"><paramref name="guidHeapStartOffset"/> is not a multiple of size of GUID.</exception>
+        public void Clear(
+            int userStringHeapStartOffset = 0,
+            int stringHeapStartOffset = 0,
+            int blobHeapStartOffset = 0,
+            int guidHeapStartOffset = 0)
+        {
+            // -1 for the 0 we always write at the beginning of the heap:
+            if (userStringHeapStartOffset >= UserStringHeapSizeLimit - 1)
+            {
+                Throw.HeapSizeLimitExceeded(HeapIndex.UserString);
+            }
+
+            if (userStringHeapStartOffset < 0)
+            {
+                Throw.ArgumentOutOfRange(nameof(userStringHeapStartOffset));
+            }
+
+            if (stringHeapStartOffset < 0)
+            {
+                Throw.ArgumentOutOfRange(nameof(stringHeapStartOffset));
+            }
+
+            if (blobHeapStartOffset < 0)
+            {
+                Throw.ArgumentOutOfRange(nameof(blobHeapStartOffset));
+            }
+
+            if (guidHeapStartOffset < 0)
+            {
+                Throw.ArgumentOutOfRange(nameof(guidHeapStartOffset));
+            }
+
+            if (guidHeapStartOffset % BlobUtilities.SizeOfGuid != 0)
+            {
+                throw new ArgumentException(SR.Format(SR.ValueMustBeMultiple, BlobUtilities.SizeOfGuid), nameof(guidHeapStartOffset));
+            }
+
+            // We must create new BlobBuilders, because the old ones might have been linked
+            // to user-provided builders, or returned to a pool and reused.
+            _userStringBuilder = _createBlobBuilderFunc(4 * 1024);
+            _blobBuilder = _createBlobBuilderFunc(1024);
+            _guidBuilder = _createBlobBuilderFunc(16);
+
+            _userStrings.Clear();
+            _userStringBuilder.WriteByte(0);
+            _strings.Clear();
+            _blobs.Clear();
+            _blobs.Builder = _blobBuilder;
+            _ = _blobs.GetOrAdd((ReadOnlySpan<byte>)[], default);
+            _guids.Clear();
+            // Update heap start offsets in case of EnC delta:
+            _userStringHeapStartOffset = userStringHeapStartOffset;
+            _stringHeapStartOffset = stringHeapStartOffset;
+            _blobHeapStartOffset = blobHeapStartOffset;
+            _guidBuilder.WriteBytes(0, guidHeapStartOffset);
+
+            ClearTables();
         }
 
         /// <summary>

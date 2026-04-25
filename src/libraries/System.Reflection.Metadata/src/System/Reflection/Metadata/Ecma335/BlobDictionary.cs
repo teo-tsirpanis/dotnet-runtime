@@ -11,10 +11,12 @@ using System.Runtime.InteropServices;
 namespace System.Reflection.Metadata.Ecma335
 {
     [DebuggerDisplay("Count = {Count}")]
-    internal readonly struct BlobDictionary(BlobBuilder builder, int capacity = 0)
+    internal struct BlobDictionary(BlobBuilder builder, int capacity = 0)
     {
 #if NET
         private readonly Dictionary<BlobBuilder.Segment, BlobHandle> _dictionary = new(capacity, new Comparer(builder));
+
+        public BlobBuilder Builder { set => ((Comparer)_dictionary.Comparer).Builder = value; }
 
         public BlobHandle GetOrAdd<T>(T key, BlobHandle value) where T : notnull, allows ref struct
         {
@@ -32,6 +34,8 @@ namespace System.Reflection.Metadata.Ecma335
 
         private sealed class Comparer(BlobBuilder builder) : IEqualityComparer<BlobBuilder.Segment>, IAlternateEqualityComparer<ReadOnlySpan<byte>, BlobBuilder.Segment>, IAlternateEqualityComparer<BlobBuilder, BlobBuilder.Segment>
         {
+            public BlobBuilder Builder { set => builder = value; }
+
             public BlobBuilder.Segment Create(ReadOnlySpan<byte> alternate) => builder.WriteSegment(alternate, prependCompressedSize: true);
             public BlobBuilder.Segment Create(BlobBuilder alternate) => builder.WriteSegment(alternate, prependCompressedSize: true);
 
@@ -43,7 +47,7 @@ namespace System.Reflection.Metadata.Ecma335
             public int GetHashCode(BlobBuilder alternate) => alternate.GetContentFNVHashCode();
         }
 #else
-        private readonly BlobBuilder _builder = builder;
+        public BlobBuilder Builder { set => builder = value; }
 
         private readonly Dictionary<int, KeyValuePair<BlobBuilder.Segment, BlobHandle>> _dictionary = new(capacity);
 
@@ -72,7 +76,7 @@ namespace System.Reflection.Metadata.Ecma335
                 return entry.Value;
             }
 
-            _dictionary.Add(dictionaryKey, new(_builder.WriteSegment(key, prependCompressedSize: true), value));
+            _dictionary.Add(dictionaryKey, new(builder.WriteSegment(key, prependCompressedSize: true), value));
             return value;
         }
 
@@ -96,7 +100,7 @@ namespace System.Reflection.Metadata.Ecma335
                 return entry.Value;
             }
 
-            _dictionary.Add(dictionaryKey, new(_builder.WriteSegment(key, prependCompressedSize: true), value));
+            _dictionary.Add(dictionaryKey, new(builder.WriteSegment(key, prependCompressedSize: true), value));
             return value;
         }
 #endif

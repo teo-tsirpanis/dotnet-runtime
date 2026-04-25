@@ -345,6 +345,65 @@ namespace System.Reflection.Metadata.Ecma335
             return rowCounts.MoveToImmutable();
         }
 
+        private void ClearTables()
+        {
+            _assemblyRow = null;
+            _assemblyRefTable.Clear();
+            _classLayoutTable.Clear();
+            _constantTable.Clear();
+            _constantTableLastParent = 0;
+            _constantTableNeedsSorting = false;
+            _customAttributeTable.Clear();
+            _customAttributeTableLastParent = 0;
+            _customAttributeTableNeedsSorting = false;
+            _declSecurityTable.Clear();
+            _declSecurityTableLastParent = 0;
+            _declSecurityTableNeedsSorting = false;
+            _encLogTable.Clear();
+            _encMapTable.Clear();
+            _eventTable.Clear();
+            _eventMapTable.Clear();
+            _exportedTypeTable.Clear();
+            _fieldLayoutTable.Clear();
+            _fieldMarshalTable.Clear();
+            _fieldMarshalTableLastParent = 0;
+            _fieldMarshalTableNeedsSorting = false;
+            _fieldRvaTable.Clear();
+            _fieldTable.Clear();
+            _fileTable.Clear();
+            _genericParamConstraintTable.Clear();
+            _genericParamTable.Clear();
+            _implMapTable.Clear();
+            _interfaceImplTable.Clear();
+            _manifestResourceTable.Clear();
+            _memberRefTable.Clear();
+            _methodImplTable.Clear();
+            _methodSemanticsTable.Clear();
+            _methodSemanticsTableLastAssociation = 0;
+            _methodSemanticsTableNeedsSorting = false;
+            _methodSpecTable.Clear();
+            _methodDefTable.Clear();
+            _moduleRow = null;
+            _moduleRefTable.Clear();
+            _nestedClassTable.Clear();
+            _paramTable.Clear();
+            _propertyMapTable.Clear();
+            _propertyTable.Clear();
+            _standAloneSigTable.Clear();
+            _typeDefTable.Clear();
+            _typeRefTable.Clear();
+            _typeSpecTable.Clear();
+            // debug tables:
+            _documentTable.Clear();
+            _methodDebugInformationTable.Clear();
+            _localScopeTable.Clear();
+            _localVariableTable.Clear();
+            _localConstantTable.Clear();
+            _importScopeTable.Clear();
+            _stateMachineMethodTable.Clear();
+            _customDebugInformationTable.Clear();
+        }
+
         #region Building
 
         // Note on argument value checking:
