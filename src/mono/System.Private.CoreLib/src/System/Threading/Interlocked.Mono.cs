@@ -88,7 +88,9 @@ namespace System.Threading
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern long Add(ref long location1, long value);
 
+#if !TARGET_WINDOWS
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern void MemoryBarrierProcessWide();
+#endif
     }
 }
