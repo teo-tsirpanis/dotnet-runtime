@@ -63,7 +63,7 @@ namespace System.Threading
 
             // Note: we explicitly allow FreeNativeOverlapped calls after the ThreadPoolBoundHandle has been Disposed.
 
-            ThreadPoolBoundHandleOverlapped wrapper = GetOverlappedWrapper(overlapped);
+            ThreadPoolBoundHandleOverlapped wrapper = ThreadPoolBoundHandleOverlapped.GetOverlappedWrapper(overlapped);
 
             if (wrapper._boundHandle != this)
                 throw new ArgumentException(SR.Argument_NativeOverlappedWrongBoundHandle, nameof(overlapped));
@@ -78,24 +78,9 @@ namespace System.Threading
         {
             ArgumentNullException.ThrowIfNull(overlapped);
 
-            ThreadPoolBoundHandleOverlapped wrapper = GetOverlappedWrapper(overlapped);
+            ThreadPoolBoundHandleOverlapped wrapper = ThreadPoolBoundHandleOverlapped.GetOverlappedWrapper(overlapped);
             Debug.Assert(wrapper._boundHandle != null);
             return wrapper._userState;
-        }
-
-        private static unsafe ThreadPoolBoundHandleOverlapped GetOverlappedWrapper(NativeOverlapped* overlapped)
-        {
-            ThreadPoolBoundHandleOverlapped wrapper;
-            try
-            {
-                wrapper = (ThreadPoolBoundHandleOverlapped)Overlapped.Unpack(overlapped);
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new ArgumentException(SR.Argument_NativeOverlappedAlreadyFree, nameof(overlapped), ex);
-            }
-
-            return wrapper;
         }
 
         private void DisposePortableCore()
